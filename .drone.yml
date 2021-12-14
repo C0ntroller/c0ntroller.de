@@ -64,7 +64,7 @@ steps:
   commands:
   - docker login -u $${DOCKER_USER} -p $${DOCKER_PASS}
   - docker-compose -p website-dev -f docker-compose.dev.yml rm -s -v -f
-  - docker rmi $${IMAGE}
+  - docker rmi $${IMAGE} || true
   - docker pull $${IMAGE}
   - docker-compose -p website-dev -f docker-compose.dev.yml up --no-build -d
 - name: deploy-stable
@@ -76,9 +76,10 @@ steps:
       from_secret: docker_user
     DOCKER_PASS:
       from_secret: docker_token
+    IMAGE: c0ntroller/c0ntroller.de:stable
   commands:
   - docker login -u $${DOCKER_USER} -p $${DOCKER_PASS}
   - docker-compose -p website -f docker-compose.stable.yml rm -s -v -f
-  - docker rmi $${IMAGE}
+  - docker rmi $${IMAGE} || true
   - docker pull $${IMAGE}
   - docker-compose -p website -f docker-compose.stable.yml up --no-build -d
