@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  server:
+    image: c0ntroller/c0ntroller.de:dev
+    restart: always
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.website-dev.entrypoints=web"
+      - "traefik.http.routers.website-dev.rule=Host(`dev.c0ntroller.de`)"
+      - "traefik.http.routers.website-dev.middlewares=http-to-https@file"
+      - "traefik.http.routers.website-dev-secure.entrypoints=websecure"
+      - "traefik.http.routers.website-dev-secure.rule=Host(`dev.c0ntroller.de`)"
+      - "traefik.http.routers.website-dev-secure.middlewares=secHeaders@file"
+      - "traefik.http.routers.website-dev-secure.tls=true"
+      - "traefik.http.routers.website-dev-secure.tls.certresolver=le"
+      - "traefik.http.routers.website-dev-secure.service=website-dev"
+      - "traefik.http.services.website-dev.loadbalancer.server.port=3000"
+
+networks:
+  traefik:
+    external: true

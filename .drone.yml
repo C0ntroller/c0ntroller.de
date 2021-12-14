@@ -1,0 +1,84 @@
+kind: pipeline
+type: docker
+name: build
+trigger:
+  event:
+  - push
+steps:
+- name: tag-commit-hash
+  image: alpine
+  commands:
+  - echo '${DRONE_COMMIT:0:8}' > .tags
+- name: tag-dev
+  image: alpine
+  when:
+    branch:
+    - dev
+  commands:
+  - sed -i '$s/$/,dev/' .tags
+- name: tag-latest
+  image: alpine
+  when:
+    branch:
+    - senpai
+  commands:
+  - sed -i '$s/$/,latest/' .tags
+- name: build-image
+  image: plugins/docker
+  settings:
+    repo: c0ntroller/c0ntroller.de
+    username:
+      from_secret: docker_user
+    password:
+      from_secret: docker_token
+---
+kind: pipeline
+type: ssh
+name: deploy
+depends_on:
+- build
+trigger:
+  branch:
+  - main
+  - dev
+  event:
+  - push
+server:
+  host:
+    from_secret: ssh_host
+  user:
+    from_secret: ssh_user
+  ssh_key:
+    from_secret: ssh_key
+steps:
+- name: deploy-dev
+  when:
+    branch:
+    - dev
+  environment:
+    DOCKER_USER:
+      from_secret: docker_user
+    DOCKER_PASS:
+      from_secret: docker_token
+    IMAGE: c0ntroller/c0ntroller.de:dev
+  commands:
+  - docker login -u $${DOCKER_USER} -p $${DOCKER_PASS}
+  - docker-compose -p website-dev -f docker-compose.dev.yml rm -s -v -f
+  - docker rmi $${IMAGE}
+  - docker pull $${IMAGE}
+  - docker-compose -p website-dev -f docker-compose.dev.yml up --no-build -d
+- name: deploy-stable
+  when:
+    branch:
+    - main
+  environment:
+    DOCKER_USER:
+      from_secret: docker_user
+    DOCKER_PASS:
+      from_secret: docker_token
+  commands:
+  - docker login -u $${DOCKER_USER} -p $${DOCKER_PASS}
+  - docker-compose -p website -f docker-compose.stable.yml rm -s -v -f
+  - docker rmi $${IMAGE}
+  - docker pull $${IMAGE}
+  - docker-compose -p website -f docker-compose.stable.yml up --no-build -d
