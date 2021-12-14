@@ -39,7 +39,7 @@ depends_on:
 - build
 trigger:
   branch:
-  - main
+  - senpai
   - dev
   event:
   - push
