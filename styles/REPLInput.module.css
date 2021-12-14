@@ -1,0 +1,37 @@
+.wrapper > input, .wrapper > span {
+    font-size: 1.25rem;
+    font-family: "CascadiaCode";
+    padding: .125rem .25rem;
+    width: calc(100% - 1rem);
+}
+
+.wrapper {
+    position: relative;
+}
+
+.in, .in:focus {
+    border: 0;
+    outline-width: 0;
+}
+
+.completionWrapper {
+    position: absolute;
+    pointer-events: none;
+    left: 0;
+    top: 0;
+    width: min-content;
+}
+
+.completionWrapper span {
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+
+.typed {
+    opacity: 0;
+}
+
+.completion {
+    color: #ccc
+}
