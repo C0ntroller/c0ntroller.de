@@ -2,7 +2,7 @@ version: '3'
 
 services:
   server:
-    image: c0ntroller/c0ntroller.de:stable
+    image: c0ntroller/c0ntroller.de:latest
     restart: always
     networks:
       - traefik
