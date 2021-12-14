@@ -1,4 +1,4 @@
-const commandList = ["about", "navigate", "external", "help", "ed", "nano"]
+const commandList = ["about", "navigate", "external", "help", "ed", "nano"];
 
 export function commandCompletion(input: string): string {
     if (input === "") return "";
