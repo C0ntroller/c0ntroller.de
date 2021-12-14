@@ -70,7 +70,7 @@ steps:
 - name: deploy-stable
   when:
     branch:
-    - main
+    - senpai
   environment:
     DOCKER_USER:
       from_secret: docker_user
