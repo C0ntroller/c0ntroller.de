@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import React from "react";
-import { commandCompletion } from "../../lib/commands";
-import styles from "../../styles/REPLInput.module.css";
+import { commandCompletion, executeCommand } from "../../lib/commands";
+import styles from "../../styles/REPL/REPLInput.module.css";
 
 const REPLInput: NextPage<{historyCallback: CallableFunction}> = ({historyCallback}) => {
     const typed = React.createRef<HTMLSpanElement>();
@@ -25,7 +25,16 @@ const REPLInput: NextPage<{historyCallback: CallableFunction}> = ({historyCallba
             if(typed.current) typed.current.innerHTML = currentCmd[justTabbed % currentCmd.length];
             if(completion.current) completion.current.innerHTML = "";
             setJustTabbed(justTabbed + 1);
+        } else setJustTabbed(0);
+
+        if (e.key === "Enter") {
+            const result = executeCommand((e.target as HTMLInputElement).value);
+            (e.target as HTMLInputElement).value = "";
+            if(typed.current) typed.current.innerHTML = "";
+            if(completion.current) completion.current.innerHTML = "";
+            historyCallback(result);
         }
+
         return false;
     };
 

@@ -1,0 +1,10 @@
+.container {
+    height: 70vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.line {
+    border-bottom: 1px solid #000;
+}
