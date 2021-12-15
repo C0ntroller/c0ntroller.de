@@ -1,27 +1,30 @@
 import type { NextPage } from "next";
 import React from "react";
-import { commandCompletion } from "../lib/commands";
-import styles from "../styles/REPLInput.module.css";
+import { commandCompletion } from "../../lib/commands";
+import styles from "../../styles/REPLInput.module.css";
 
-const REPLInput: NextPage = () => {
+const REPLInput: NextPage<{historyCallback: CallableFunction}> = ({historyCallback}) => {
     const typed = React.createRef<HTMLSpanElement>();
     const completion = React.createRef<HTMLSpanElement>();
-    const [currentCmd, setCurrentCmd] = React.useState("");
+    const [currentCmd, setCurrentCmd] = React.useState<string[]>([]);
+    const [justTabbed, setJustTabbed] = React.useState<number>(0);
 
     const replinOnChange = (e: React.FormEvent<HTMLInputElement>) => {
         const currentInput = (e.target as HTMLInputElement).value;
         const suggest = commandCompletion(currentInput);
         setCurrentCmd(suggest);
+        if (suggest.length === 0) suggest.push("");
         if (typed.current) typed.current.innerHTML = currentInput;
-        if (completion.current) completion.current.innerHTML = suggest.substring(currentInput.length);
+        if (completion.current) completion.current.innerHTML = suggest[0].substring(currentInput.length);
     };
 
     const tabComplete = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Tab" && currentCmd !== "") {
+        if (e.key === "Tab" && currentCmd.length !== 0) {
             e.preventDefault();
-            (e.target as HTMLInputElement).value = currentCmd;
-            if(typed.current) typed.current.innerHTML = currentCmd;
+            (e.target as HTMLInputElement).value = currentCmd[justTabbed % currentCmd.length];
+            if(typed.current) typed.current.innerHTML = currentCmd[justTabbed % currentCmd.length];
             if(completion.current) completion.current.innerHTML = "";
+            setJustTabbed(justTabbed + 1);
         }
         return false;
     };

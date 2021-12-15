@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
-import REPLInput from "../components/REPLInput";
+import REPL from "../components/REPL";
 
 const Home: NextPage = () => {
   return (
-    <REPLInput />
+    <REPL />
   );
 };
 
