@@ -27,10 +27,19 @@
     font-family: "CascadiaCode", monospace;
 }
 
-.in, .in:focus {
+.in {
     border: 0;
-    outline-width: 0;
     background: transparent;
+    width: 100%;
+    appearance: none !important;
+    caret-color: var(--repl-color);
+    outline: none;
+}
+
+.in::-moz-focus-outer, .in::-moz-focus-inner, .in:focus, .in:focus *, .in:-moz-focusring, .in:-moz-focusring * {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .completionWrapper {
