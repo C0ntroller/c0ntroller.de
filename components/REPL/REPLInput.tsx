@@ -15,7 +15,8 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, inputRef}) => {
     const [justTabbed, setJustTabbed] = React.useState<number>(0);
 
     const replinOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-        const currentInput = (e.target as HTMLInputElement).value;
+        const currentInput = (e.target as HTMLInputElement).value.toLowerCase();
+        (e.target as HTMLInputElement).value = currentInput;
         const suggest = commandCompletion(currentInput);
         setCurrentCmd(suggest);
         if (suggest.length === 0) suggest.push("");
