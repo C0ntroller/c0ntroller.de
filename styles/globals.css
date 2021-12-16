@@ -5,4 +5,13 @@
 
 * {
   box-sizing: border-box;
+  --repl-color: #188a18;
+  --repl-color-hint: #092909;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--repl-color);
+  background: #000;
 }

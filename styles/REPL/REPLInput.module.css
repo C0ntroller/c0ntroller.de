@@ -1,18 +1,36 @@
 .wrapper > input, .wrapper > span {
+    padding: .125rem 0;
     font-size: 1.25rem;
-    font-family: "CascadiaCode";
-    padding: .125rem .25rem;
-    width: calc(100% - 1rem);
+    font-family: "CascadiaCode", monospace;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    color: var(--repl-color);
 }
 
 .wrapper {
     position: relative;
-    border: 2px solid #000;
+    flex-grow: 2;
+    display: block;
+}
+
+.wrapperwrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.inputstart {
+    padding: .125rem 0;
+    font-size: 1.25rem;
+    font-family: "CascadiaCode", monospace;
 }
 
 .in, .in:focus {
     border: 0;
     outline-width: 0;
+    background: transparent;
 }
 
 .completionWrapper {
@@ -34,5 +52,5 @@
 }
 
 .completion {
-    color: #ccc
+    color: var(--repl-color-hint);
 }

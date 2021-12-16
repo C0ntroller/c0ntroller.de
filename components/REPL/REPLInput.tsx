@@ -38,9 +38,12 @@ const REPLInput: NextPage<{historyCallback: CallableFunction}> = ({historyCallba
         return false;
     };
 
-    return <div className={styles.wrapper}>
-        <input className={styles.in} type={"text"} onChange={replinOnChange} onKeyDown={tabComplete} spellCheck={"false"} />
-        <span className={styles.completionWrapper}><span ref={typed} className={styles.typed}></span><span ref={completion} className={styles.completion}></span></span>
+    return <div className={styles.wrapperwrapper}>
+        <span className={styles.inputstart}>$&nbsp;</span>
+        <div className={styles.wrapper}>
+            <input className={styles.in} type={"text"} onChange={replinOnChange} onKeyDown={tabComplete} spellCheck={"false"} autoFocus />
+            <span className={styles.completionWrapper}><span ref={typed} className={styles.typed}></span><span ref={completion} className={styles.completion}></span></span>
+        </div>
     </div>;
 };
 

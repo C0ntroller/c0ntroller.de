@@ -1,10 +1,12 @@
 .container {
-    height: 70vh;
     overflow: auto;
     display: flex;
     flex-direction: column-reverse;
+    flex-grow: 2;
+    font-size: 1.25rem;
+    font-family: "CascadiaCode", monospace;
 }
 
 .line {
-    border-bottom: 1px solid #000;
+    padding: 3px 0;
 }

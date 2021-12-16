@@ -36,29 +36,29 @@ export function printSyntax(cmd: Command): string[] {
     let flagsDesc = [];
     if (cmd.flags && cmd.flags.length > 0) {
         flagsOption = " [";
+        flagsDesc.push("");
         flagsDesc.push("Flags:");
         cmd.flags.forEach((flag => {
             flagsOption += `-${flag.short} `;
             flagsDesc.push(`\t-${flag.short}\t--${flag.long}\t${flag.desc}`);
         }));
         flagsOption = flagsOption.substring(0, flagsOption.length-1) + "]";
-        flagsDesc.push("");
     }
 
     let subcmdOption = "";
     let subcmdDesc = [];
     if (cmd.subcommands && cmd.subcommands.length > 0) {
         subcmdOption = " [";
+        subcmdDesc.push("");
         subcmdDesc.push("Subcommands:");
         cmd.subcommands.forEach((subcmd => {
             subcmdOption += `${subcmd.name}|`;
             subcmdDesc.push(`\t${subcmd.name}\t${subcmd.desc}`);
         }));
         subcmdOption = subcmdOption.substring(0, subcmdOption.length-1) + "]";
-        subcmdDesc.push("");
     }
 
-    return [`Usage: ${cmd.name}${flagsOption}${subcmdOption}`, ""].concat(flagsDesc).concat(subcmdDesc);   
+    return [`Usage: ${cmd.name}${flagsOption}${subcmdOption}`].concat(flagsDesc).concat(subcmdDesc);   
 }
 
 const about: Command = {
