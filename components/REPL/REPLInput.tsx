@@ -1,9 +1,14 @@
 import type { NextPage } from "next";
-import React from "react";
+import React, { MutableRefObject } from "react";
 import { commandCompletion, executeCommand } from "../../lib/commands";
 import styles from "../../styles/REPL/REPLInput.module.css";
 
-const REPLInput: NextPage<{historyCallback: CallableFunction}> = ({historyCallback}) => {
+interface REPLInputParams {
+    historyCallback: CallableFunction; 
+    inputRef: MutableRefObject<HTMLInputElement|undefined>;
+}
+
+const REPLInput: NextPage<REPLInputParams> = ({historyCallback, inputRef}) => {
     const typed = React.createRef<HTMLSpanElement>();
     const completion = React.createRef<HTMLSpanElement>();
     const [currentCmd, setCurrentCmd] = React.useState<string[]>([]);
@@ -41,7 +46,7 @@ const REPLInput: NextPage<{historyCallback: CallableFunction}> = ({historyCallba
     return <div className={styles.wrapperwrapper}>
         <span className={styles.inputstart}>$&nbsp;</span>
         <div className={styles.wrapper}>
-            <input className={styles.in} type={"text"} onChange={replinOnChange} onKeyDown={tabComplete} spellCheck={"false"} autoFocus />
+            <input ref={inputRef as MutableRefObject<HTMLInputElement>} className={styles.in} type={"text"} onChange={replinOnChange} onKeyDown={tabComplete} spellCheck={"false"} autoFocus />
             <span className={styles.completionWrapper}><span ref={typed} className={styles.typed}></span><span ref={completion} className={styles.completion}></span></span>
         </div>
     </div>;
