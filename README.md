@@ -2,7 +2,7 @@
 
 | Stable | Dev
 | ------ | ---
-| ![Build Status Main](https://drone.c0ntroller.de/api/badges/c0ntroller/frontpage/status.svg) | ![Build Status](https://drone.c0ntroller.de/api/badges/c0ntroller/frontpage/status.svg?ref=refs/heads/dev)
+| [![Build Status](https://drone.c0ntroller.de/api/badges/c0ntroller/frontpage/status.svg)](https://drone.c0ntroller.de/c0ntroller/frontpage) | [![Build Status](https://drone.c0ntroller.de/api/badges/c0ntroller/frontpage/status.svg?ref=refs/heads/dev)](https://drone.c0ntroller.de/c0ntroller/frontpage)
 
 This repository contains my NextJS-based website.
 
