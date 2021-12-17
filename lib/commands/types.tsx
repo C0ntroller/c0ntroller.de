@@ -1,4 +1,4 @@
-interface Flag {
+export interface Flag {
     short: string;
     long: string;
     desc: string;
@@ -15,5 +15,5 @@ export interface Command {
     desc: string;
     flags?: Flag[];
     subcommands?: SubCommand[];
-    execute: (flags: string[], args: string[], raw: string) => string[];
+    execute: (flags: string[], args: string[], raw: string, extra?: any) => string[];
 }

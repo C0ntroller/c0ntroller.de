@@ -1,4 +1,4 @@
-import type { Command } from "./types";
+import type { Command, Flag } from "./types";
 
 function illegalUse(raw: string, cmd: Command): string[] {
     return [
@@ -29,6 +29,10 @@ function checkSubcmd(subcmds: string[], cmd: Command): boolean {
         if (!flagObj) return false;
     }
     return true;
+}
+
+function checkFlagInclude(flagsProvided: string[], flag: Flag): boolean {
+    return flagsProvided.includes(`-${flag.short}`) || flagsProvided.includes(`--${flag.long}`);
 }
 
 export function printSyntax(cmd: Command): string[] {
@@ -82,4 +86,31 @@ const about: Command = {
     }
 };
 
-export const commandList = [about];
+const help: Command = {
+    name: "help",
+    desc: "Shows helptext.",
+    flags: [{ long: "more", short: "m", desc: "Show more information." }],
+    execute: (flags, _args, _raw) => {
+        checkFlags(flags, help);
+        if (help.flags && checkFlagInclude(flags, help.flags[0])) {
+            return [
+                "Hello user!",
+                "What you see here should resemble an CLI. If you ever used Linux this should be pretty easy for you.",
+                "Everyone else: Have no fear. It is pretty simple. You just type in commands and the output is shown here or it does something on the webite.",
+                "To find out, which commands are available, you can type just 'help'.",
+                "",
+                "Have fun!"
+            ];
+        } else {
+            const available = ["Available commands:"];
+            commandList.forEach(cmd => available.push(`\t${cmd.name}\t${cmd.desc}`));
+            available.concat([
+                "",
+                "Need more help? Type 'help -m'!"
+            ]);
+            return available;
+        }
+    }
+};
+
+export const commandList = [about, help];

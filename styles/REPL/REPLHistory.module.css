@@ -9,4 +9,8 @@
 
 .line {
     padding: 3px 0;
+    white-space: pre-wrap;
+    font-family: inherit;
+    display: block;
+    margin: 0;
 }
