@@ -10,6 +10,8 @@ const projectList: Project[] = [
             "Everyone else: Have no fear. It is pretty simple. You just type in commands and the output is shown here or it does something on the webite.",
             "To find out, which commands are available, you can type just 'help'.",
             "",
+            "Currently everything is still in development. So if you come back in a few days/weeks/months/years something could have been changed!",
+            "",
             "Have fun!"
         ],
         repo: "https://git.c0ntroller.de/c0ntroller/frontpage"
