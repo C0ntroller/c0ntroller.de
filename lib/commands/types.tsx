@@ -13,7 +13,7 @@ export interface Command {
     name: string;
     hidden?: boolean;
     desc: string;
-    flags?: Flag[];
-    subcommands?: SubCommand[];
+    flags?: Record<string,Flag>;
+    subcommands?: Record<string,SubCommand>;
     execute: (flags: string[], args: string[], raw: string, extra?: any) => string[];
 }

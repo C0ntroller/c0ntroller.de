@@ -1,4 +1,6 @@
 import type { Command, Flag } from "./types";
+import type { Project } from "../projects/types";
+import projectList from "../projects";
 
 function getCommandByName(name: string): Command|undefined {
     return commandList.find(cmd => cmd.name === name);
@@ -18,7 +20,7 @@ function checkFlags(flags: string[], cmd: Command): boolean {
 
     for (const flag of flags) {
         const isLong = flag.substring(0,2) === "--";
-        const flagObj = cmd.flags.find(f => isLong ? f.long === flag.substring(2) : f.short === flag.substring(1));
+        const flagObj = Object.values(cmd.flags).find(f => isLong ? f.long === flag.substring(2) : f.short === flag.substring(1));
         if (!flagObj) return false;
     }
     return true;
@@ -29,24 +31,25 @@ function checkSubcmd(subcmds: string[], cmd: Command): boolean {
     if (!cmd.subcommands) return false;
 
     for (const sc of subcmds) {
-        const flagObj = cmd.subcommands.find(s => s.name === sc);
+        const flagObj = Object.values(cmd.subcommands).find(s => s.name === sc);
         if (!flagObj) return false;
     }
     return true;
 }
 
 function checkFlagInclude(flagsProvided: string[], flag: Flag): boolean {
+    if (!flag) return false;
     return flagsProvided.includes(`-${flag.short}`) || flagsProvided.includes(`--${flag.long}`);
 }
 
 export function printSyntax(cmd: Command): string[] {
     let flagsOption = "";
     let flagsDesc = [];
-    if (cmd.flags && cmd.flags.length > 0) {
+    if (cmd.flags && Object.keys(cmd.flags).length > 0) {
         flagsOption = " [";
         flagsDesc.push("");
         flagsDesc.push("Flags:");
-        cmd.flags.forEach((flag => {
+        Object.values(cmd.flags).forEach((flag => {
             flagsOption += `-${flag.short} `;
             flagsDesc.push(`\t-${flag.short}\t--${flag.long}\t${flag.desc}`);
         }));
@@ -55,13 +58,13 @@ export function printSyntax(cmd: Command): string[] {
 
     let subcmdOption = "";
     let subcmdDesc = [];
-    if (cmd.subcommands && cmd.subcommands.length > 0) {
+    if (cmd.subcommands && Object.keys(cmd.subcommands).length > 0) {
         subcmdOption = " [";
         subcmdDesc.push("");
         subcmdDesc.push("Arguments:");
-        cmd.subcommands.forEach((subcmd => {
+        Object.values(cmd.subcommands).forEach((subcmd => {
             subcmdOption += `${subcmd.name}|`;
-            subcmdDesc.push(`\t${subcmd.name}\t\t${subcmd.desc}`);
+            subcmdDesc.push(`\t${subcmd.name}\t${subcmd.desc}`);
         }));
         subcmdOption = subcmdOption.substring(0, subcmdOption.length-1) + "]";
     }
@@ -72,7 +75,7 @@ export function printSyntax(cmd: Command): string[] {
 const about: Command = {
     name: "about",
     desc: "Show information about this page.",
-    execute: (_flags, _args, _raw) => {
+    execute: () => {
         return [
             "Hello there wanderer.",
             "So you want to know what this is about?",
@@ -85,7 +88,7 @@ const about: Command = {
             "Even when you open a project page you don't need your mouse - just press Esc to close it.",
             "",
             "I hope you enjoy your stay here!",
-            "If you wanted more information about the page itself, type 'project this'."
+            "If you wanted more information about the page itself, type 'project this' or 'help -t'."
         ];
     }
 };
@@ -93,10 +96,9 @@ const about: Command = {
 const help: Command = {
     name: "help",
     desc: "Shows helptext.",
-    flags: [{ long: "more", short: "m", desc: "Show more information." }],
-    execute: (flags, _args, _raw) => {
-        checkFlags(flags, help);
-        if (help.flags && checkFlagInclude(flags, help.flags[0])) {
+    flags: {more: { long: "this", short: "t", desc: "Show information about this site." }},
+    execute: (flags) => {
+        if (help.flags && checkFlagInclude(flags, help.flags.more)) {
             return [
                 "Hello user!",
                 "What you see here should resemble an CLI. If you ever used Linux this should be pretty easy for you.",
@@ -120,8 +122,10 @@ const help: Command = {
 const man: Command = {
     name: "man",
     desc: "Provides a manual for a command.",
-    subcommands: [{name: "command", desc: "Name of a command"}],
-    execute: (_flags, args, _raw) => {
+    subcommands: {
+        command: {name: "command", desc: "Name of a command"}
+    },
+    execute: (_flags, args) => {
         if (args.length !== 1) {
             return printSyntax(man);
         } else {
@@ -132,4 +136,46 @@ const man: Command = {
     }
 };
 
-export const commandList = [about, help, man];
+const project: Command = {
+    name: "project",
+    desc: "Show information about a project.",
+    flags: {
+        minimal: {short: "m", long: "minimal", desc: "Only show minimal information."},
+        source: {short: "s", long: "source", desc: "Open git repository of project."},
+        list: {short: "l", long: "list", desc: "Show list of projects."}
+    },
+    subcommands: {name: {name: "name", desc: "Name of the project."}},
+    execute: (flags, args) => {
+        if (project.flags && checkFlagInclude(flags, project.flags.list)) {
+            const result = ["Found the following projects:"];
+            projectList.forEach(project => result.push(`\t${project.name}\t${project.short}`));
+            return result;
+        }
+
+        if (args.length !== 1) return printSyntax(project);
+
+        if (args[0] === "this") args[0] = "homepage";
+
+        const pjt = projectList.find(p => p.name === args[0]);
+        if (!pjt) return [
+            `Cannot find project ${args[0]}!`,
+            "You can see available projects using 'project -l'."
+        ];
+
+        if (project.flags && checkFlagInclude(flags, project.flags.source)) {
+            try {
+                window && window.open(pjt.repo, "_blank");
+                return ["Opened repository in new tab."];
+            } catch {
+                return ["Sorry, no repository for this project."];
+            }
+        }
+        if (project.flags && checkFlagInclude(flags, project.flags.minimal)) return pjt.desc;
+
+        // TODO
+        // Open project page here.
+        return [];
+    }
+};
+
+export const commandList = [about, help, man, project];
