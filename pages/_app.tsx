@@ -5,6 +5,13 @@ import "../styles/globals.css";
 function MyApp({ Component, pageProps }: AppProps) {
   return <>
     <Head>
+      <meta charSet="utf-8"/>
+      <meta name="description" content="This is the homepage of C0ntroller." />
+      <meta name="keyword" content="private, homepage, cli, hacker, terminal, javascript, js, nextjs, react, responsive" />
+      <meta name="author" content="C0ntroller" />
+      <meta name="copyright" content="C0ntroller" />
+      <meta name="robots" content="index,nofollow" />
+
       <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
       <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
       <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
