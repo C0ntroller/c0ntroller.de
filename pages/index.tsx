@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { GithubLogo, InstagramLogo, DiscordLogo } from "phosphor-react";
+import { GithubLogo, InstagramLogo, DiscordLogo, GameController } from "phosphor-react";
 import REPL from "../components/REPL";
 import styles from "../styles/Home.module.css";
 
@@ -18,18 +18,20 @@ const Home: NextPage = () => {
         <span className={styles.divider}>|</span>
         <Link href="https://git.c0ntroller.de/c0ntroller/frontpage/issues/new"><a>Bug?</a></Link>
         <span className={styles.divider}>|</span>
-        <Link href="https://github.com/C0ntroller" passHref><GithubLogo color="var(--repl-color)" weight="light" className={styles.iconLink} /></Link>
+        <Link href="https://github.com/C0ntroller" passHref><GithubLogo color="var(--repl-color)" className={styles.iconLink} /></Link>
         <span className={styles.divider}>|</span>
-        <Link href="https://github.com/C0ntroller" passHref><InstagramLogo color="var(--repl-color)" weight="light" className={styles.iconLink} /></Link>
+        <Link href="https://www.instagram.com/c0ntroller/" passHref><InstagramLogo color="var(--repl-color)" className={styles.iconLink} /></Link>
         <span className={styles.divider}>|</span>
-        <Link href="https://github.com/C0ntroller" passHref>
+        <Link href="https://discordapp.com/users/224208617820127233" passHref>
           <span className={styles.tooltip}>
-            <DiscordLogo color="var(--repl-color)" weight="light" className={styles.iconLink} />
+            <DiscordLogo color="var(--repl-color)" className={styles.iconLink} />
             <span className={styles.tooltiptext}>
               C0ntroller_Z#3883
             </span>
           </span>
         </Link>
+        <span className={styles.divider}>|</span>
+        <Link href="https://steamcommunity.com/id/c0ntroller/" passHref><GameController color="var(--repl-color)" className={styles.iconLink} /></Link>
         <span className={styles.spacer} />
       </div>
     </div>
