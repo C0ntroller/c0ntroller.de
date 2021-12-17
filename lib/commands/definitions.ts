@@ -1,5 +1,9 @@
 import type { Command, Flag } from "./types";
 
+function getCommandByName(name: string): Command|undefined {
+    return commandList.find(cmd => cmd.name === name);
+}
+
 function illegalUse(raw: string, cmd: Command): string[] {
     return [
         "Syntax error!",
@@ -54,10 +58,10 @@ export function printSyntax(cmd: Command): string[] {
     if (cmd.subcommands && cmd.subcommands.length > 0) {
         subcmdOption = " [";
         subcmdDesc.push("");
-        subcmdDesc.push("Subcommands:");
+        subcmdDesc.push("Arguments:");
         cmd.subcommands.forEach((subcmd => {
             subcmdOption += `${subcmd.name}|`;
-            subcmdDesc.push(`\t${subcmd.name}\t${subcmd.desc}`);
+            subcmdDesc.push(`\t${subcmd.name}\t\t${subcmd.desc}`);
         }));
         subcmdOption = subcmdOption.substring(0, subcmdOption.length-1) + "]";
     }
@@ -113,4 +117,19 @@ const help: Command = {
     }
 };
 
-export const commandList = [about, help];
+const man: Command = {
+    name: "man",
+    desc: "Provides a manual for a command.",
+    subcommands: [{name: "command", desc: "Name of a command"}],
+    execute: (_flags, args, _raw) => {
+        if (args.length !== 1) {
+            return printSyntax(man);
+        } else {
+            const cmd = getCommandByName(args[0]);
+            if (!cmd) return [`Cannot find command '${args[0]}'.`];
+            else return printSyntax(cmd);
+        }
+    }
+};
+
+export const commandList = [about, help, man];
