@@ -1,0 +1,16 @@
+.container {
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    flex-grow: 2;
+    font-size: 1.25rem;
+    font-family: "CascadiaCode", monospace;
+}
+
+.line {
+    padding: 3px 0;
+    white-space: pre-wrap;
+    font-family: inherit;
+    display: block;
+    margin: 0;
+}

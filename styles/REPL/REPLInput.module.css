@@ -1,0 +1,69 @@
+.wrapper > input, .wrapper > span {
+    padding: .125rem 0;
+    font-size: 1.25rem;
+    font-family: "CascadiaCode", monospace;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    color: var(--repl-color);
+}
+
+.wrapper {
+    position: relative;
+    flex-grow: 2;
+    display: block;
+}
+
+.wrapperwrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.inputstart {
+    padding: .125rem 0;
+    font-size: 1.25rem;
+    font-family: "CascadiaCode", monospace;
+}
+
+.in {
+    border: 0;
+    background: transparent;
+    width: 100%;
+    appearance: none !important;
+    caret-color: var(--repl-color);
+    outline: none;
+}
+
+.in::-moz-focus-outer, .in::-moz-focus-inner, .in:focus, .in:focus *, .in:-moz-focusring, .in:-moz-focusring * {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.completionWrapper {
+    position: absolute;
+    pointer-events: none;
+    left: 0;
+    top: 0;
+    width: min-content;
+}
+
+.completionWrapper span {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.typed {
+    opacity: 0;
+    flex-shrink: 1;
+    overflow-x: hidden;
+}
+
+.completion {
+    color: var(--repl-color-hint);
+    flex-grow: 1;
+}
