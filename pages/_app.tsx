@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <meta name="msapplication-TileImage" content="/mstile-310x310.png" />
       <meta name="theme-color" content="#444444" />
     </Head>
-    <Component {...pageProps} />;
+    <Component {...pageProps} />
   </>;
 }
 
