@@ -5,3 +5,80 @@
     margin: 0;
     padding: 10px;
 }
+
+.footer {
+    flex-shrink: 5;
+    text-align: center;
+    font-family: "Segoe UI", Roboto, Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.footer * {
+    margin: auto 0;
+}
+
+.footer a:active,
+.footer a:visited,
+.footer a {
+    color: var(--repl-color);
+    text-decoration: underline;
+    font-size: 80%;
+}
+
+.footer a:hover {
+    color: var(--repl-color-link);
+}
+
+.footer .divider {
+    color: var(--repl-color);
+    margin: 0 5px;
+    font-size: 80%;
+}
+
+.footer .spacer {
+    flex-grow: 1;
+}
+
+.iconLink {
+    cursor: pointer;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 140px;
+    background-color: #333;
+    color: var(--repl-color);
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.1s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

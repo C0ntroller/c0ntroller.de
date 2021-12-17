@@ -6,6 +6,7 @@
 * {
   box-sizing: border-box;
   --repl-color: #188a18;
+  --repl-color-link: #2ac02a;
   --repl-color-hint: #092909;
 }
 
