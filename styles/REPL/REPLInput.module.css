@@ -19,6 +19,7 @@
     width: 100%;
     flex-direction: row;
     flex-wrap: nowrap;
+    flex-grow: 2;
 }
 
 .inputstart {

@@ -2,7 +2,7 @@
     overflow: auto;
     display: flex;
     flex-direction: column-reverse;
-    flex-grow: 2;
+    flex-shrink: 2;
     font-size: 1.25rem;
     font-family: "CascadiaCode", monospace;
 }
