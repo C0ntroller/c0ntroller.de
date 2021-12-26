@@ -6,7 +6,7 @@
     padding: 10px;
 }
 
-.footer {
+.header {
     flex-shrink: 5;
     text-align: center;
     font-family: "Segoe UI", Roboto, Tahoma, Geneva, Verdana, sans-serif;
@@ -15,29 +15,29 @@
     flex-wrap: nowrap;
 }
 
-.footer * {
+.header * {
     margin: auto 0;
 }
 
-.footer a:active,
-.footer a:visited,
-.footer a {
+.header a:active,
+.header a:visited,
+.header a {
     color: var(--repl-color);
     text-decoration: underline;
     font-size: 80%;
 }
 
-.footer a:hover {
+.header a:hover {
     color: var(--repl-color-link);
 }
 
-.footer .divider {
+.header .divider {
     color: var(--repl-color);
     margin: 0 5px;
     font-size: 80%;
 }
 
-.footer .spacer {
+.header .spacer {
     flex-grow: 1;
 }
 

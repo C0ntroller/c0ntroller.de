@@ -11,8 +11,7 @@ const Home: NextPage = () => {
       <title>c0ntroller.de</title>
     </Head>
     <div className={styles.container}>
-      <REPL />
-      <div className={styles.footer}>
+      <div className={styles.header}>
         <span className={styles.spacer} />
         <Link href="https://git.c0ntroller.de/c0ntroller/frontpage"><a>Source</a></Link>
         <span className={styles.divider}>|</span>
@@ -34,6 +33,7 @@ const Home: NextPage = () => {
         <Link href="https://steamcommunity.com/id/c0ntroller/" passHref><GameController color="var(--repl-color)" className={styles.iconLink} /></Link>
         <span className={styles.spacer} />
       </div>
+      <REPL />
     </div>
   </>);
 };
