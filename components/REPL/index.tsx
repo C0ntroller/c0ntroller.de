@@ -1,11 +1,11 @@
-import { useRef, useState } from "react";
+import { MutableRefObject, useRef, useState } from "react";
 import REPLInput from "./REPLInput";
 import REPLHistory from "./REPLHistory";
 import styles from "../../styles/REPL/REPLComplete.module.css";
+import type { NextPage } from "next";
 
-const REPL = () => {
+const REPL: NextPage<{inputRef: MutableRefObject<HTMLInputElement|undefined>}> = ({ inputRef }) => {
     const [history, manipulateHistory] = useState<string[]>([]);
-    const inputRef = useRef<HTMLInputElement>();
     const onCommandExecuted = (result: string[]) => manipulateHistory(result.reverse().concat(history).slice(0, 1000));
     const onClearHistory = () => manipulateHistory([]);
 

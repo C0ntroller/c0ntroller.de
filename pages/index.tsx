@@ -2,17 +2,24 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { GithubLogo, InstagramLogo, DiscordLogo, GameController } from "phosphor-react";
+import { useRef } from "react";
 import REPL from "../components/REPL";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
+  const inputRef = useRef<HTMLInputElement>();
+
+  const focusInput = () => {
+    console.log("Focus")
+    if (inputRef.current) inputRef.current.focus();};
+  
   return (<>
     <Head>
       <title>c0ntroller.de</title>
     </Head>
     <div className={styles.container}>
       <div className={styles.header}>
-        <span className={styles.spacer} />
+        <span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
         <Link href="https://git.c0ntroller.de/c0ntroller/frontpage"><a>Source</a></Link>
         <span className={styles.divider}>|</span>
         <Link href="https://git.c0ntroller.de/c0ntroller/frontpage/issues/new"><a>Bug?</a></Link>
@@ -31,9 +38,9 @@ const Home: NextPage = () => {
         </Link>
         <span className={styles.divider}>|</span>
         <Link href="https://steamcommunity.com/id/c0ntroller/" passHref><GameController color="var(--repl-color)" className={styles.iconLink} /></Link>
-        <span className={styles.spacer} />
+        <span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
       </div>
-      <REPL />
+      <REPL inputRef={inputRef} />
     </div>
   </>);
 };
