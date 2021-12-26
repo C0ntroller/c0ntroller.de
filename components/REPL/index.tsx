@@ -7,9 +7,14 @@ const REPL = () => {
     const inputRef = useRef<HTMLInputElement>();
     const onCommandExecuted = (result: string[]) => manipulateHistory(result.reverse().concat(history).slice(0, 1000));
 
+    const focusInput = () => {
+        if (inputRef.current) inputRef.current.focus();
+    }
+
     return (<>
         <REPLHistory history={history} inputRef={inputRef} />
         <REPLInput historyCallback={onCommandExecuted} inputRef={inputRef} />
+        <div style={{flexGrow: 2}} onClick={focusInput}></div>
     </>);
 };
 
