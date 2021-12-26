@@ -28,17 +28,16 @@ const Home: NextPage = () => {
         <span className={styles.divider}>|</span>
         <Link href="https://www.instagram.com/c0ntroller/" passHref><InstagramLogo color="var(--repl-color)" className={styles.iconLink} /></Link>
         <span className={styles.divider}>|</span>
+        <Link href="https://steamcommunity.com/id/c0ntroller/" passHref><GameController color="var(--repl-color)" className={styles.iconLink} /></Link>
+        <span className={styles.divider}>|</span>
         <Link href="https://discordapp.com/users/224208617820127233" passHref>
-          <span className={styles.tooltip}>
+          <span className={styles.tooltip} style={{cursor: "pointer"}}>
             <DiscordLogo color="var(--repl-color)" className={styles.iconLink} />
             <span className={styles.tooltiptext}>
               C0ntroller_Z#3883
             </span>
           </span>
-        </Link>
-        <span className={styles.divider}>|</span>
-        <Link href="https://steamcommunity.com/id/c0ntroller/" passHref><GameController color="var(--repl-color)" className={styles.iconLink} /></Link>
-        <span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
+        </Link><span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
       </div>
       <REPL inputRef={inputRef} />
     </div>

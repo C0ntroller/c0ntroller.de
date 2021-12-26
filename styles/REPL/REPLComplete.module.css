@@ -9,12 +9,10 @@
     width:auto;
 }
 
-/*track*/
 .container::-webkit-scrollbar-track {
 background:rgb(0, 0, 0);
 }
 
-/*thumb*/
 .container::-webkit-scrollbar-thumb {
 background:rgb(24, 138, 24);
 }
