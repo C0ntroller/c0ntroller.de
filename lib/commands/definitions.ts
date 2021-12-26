@@ -195,4 +195,10 @@ const exitCmd: Command = {
     }
 }
 
-export const commandList = [about, help, man, project, exitCmd];
+const clear: Command = {
+    name: "clear",
+    desc: "Clears the output on screen.",
+    execute: () => []
+}
+
+export const commandList = [about, help, man, project, exitCmd, clear];

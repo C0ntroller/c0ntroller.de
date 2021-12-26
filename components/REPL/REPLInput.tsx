@@ -4,15 +4,22 @@ import { commandCompletion, executeCommand } from "../../lib/commands";
 import styles from "../../styles/REPL/REPLInput.module.css";
 
 interface REPLInputParams {
-    historyCallback: CallableFunction; 
+    historyCallback: CallableFunction;
+    historyClear: CallableFunction;
     inputRef: MutableRefObject<HTMLInputElement|undefined>;
 }
 
-const REPLInput: NextPage<REPLInputParams> = ({historyCallback, inputRef}) => {
+const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, inputRef}) => {
     const typed = React.createRef<HTMLSpanElement>();
     const completion = React.createRef<HTMLSpanElement>();
     const [currentCmd, setCurrentCmd] = React.useState<string[]>([]);
     const [justTabbed, setJustTabbed] = React.useState<number>(0);
+
+    const clearInput = (inputRef: HTMLInputElement) => {
+        inputRef.value = "";
+        if(typed.current) typed.current.innerHTML = "";
+        if(completion.current) completion.current.innerHTML = "";
+    }
 
     const replinOnChange = (e: React.FormEvent<HTMLInputElement>) => {
         const input = (e.target as HTMLInputElement);
@@ -50,20 +57,28 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, inputRef}) => {
 
         if (e.key === "Enter") {
             e.preventDefault();
-            const result = executeCommand((e.target as HTMLInputElement).value);
-            input.value = "";
-            if(typed.current) typed.current.innerHTML = "";
-            if(completion.current) completion.current.innerHTML = "";
+            const command = (e.target as HTMLInputElement).value
+            if (command === "clear") {
+                clearInput(input);
+                historyClear();
+                return false;
+            }
+            const result = executeCommand(command);
+            clearInput(input);
             historyCallback(result);
         }
 
         if (e.key === "d" && e.ctrlKey) {
             e.preventDefault();
             const result = executeCommand("exit");
-            input.value = "";
-            if(typed.current) typed.current.innerHTML = "";
-            if(completion.current) completion.current.innerHTML = "";
+            clearInput(input);
             historyCallback(result);
+        }
+
+        if (e.key === "l" && e.ctrlKey) {
+            e.preventDefault();
+            clearInput(input);
+            historyClear();
         }
 
         return false;
