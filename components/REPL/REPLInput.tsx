@@ -53,6 +53,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
             if(typed.current) typed.current.innerHTML = currentCmd[justTabbed % currentCmd.length];
             if(completion.current) completion.current.innerHTML = "";
             setJustTabbed(justTabbed + 1);
+            return false;
         } else setJustTabbed(0);
 
         if (e.key === "Enter") {
@@ -66,6 +67,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
             const result = executeCommand(command);
             clearInput(input);
             historyCallback(result);
+            return false;
         }
 
         if (e.key === "d" && e.ctrlKey) {
@@ -73,15 +75,22 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
             const result = executeCommand("exit");
             clearInput(input);
             historyCallback(result);
+            return false;
         }
 
         if (e.key === "l" && e.ctrlKey) {
             e.preventDefault();
             clearInput(input);
             historyClear();
+            return false;
         }
 
-        return false;
+        if ((e.key === "c" || e.key === "u") && e.ctrlKey) {
+            e.preventDefault();
+            clearInput(input);
+            return false;
+        }
+
     };
 
     return <div className={styles.wrapperwrapper}>
