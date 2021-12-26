@@ -15,13 +15,13 @@
 }
 
 .line a:link, .line a:visited, .line a:hover, .line a:active {
-    color: inherit;
+    color: var(--repl-color-link);
     text-decoration: underline;
 }
 
 .line a::after {
     content: "⤤";
-    color: var(--repl-color);
+    color: var(--repl-color-link);
     font-size: 80%;
     text-decoration: none;
 }
@@ -29,6 +29,7 @@
 .line .cmd {
     cursor: pointer;
     text-decoration: underline dotted;
+    color: var(--repl-color-link);
 }
 
 .line .cmd::before {content: "'"}
