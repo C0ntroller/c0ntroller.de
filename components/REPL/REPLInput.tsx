@@ -38,7 +38,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, inputRef}) => {
         }        
     };
 
-    const tabComplete = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const keyEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
         const input = (e.target as HTMLInputElement);
         if (e.key === "Tab" && currentCmd.length !== 0) {
             e.preventDefault();
@@ -49,7 +49,17 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, inputRef}) => {
         } else setJustTabbed(0);
 
         if (e.key === "Enter") {
+            e.preventDefault();
             const result = executeCommand((e.target as HTMLInputElement).value);
+            input.value = "";
+            if(typed.current) typed.current.innerHTML = "";
+            if(completion.current) completion.current.innerHTML = "";
+            historyCallback(result);
+        }
+
+        if (e.key === "d" && e.ctrlKey) {
+            e.preventDefault();
+            const result = executeCommand("exit");
             input.value = "";
             if(typed.current) typed.current.innerHTML = "";
             if(completion.current) completion.current.innerHTML = "";
@@ -62,7 +72,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, inputRef}) => {
     return <div className={styles.wrapperwrapper}>
         <span className={styles.inputstart}>$&nbsp;</span>
         <div className={styles.wrapper}>
-            <input ref={inputRef as MutableRefObject<HTMLInputElement>} className={styles.in} type={"text"} onChange={replinOnChange} onKeyDown={tabComplete} spellCheck={"false"} autoFocus maxLength={20} />
+            <input ref={inputRef as MutableRefObject<HTMLInputElement>} className={styles.in} type={"text"} onChange={replinOnChange} onKeyDown={keyEvent} spellCheck={"false"} autoFocus maxLength={20} />
             <span className={styles.completionWrapper}><span ref={typed} className={styles.typed}></span><span ref={completion} className={styles.completion}></span></span>
         </div>
     </div>;

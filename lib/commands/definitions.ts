@@ -178,4 +178,21 @@ const project: Command = {
     }
 };
 
-export const commandList = [about, help, man, project];
+const exitCmd: Command = {
+    name: "exit",
+    desc: "Tries to close this tab. Mostly fails because of restrictions.",
+    execute: () => {
+        if (typeof window !== undefined) {
+            window.opener = null;
+            window.open('', '_self');
+            window.close();
+        }
+        return [
+            "If you can read this, closing the window did not work.",
+            "This is because of restriction in JavaScript.",
+            "Read more here: https://developer.mozilla.org/en-US/docs/Web/API/Window/close"
+        ]
+    }
+}
+
+export const commandList = [about, help, man, project, exitCmd];
