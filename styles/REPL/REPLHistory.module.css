@@ -28,5 +28,8 @@
 
 .line .cmd {
     cursor: pointer;
-    text-decoration: underline;
+    text-decoration: underline dotted;
 }
+
+.line .cmd::before {content: "'"}
+.line .cmd::after {content: "'"}

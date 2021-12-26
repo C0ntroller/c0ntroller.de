@@ -88,7 +88,7 @@ const about: Command = {
             "Even when you open a project page you don't need your mouse - just press Esc to close it.",
             "",
             "I hope you enjoy your stay here!",
-            "If you wanted more information about the page itself, type 'project this' or 'help -t'."
+            "If you wanted more information about the page itself, type %{project this} or %{help -t}."
         ];
     }
 };
