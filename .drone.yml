@@ -26,11 +26,15 @@ steps:
 - name: build-image
   image: plugins/docker
   settings:
-    repo: c0ntroller/c0ntroller.de
     username:
       from_secret: docker_user
     password:
       from_secret: docker_token
+    registry:
+      from_secret: registry_host
+    repo: 
+      from_secret: local_repo
+    insecure: true
 ---
 kind: pipeline
 type: ssh
@@ -60,12 +64,14 @@ steps:
       from_secret: docker_user
     DOCKER_PASS:
       from_secret: docker_token
-    IMAGE: c0ntroller/c0ntroller.de:dev
+    REGISTRY_HOST:
+      from_secret: registry_host
+    IMAGE: c0ntroller.de:dev
   commands:
-  - docker login -u $${DOCKER_USER} -p $${DOCKER_PASS}
+  #- docker login -u $${DOCKER_USER} -p $${DOCKER_PASS}
   - docker-compose -p website-dev -f docker-compose.dev.yml rm -s -v -f
-  - docker rmi $${IMAGE} || true
-  - docker pull $${IMAGE}
+  - docker rmi $${REGISTRY_HOST}/$${IMAGE} || true
+  - docker pull $${REGISTRY_HOST}/$${IMAGE}
   - docker-compose -p website-dev -f docker-compose.dev.yml up --no-build -d
 - name: deploy-stable
   when:
@@ -76,10 +82,12 @@ steps:
       from_secret: docker_user
     DOCKER_PASS:
       from_secret: docker_token
-    IMAGE: c0ntroller/c0ntroller.de:latest
+    REGISTRY_HOST:
+      from_secret: registry_host
+    IMAGE: c0ntroller.de:latest
   commands:
-  - docker login -u $${DOCKER_USER} -p $${DOCKER_PASS}
+  #- docker login -u $${DOCKER_USER} -p $${DOCKER_PASS}
   - docker-compose -p website -f docker-compose.stable.yml rm -s -v -f
-  - docker rmi $${IMAGE} || true
-  - docker pull $${IMAGE}
+  - docker rmi $${REGISTRY_HOST}/$${IMAGE} || true
+  - docker pull $${REGISTRY_HOST}/$${IMAGE}
   - docker-compose -p website -f docker-compose.stable.yml up --no-build -d
