@@ -19,7 +19,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
         inputRef.value = "";
         if(typed.current) typed.current.innerHTML = "";
         if(completion.current) completion.current.innerHTML = "";
-    }
+    };
 
     const replinOnChange = (e: React.FormEvent<HTMLInputElement>) => {
         const input = (e.target as HTMLInputElement);
@@ -58,7 +58,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
 
         if (e.key === "Enter") {
             e.preventDefault();
-            const command = (e.target as HTMLInputElement).value
+            const command = (e.target as HTMLInputElement).value;
             if (command === "clear") {
                 clearInput(input);
                 historyClear();

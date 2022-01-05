@@ -184,21 +184,21 @@ const exitCmd: Command = {
     execute: () => {
         if (typeof window !== undefined) {
             window.opener = null;
-            window.open('', '_self');
+            window.open("", "_self");
             window.close();
         }
         return [
             "If you can read this, closing the window did not work.",
             "This is most likely because of a restriction in JavaScript.",
             "#{Read more here|https://developer.mozilla.org/en-US/docs/Web/API/Window/close}."
-        ]
+        ];
     }
-}
+};
 
 const clear: Command = {
     name: "clear",
     desc: "Clears the output on screen.",
     execute: () => []
-}
+};
 
 export const commandList = [about, help, man, project, exitCmd, clear];

@@ -9,9 +9,7 @@ import styles from "../styles/Home.module.css";
 const Home: NextPage = () => {
   const inputRef = useRef<HTMLInputElement>();
 
-  const focusInput = () => {
-    console.log("Focus")
-    if (inputRef.current) inputRef.current.focus();};
+  const focusInput = () => {if (inputRef.current) inputRef.current.focus();};
   
   return (<>
     <Head>

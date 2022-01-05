@@ -23,7 +23,7 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
             }));
         }
         return true;
-    }
+    };
 
     const makeLinks = (line: string) => {
         let idxStart = line.indexOf("#{");
@@ -31,7 +31,7 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
         let idxEnd = line.indexOf("}", idxSep);
         if (idxStart === -1 || idxSep === -1 || idxEnd === -1) return [line];
 
-        const result = []
+        const result = [];
 
         while (idxStart !== -1 && idxSep !== -1 && idxEnd !== -1) {
             const linkText = line.substring(idxStart+2, idxSep);
@@ -40,14 +40,14 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
             result.push(line.substring(0, idxStart));
             result.push(<Link href={linkHref}><a className={styles.link}>{linkText}</a></Link>);
             
-            line = line.substring(idxEnd+1)
+            line = line.substring(idxEnd+1);
             idxStart = line.indexOf("#{");
             idxSep = line.indexOf("|", idxStart);
             idxEnd = line.indexOf("}", idxSep);
         }
-        result.push(line.substring(idxEnd+1))
+        result.push(line.substring(idxEnd+1));
         return result;
-    }
+    };
 
     const makeCommands = (line: string|JSX.Element, indexKey: number) => {
         if (typeof line !== "string") return line;
@@ -56,7 +56,7 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
         let idxEnd = line.indexOf("}", idxStart);
         if (idxStart === -1 || idxEnd === -1) return line;
 
-        const result = []
+        const result = [];
 
         while (idxStart !== -1 && idxEnd !== -1) {
             const cmdText = line.substring(idxStart+2, idxEnd);
@@ -65,27 +65,27 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
             result.push(<span className={styles.cmd} onClick={forceInput} key={`${indexKey}${line.length}${cmdText}`}>{cmdText}</span>);
             
             
-            line = line.substring(idxEnd+1)
+            line = line.substring(idxEnd+1);
             idxStart = line.indexOf("%{");
             idxEnd = line.indexOf("}", idxStart);
         }
-        result.push(line.substring(idxEnd+1))
+        result.push(line.substring(idxEnd+1));
         return result;
-    }
+    };
 
     const parseLine = (line: string) => {
         if (line === "") return "\u00A0";
         
         const resultLinks = makeLinks(line);
-        const resultAll = resultLinks.map(makeCommands)
-        return resultAll.flat()
-    }
+        const resultAll = resultLinks.map(makeCommands);
+        return resultAll.flat();
+    };
 
     return <div className={styles.container} onClick={focusInput}>
         { history.map((value, idx) => {
             return <div className={styles.line} key={idx}>
                 {parseLine(value)}
-            </div>}
+            </div>;}
         )}
     </div>;
 };

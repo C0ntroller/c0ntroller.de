@@ -11,7 +11,7 @@ const REPL: NextPage<{inputRef: MutableRefObject<HTMLInputElement|undefined>}> =
 
     const focusInput = () => {
         if (inputRef.current) inputRef.current.focus();
-    }
+    };
 
     return (<div className={styles.container}>
         <REPLHistory history={history} inputRef={inputRef} />
