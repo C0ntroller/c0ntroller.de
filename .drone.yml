@@ -71,6 +71,7 @@ steps:
   #- docker login -u $${DOCKER_USER} -p $${DOCKER_PASS}
   - docker-compose -p website-dev -f docker-compose.dev.yml rm -s -v -f
   - docker rmi $${REGISTRY_HOST}/$${IMAGE} || true
+  - docker rmi localhost:5000/$${IMAGE} || true
   - docker pull $${REGISTRY_HOST}/$${IMAGE}
   - docker-compose -p website-dev -f docker-compose.dev.yml up --no-build -d
 - name: deploy-stable
@@ -89,5 +90,6 @@ steps:
   #- docker login -u $${DOCKER_USER} -p $${DOCKER_PASS}
   - docker-compose -p website -f docker-compose.stable.yml rm -s -v -f
   - docker rmi $${REGISTRY_HOST}/$${IMAGE} || true
+  - docker rmi localhost:5000/$${IMAGE} || true
   - docker pull $${REGISTRY_HOST}/$${IMAGE}
   - docker-compose -p website -f docker-compose.stable.yml up --no-build -d
