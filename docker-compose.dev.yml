@@ -5,7 +5,8 @@ services:
     image: localhost:5000/c0ntroller.de:dev
     restart: always
     volumes:
-      - ./website_projects:/app/public/projects
+      # Relative paths are located in the tmp folder where the projet is clones
+      - /srv/website/projects:/app/public/projects:ro
     networks:
       - traefik
     labels:
