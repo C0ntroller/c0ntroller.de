@@ -145,7 +145,7 @@ const project: Command = {
         list: {short: "l", long: "list", desc: "Show list of projects."}
     },
     subcommands: {name: {name: "name", desc: "Name of the project."}},
-    execute: (flags, args) => {
+    execute: (flags, args, _raw, cmdIf) => {
         if (project.flags && checkFlagInclude(flags, project.flags.list)) {
             const result = ["Found the following projects:"];
             projectList.forEach(project => result.push(`\t${project.name}\t${project.short}`));
@@ -172,8 +172,8 @@ const project: Command = {
         }
         if (project.flags && checkFlagInclude(flags, project.flags.minimal)) return pjt.desc;
 
-        // TODO
-        // Open project page here.
+        cmdIf.callbacks.setModalProject(args[0]);
+        cmdIf.callbacks.setModalVisible(true);
         return [];
     }
 };

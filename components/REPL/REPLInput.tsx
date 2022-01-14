@@ -1,19 +1,24 @@
 import type { NextPage } from "next";
 import React, { MutableRefObject } from "react";
-import { commandCompletion, executeCommand } from "../../lib/commands";
+import { CommandInterface } from "../../lib/commands";
 import styles from "../../styles/REPL/REPLInput.module.css";
 
 interface REPLInputParams {
     historyCallback: CallableFunction;
     historyClear: CallableFunction;
     inputRef: MutableRefObject<HTMLInputElement|undefined>;
+    modalManipulation: {
+        setModalVisible: CallableFunction;
+        setModalProject: CallableFunction;
+    }
 }
 
-const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, inputRef}) => {
+const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, inputRef, modalManipulation}) => {
     const typed = React.createRef<HTMLSpanElement>();
     const completion = React.createRef<HTMLSpanElement>();
     const [currentCmd, setCurrentCmd] = React.useState<string[]>([]);
     const [justTabbed, setJustTabbed] = React.useState<number>(0);
+    const cmdIf = new CommandInterface(modalManipulation);
 
     const clearInput = (inputRef: HTMLInputElement) => {
         inputRef.value = "";
@@ -37,7 +42,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
         } else {
             input.maxLength = 20;
             // Get completion hint
-            const suggest = commandCompletion(currentInput);
+            const suggest = CommandInterface.commandCompletion(currentInput);
             setCurrentCmd(suggest);
             if (suggest.length === 0) suggest.push("");
             if (typed.current) typed.current.innerHTML = currentInput;
@@ -64,7 +69,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
                 historyClear();
                 return false;
             }
-            const result = executeCommand(command);
+            const result = cmdIf.executeCommand(command);
             clearInput(input);
             historyCallback(result);
             return false;
@@ -72,7 +77,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
 
         if (e.key === "d" && e.ctrlKey) {
             e.preventDefault();
-            const result = executeCommand("exit");
+            const result = cmdIf.executeCommand("exit");
             clearInput(input);
             historyCallback(result);
             return false;

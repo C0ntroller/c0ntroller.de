@@ -1,29 +1,42 @@
 import { printSyntax, commandList } from "./definitions";
 
-export function commandCompletion(input: string): string[] {
-    if (input === "") return [];
-    const candidates = commandList.filter(cmd => cmd.name.substring(0, input.length) === input).map(cmd => cmd.name);
-    return candidates;
+interface CommandInterfaceCallbacks {
+    setModalVisible: CallableFunction, 
+    setModalProject: CallableFunction
 }
 
-export function executeCommand(command: string): string[] {
-    if (!command) return [`$ ${command}`].concat(illegalCommand(command));
-    const args = command.split(" ");
-    const cmd = commandList.find(cmd => cmd.name === args[0]);
-    if (!cmd) return [`$ ${command}`].concat(illegalCommand(command));
+export class CommandInterface {
+    callbacks: CommandInterfaceCallbacks;
 
-    const parsed = seperateFlags(args.splice(1));
-    const result = parsed.flags.includes("--help") ? printSyntax(cmd) : cmd.execute(parsed.flags, parsed.subcmds, command);
+    constructor(callbacks: CommandInterfaceCallbacks) {
+        this.callbacks = callbacks;
+    }
 
-    return [`$ ${command}`].concat(result);
-}
+    static commandCompletion(input: string): string[] {
+        if (input === "") return [];
+        const candidates = commandList.filter(cmd => cmd.name.substring(0, input.length) === input).map(cmd => cmd.name);
+        return candidates;
+    }
 
-function seperateFlags(args: string[]): {flags: string[], subcmds: string[]} {
-    const flags = args.filter(arg => arg.substring(0,1) === "-");
-    const subcmds = args.filter(arg => arg.substring(0,1) !== "-");
-    return {flags, subcmds};
-}
+    executeCommand(command: string): string[] {
+        if (!command) return [`$ ${command}`].concat(this.illegalCommand(command));
+        const args = command.split(" ");
+        const cmd = commandList.find(cmd => cmd.name === args[0]);
+        if (!cmd) return [`$ ${command}`].concat(this.illegalCommand(command));
+    
+        const parsed = this.seperateFlags(args.splice(1));
+        const result = parsed.flags.includes("--help") ? printSyntax(cmd) : cmd.execute(parsed.flags, parsed.subcmds, command, this);
+    
+        return [`$ ${command}`].concat(result);
+    }
 
-function illegalCommand(command: string): string[] {
-    return [`Command '${command}' not found.`, "Type 'help' for help."];
+    private seperateFlags(args: string[]): {flags: string[], subcmds: string[]} {
+        const flags = args.filter(arg => arg.substring(0,1) === "-");
+        const subcmds = args.filter(arg => arg.substring(0,1) !== "-");
+        return {flags, subcmds};
+    }
+
+    private illegalCommand(command: string): string[] {
+        return [`Command '${command}' not found.`, "Type 'help' for help."];
+    }
 }
