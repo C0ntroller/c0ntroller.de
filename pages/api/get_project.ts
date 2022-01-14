@@ -19,7 +19,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<string
     const project = req.query.projectName;
 
     try {
-        const path = resolve("./public", "projects", `${project}.adoc`)
+        const path = resolve("./public", "projects", `${project}.adoc`);
         const data = readFileSync(path).toString();
         console.debug(`[API/get_project]\tRequest for ${project}`);
         res.status(200).send(data);

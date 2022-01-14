@@ -19,7 +19,7 @@ const Home: NextPage = () => {
             e.preventDefault();
             setModalVisible(false);
         }
-    }
+    };
 
     return (<main onKeyDown={hideModalOnEsc}>
         <Head>

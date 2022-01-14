@@ -34,30 +34,30 @@ const ProjectModal: NextPage<ModalInput> = ({ project, visible, setVisible }) =>
                     }
                 });
             });
-        } else if (project === "") setProjectData(projectEmpty)
-    }, [project])
+        } else if (project === "") setProjectData(projectEmpty);
+    }, [project, projectEmpty, projectNotFoundHtml, projectServerErrorHtml]);
 
     useEffect(() => {
         if (projectData && containerRef.current && projectData !== "") {
             containerRef.current.innerHTML = projectData;
         }
 
-    }, [projectData, visible])
+    }, [projectData, visible]);
 
     const onEscClose = (e: React.KeyboardEvent) => {
         if (e.key === "Escape") {
             e.preventDefault();
             setVisible(false);
         }
-    }
+    };
     
-    if (!visible) return <></>
+    if (!visible) return <></>;
 
     return <div className={styles.modal} onKeyDown={onEscClose}>
         <div ref={containerRef} className={styles.modalContainer}>
         </div>
-    </div>
-}
+    </div>;
+};
 
 
 export default ProjectModal;
