@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React, { MutableRefObject } from "react";
+import { MutableRefObject, useState, createRef } from "react";
 import { CommandInterface } from "../../lib/commands";
 import styles from "../../styles/REPL/REPLInput.module.css";
 
@@ -14,10 +14,12 @@ interface REPLInputParams {
 }
 
 const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, inputRef, modalManipulation}) => {
-    const typed = React.createRef<HTMLSpanElement>();
-    const completion = React.createRef<HTMLSpanElement>();
-    const [currentCmd, setCurrentCmd] = React.useState<string[]>([]);
-    const [justTabbed, setJustTabbed] = React.useState<number>(0);
+    const typed = createRef<HTMLSpanElement>();
+    const completion = createRef<HTMLSpanElement>();
+    const [currentCmd, setCurrentCmd] = useState<string[]>([]);
+    const [justTabbed, setJustTabbed] = useState<number>(0);
+    const [inCmdHistory, setInCmdHistory] = useState<number>(-1);
+    const [cmdHistory, setCmdHistory] = useState<string[]>([]);
     const cmdIf = new CommandInterface(modalManipulation);
 
     const clearInput = (inputRef: HTMLInputElement) => {
@@ -52,8 +54,10 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
 
     const keyEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
         const input = (e.target as HTMLInputElement);
-        if (e.key === "Tab" && currentCmd.length !== 0) {
+        if (e.key === "Tab") {
             e.preventDefault();
+        }
+        if (e.key === "Tab" && currentCmd.length !== 0) {
             input.value = currentCmd[justTabbed % currentCmd.length];
             if(typed.current) typed.current.innerHTML = currentCmd[justTabbed % currentCmd.length];
             if(completion.current) completion.current.innerHTML = "";
@@ -64,13 +68,15 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
         if (e.key === "Enter") {
             e.preventDefault();
             const command = (e.target as HTMLInputElement).value;
+            setCmdHistory(cmdHistory.concat([command]).splice(0, 100));
+            clearInput(input);
+            setInCmdHistory(-1);
+            setCurrentCmd([]);
             if (command === "clear") {
-                clearInput(input);
                 historyClear();
                 return false;
             }
             const result = cmdIf.executeCommand(command);
-            clearInput(input);
             historyCallback(result);
             return false;
         }
@@ -94,6 +100,32 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
             e.preventDefault();
             clearInput(input);
             return false;
+        }
+
+        if (e.key === "ArrowUp") {
+            e.preventDefault();
+            const idx = inCmdHistory + 1;
+            if (idx < cmdHistory.length) {
+                const cmd = cmdHistory[cmdHistory.length - idx - 1];
+                input.value = cmd;
+                if(typed.current) typed.current.innerHTML = cmd;
+                if(completion.current) completion.current.innerHTML = "";
+                setInCmdHistory(idx);
+            }
+        }
+
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
+            const idx = inCmdHistory - 1;
+            if (0 <= idx) {
+                const cmd = cmdHistory[cmdHistory.length - idx - 1];
+                input.value = cmd;
+                if(typed.current) typed.current.innerHTML = cmd;
+                if(completion.current) completion.current.innerHTML = "";
+                setInCmdHistory(idx);
+            } else {
+                clearInput(input);
+            }
         }
 
     };
