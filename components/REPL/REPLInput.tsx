@@ -75,7 +75,8 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
             e.preventDefault();
         }
         if (e.key === "Tab" && currentCmd.length !== 0) {
-            setInput(input, currentCmd[justTabbed % currentCmd.length]);
+            const cmd = `${currentCmd[justTabbed % currentCmd.length]}${currentCmd.length === 1 ? " " : ""}`;
+            setInput(input, cmd);
             setJustTabbed(justTabbed + 1);
             return false;
         } else setJustTabbed(0);
