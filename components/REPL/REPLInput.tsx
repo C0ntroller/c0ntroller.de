@@ -1,7 +1,9 @@
 import type { NextPage } from "next";
-import { MutableRefObject, useState, createRef } from "react";
+import useSWR from "swr";
+import { MutableRefObject, useState, createRef, useEffect } from "react";
 import { CommandInterface } from "../../lib/commands";
 import styles from "../../styles/REPL/REPLInput.module.css";
+import { Project } from "../../lib/projects/types";
 
 interface REPLInputParams {
     historyCallback: CallableFunction;
@@ -13,6 +15,11 @@ interface REPLInputParams {
     }
 }
 
+async function fetchProjects(endpoint: string): Promise<Project[]> {
+    const res = await fetch(endpoint);
+    return res.json();
+}
+
 const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, inputRef, modalManipulation}) => {
     const typed = createRef<HTMLSpanElement>();
     const completion = createRef<HTMLSpanElement>();
@@ -20,7 +27,8 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
     const [justTabbed, setJustTabbed] = useState<number>(0);
     const [inCmdHistory, setInCmdHistory] = useState<number>(-1);
     const [cmdHistory, setCmdHistory] = useState<string[]>([]);
-    const cmdIf = new CommandInterface(modalManipulation);
+    const [cmdIf, setCmdIf] = useState<CommandInterface>(new CommandInterface(modalManipulation, []));
+    const { data: projects, error: projectsError } = useSWR("/api/projects", fetchProjects);
 
     const clearInput = (inputRef: HTMLInputElement) => {
         inputRef.value = "";
@@ -127,8 +135,12 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
                 clearInput(input);
             }
         }
-
     };
+
+    useEffect(() => {
+        if (!projectsError && projects) setCmdIf(new CommandInterface(modalManipulation, projects));
+        // In any other case we just don't create another interface. 
+    }, [projects, projectsError, modalManipulation]);
 
     return <div className={styles.wrapperwrapper}>
         <span className={styles.inputstart}>$&nbsp;</span>

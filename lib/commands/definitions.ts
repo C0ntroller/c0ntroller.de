@@ -1,6 +1,4 @@
 import type { Command, Flag } from "./types";
-import type { Project } from "../projects/types";
-import projectList from "../projects";
 
 function getCommandByName(name: string): Command|undefined {
     return commandList.find(cmd => cmd.name === name);
@@ -148,7 +146,7 @@ const project: Command = {
     execute: (flags, args, _raw, cmdIf) => {
         if (project.flags && checkFlagInclude(flags, project.flags.list)) {
             const result = ["Found the following projects:"];
-            projectList.forEach(project => result.push(`\t${project.name}\t${project.short}`));
+            cmdIf.projects.forEach(project => result.push(`\t${project.name}\t${project.short}`));
             return result;
         }
 
@@ -156,7 +154,7 @@ const project: Command = {
 
         if (args[0] === "this") args[0] = "homepage";
 
-        const pjt = projectList.find(p => p.name === args[0]);
+        const pjt = cmdIf.projects.find(p => p.name === args[0]);
         if (!pjt) return [
             `Cannot find project ${args[0]}!`,
             "You can see available projects using 'project -l'."

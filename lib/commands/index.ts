@@ -1,3 +1,4 @@
+import { Project } from "../projects/types";
 import { printSyntax, commandList } from "./definitions";
 
 interface CommandInterfaceCallbacks {
@@ -7,9 +8,11 @@ interface CommandInterfaceCallbacks {
 
 export class CommandInterface {
     callbacks: CommandInterfaceCallbacks;
+    projects: Project[];
 
-    constructor(callbacks: CommandInterfaceCallbacks) {
+    constructor(callbacks: CommandInterfaceCallbacks, projects: Project[]) {
         this.callbacks = callbacks;
+        this.projects = projects;
     }
 
     static commandCompletion(input: string): string[] {
