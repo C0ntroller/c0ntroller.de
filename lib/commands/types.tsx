@@ -1,3 +1,5 @@
+import type { CommandInterface } from ".";
+
 export interface Flag {
     short: string;
     long: string;
@@ -15,5 +17,5 @@ export interface Command {
     desc: string;
     flags?: Record<string,Flag>;
     subcommands?: Record<string,SubCommand>;
-    execute: (flags: string[], args: string[], raw: string, extra?: any) => string[];
+    execute: (flags: string[], args: string[], raw: string, cmdIf: CommandInterface) => string[];
 }

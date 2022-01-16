@@ -1,7 +1,7 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "semi": ["warn", "always"],
+    "semi": ["warn", "always", { "omitLastInOneLineBlock": true }],
     "quotes": ["warn", "double"],
     "eqeqeq": "error"
   }

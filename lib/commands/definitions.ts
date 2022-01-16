@@ -1,6 +1,4 @@
 import type { Command, Flag } from "./types";
-import type { Project } from "../projects/types";
-import projectList from "../projects";
 
 function getCommandByName(name: string): Command|undefined {
     return commandList.find(cmd => cmd.name === name);
@@ -145,10 +143,10 @@ const project: Command = {
         list: {short: "l", long: "list", desc: "Show list of projects."}
     },
     subcommands: {name: {name: "name", desc: "Name of the project."}},
-    execute: (flags, args) => {
+    execute: (flags, args, _raw, cmdIf) => {
         if (project.flags && checkFlagInclude(flags, project.flags.list)) {
             const result = ["Found the following projects:"];
-            projectList.forEach(project => result.push(`\t${project.name}\t${project.short}`));
+            cmdIf.projects.forEach(project => result.push(`\t${project.name}\t${project.short}`));
             return result;
         }
 
@@ -156,7 +154,7 @@ const project: Command = {
 
         if (args[0] === "this") args[0] = "homepage";
 
-        const pjt = projectList.find(p => p.name === args[0]);
+        const pjt = cmdIf.projects.find(p => p.name === args[0]);
         if (!pjt) return [
             `Cannot find project ${args[0]}!`,
             "You can see available projects using 'project -l'."
@@ -172,8 +170,8 @@ const project: Command = {
         }
         if (project.flags && checkFlagInclude(flags, project.flags.minimal)) return pjt.desc;
 
-        // TODO
-        // Open project page here.
+        cmdIf.callbacks.setModalProject(args[0]);
+        cmdIf.callbacks.setModalVisible(true);
         return [];
     }
 };
