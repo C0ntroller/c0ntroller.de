@@ -18,10 +18,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<string
     try {
         const path = resolve("./public", "projects", "list.json");
         const data = readFileSync(path).toString();
-        console.debug("[API/get_project]\tRequest for project list");
+        console.debug("[API/projects]\tRequest for project list");
         res.status(200).send(data);
     } catch (err) {
-        console.error(`[API/get_project]\tError in request for project list! Code: ${(err as IFileError).code}`);
+        console.error(`[API/projects]\tError in request for project list! Code: ${(err as IFileError).code}`);
         res.status(500);
     } finally {
         res.end();
