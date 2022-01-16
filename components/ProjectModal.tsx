@@ -23,7 +23,7 @@ const ProjectModal: NextPage<ModalInput> = ({ project, visible, setVisible }) =>
         if (project && project !== "") {
             // TODO
             // set Spinner
-            fetch(`/api/get_project?projectName=${project}`).then((res) => {
+            fetch(`/api/projects/${project}`).then((res) => {
                 if (res.status === 404) setProjectData(projectNotFoundHtml);
                 if (res.status !== 200) setProjectData(projectServerErrorHtml);
                 res.text().then(data => {
