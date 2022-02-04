@@ -4,6 +4,10 @@ services:
   server:
     image: localhost:5000/c0ntroller.de:latest
     restart: always
+    volumes:
+      # Relative paths are located in the tmp folder where the project is cloned
+      - /srv/website/projects:/app/public/projects:ro
+      - git_mask:/app/public/projects/.git
     networks:
       - traefik
     labels:
@@ -23,3 +27,5 @@ services:
 networks:
   traefik:
     external: true
+volumes:
+  git_mask:

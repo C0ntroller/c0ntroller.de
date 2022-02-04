@@ -5,7 +5,7 @@ services:
     image: localhost:5000/c0ntroller.de:dev
     restart: always
     volumes:
-      # Relative paths are located in the tmp folder where the projet is clones
+      # Relative paths are located in the tmp folder where the project is cloned
       - /srv/website/projects:/app/public/projects:ro
       - git_mask:/app/public/projects/.git
     networks:
