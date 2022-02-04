@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
 import asciidoctor from "asciidoctor";
 import styles from "../styles/ProjectModal.module.css";
+import Link from "next/link";
 
 interface ModalInput {
     project: string;
@@ -37,7 +38,7 @@ Last updated: ${lastUpdate} | <a href="https://git.c0ntroller.de/c0ntroller/fron
                 if (res.status !== 200) setProjectData(projectServerErrorHtml);
                 res.text().then(data => {
                     try {
-                        const adDoc = ad.load(data, {attributes: {showtitle: true}});
+                        const adDoc = ad.load(data, { attributes: { showtitle: true } });
                         setProjectData(adDoc.convert(adDoc).toString() + generateFooter(project, adDoc.getAttribute("docdatetime")));
                     } catch {
                         setProjectData(projectServerErrorHtml);
@@ -54,17 +55,12 @@ Last updated: ${lastUpdate} | <a href="https://git.c0ntroller.de/c0ntroller/fron
 
     }, [projectData, visible]);
 
-    const onEscClose = (e: React.KeyboardEvent) => {
-        console.log(e);
-        if (e.key === "Escape") {
-            //e.preventDefault();
-            setVisible(false);
-        }
-    };
-    
     if (!visible) return <></>;
 
     return <div className={styles.modal}>
+        <a href="javascript:void(0);" onClick={() => setVisible(false)}>
+            <div className={styles.modalClose}><div className={styles.modalCloseAlign}>X</div></div>
+        </a>
         <div ref={containerRef} className={`${styles.modalContainer} asciidoc`}>
         </div>
     </div>;
