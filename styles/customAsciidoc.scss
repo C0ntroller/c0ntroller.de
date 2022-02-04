@@ -1,0 +1,25 @@
+.asciidoc {
+    /*@import "../node_modules/@asciidoctor/core/dist/css/asciidoctor.css";*/
+    @import "./asciidocBootSlate";
+    h1 {
+        color: var(--repl-color-link, #2ac02a);
+        font-size: 3em;
+    }
+    h2,
+    h3 {
+        font-weight: bold;
+        text-decoration: underline;
+    }
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: var(--repl-color, #188a18);
+    }
+    font-family: sans-serif;
+    #preamble {
+        font-style: italic;
+        font-size: 120%;
+    }
+}

@@ -19,16 +19,26 @@ const ProjectModal: NextPage<ModalInput> = ({ project, visible, setVisible }) =>
     const projectNotFoundHtml = `<div class="${"error"}">Sorry! There is no data for this project. Please check back later to see if that changed!</div>`;
     const projectServerErrorHtml = `<div class="${"error"}">Sorry! A server error happend when the project data was fetched!</div>`;
 
+    const generateFooter = (project: string, lastUpdate: string) => `<hr>
+    <div id="footer">
+<div id="footer-text">
+Last updated: ${lastUpdate} | <a href="https://git.c0ntroller.de/c0ntroller/frontpage-projects/src/branch/senpai/${project}.adoc">Document source</a>
+</div>
+</div>
+    `;
+
     useEffect(() => {
         if (project && project !== "") {
             // TODO
             // set Spinner
+            setProjectData("Loading...");
             fetch(`/api/projects/${project}`).then((res) => {
                 if (res.status === 404) setProjectData(projectNotFoundHtml);
                 if (res.status !== 200) setProjectData(projectServerErrorHtml);
                 res.text().then(data => {
                     try {
-                        setProjectData(ad.convert(data).toString());
+                        const adDoc = ad.load(data, {attributes: {showtitle: true}});
+                        setProjectData(adDoc.convert(adDoc).toString() + generateFooter(project, adDoc.getAttribute("docdatetime")));
                     } catch {
                         setProjectData(projectServerErrorHtml);
                     }
@@ -54,7 +64,7 @@ const ProjectModal: NextPage<ModalInput> = ({ project, visible, setVisible }) =>
     if (!visible) return <></>;
 
     return <div className={styles.modal} onKeyDown={onEscClose}>
-        <div ref={containerRef} className={styles.modalContainer}>
+        <div ref={containerRef} className={`${styles.modalContainer} asciidoc`}>
         </div>
     </div>;
 };

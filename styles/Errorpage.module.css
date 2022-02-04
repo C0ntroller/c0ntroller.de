@@ -1,0 +1,61 @@
+.container {
+    background: #222222;
+    width: 100vw;
+    height: 100vh;
+}
+
+#errorText { 
+    margin-top:2vh;               
+    color: #fff;
+    text-align:center;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:150%;
+}
+
+#wrapper a:link, #wrapper a:visited, #wrapper a:hover, #wrapper a:active {
+    color:#fff;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+#wrapper {
+    margin: auto;
+    position: relative;
+}
+
+#box {
+    max-width: 800px;
+    margin:auto;
+}
+
+@keyframes schweif {
+    0% {d: path("M 280,120 C 250 100, 310 70, 320 20");}
+    12.5% {d: path("M 280,120 C 260 100, 280 70, 310 20");}
+    25% {d: path("M 280,120 C 280 100, 260 70, 290 20");}
+    37.5% {d: path("M 280,120 C 280 100, 240 70, 270 20");}
+    50% {d: path("M 280,120 C 280 100, 240 70, 230 20");}
+    62.5% {d: path("M 280,120 C 270 100, 260 70, 250 20");}
+    75% {d: path("M 280,120 C 270 100, 280 70, 270 20");}
+    87.5% {d: path("M 280,120 C 250 100, 310 70, 290 20");}
+    100% {d: path("M 280,120 C 250 100, 310 70, 320 20");}
+}
+
+#schweif {
+    animation-name: schweif;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+#box svg:hover > #schweif {
+    animation-duration:1s;
+}
+
+#blinzeln {
+    fill-opacity:1;
+    transition: fill-opacity 0.5s;
+}
+
+#box svg:hover > #blinzeln {
+    fill-opacity:0;
+}
