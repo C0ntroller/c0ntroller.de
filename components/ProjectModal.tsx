@@ -55,15 +55,16 @@ Last updated: ${lastUpdate} | <a href="https://git.c0ntroller.de/c0ntroller/fron
     }, [projectData, visible]);
 
     const onEscClose = (e: React.KeyboardEvent) => {
+        console.log(e);
         if (e.key === "Escape") {
-            e.preventDefault();
+            //e.preventDefault();
             setVisible(false);
         }
     };
     
     if (!visible) return <></>;
 
-    return <div className={styles.modal} onKeyDown={onEscClose}>
+    return <div className={styles.modal}>
         <div ref={containerRef} className={`${styles.modalContainer} asciidoc`}>
         </div>
     </div>;

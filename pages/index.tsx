@@ -21,7 +21,7 @@ const Home: NextPage = () => {
         }
     };
 
-    return (<main onKeyDown={hideModalOnEsc}>
+    return (<main onKeyDown={hideModalOnEsc} tabIndex={-1}>
         <Head>
             <title>c0ntroller.de</title>
         </Head>
