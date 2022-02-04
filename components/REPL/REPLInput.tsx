@@ -29,7 +29,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
     const [cmdHistory, setCmdHistory] = useState<string[]>([]);
     const [usrInputTmp, setUsrInputTmp] = useState<string>("");
     const [cmdIf, setCmdIf] = useState<CommandInterface>(new CommandInterface(modalManipulation, []));
-    const { data: projects, error: projectsError } = useSWR("/api/projects", fetchProjects);
+    const { data: projects, error: projectsError } = useSWR("/api/projects?swr=1", fetchProjects);
 
     const setInput = (inputRef: HTMLInputElement, input: string) => {
         const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
