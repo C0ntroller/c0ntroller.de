@@ -8,7 +8,7 @@ import REPL from "../components/REPL";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
-    const inputRef = useRef<HTMLInputElement>();
+    const inputRef = useRef<HTMLInputElement>(null);
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [modalProject, setModalProject] = useState<string>("");
 

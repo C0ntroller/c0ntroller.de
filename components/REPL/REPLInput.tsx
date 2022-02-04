@@ -8,7 +8,7 @@ import { Project } from "../../lib/projects/types";
 interface REPLInputParams {
     historyCallback: CallableFunction;
     historyClear: CallableFunction;
-    inputRef: MutableRefObject<HTMLInputElement|undefined>;
+    inputRef: MutableRefObject<HTMLInputElement|null>;
     modalManipulation: {
         setModalVisible: CallableFunction;
         setModalProject: CallableFunction;

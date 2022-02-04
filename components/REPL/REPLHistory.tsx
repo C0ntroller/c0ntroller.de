@@ -1,11 +1,11 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import { BaseSyntheticEvent, MutableRefObject } from "react";
+import { BaseSyntheticEvent, MutableRefObject, useEffect, useRef } from "react";
 import styles from "../../styles/REPL/REPLHistory.module.css";
 
 interface REPLHistoryParams {
     history: string[];
-    inputRef: MutableRefObject<HTMLInputElement|undefined>;
+    inputRef: MutableRefObject<HTMLInputElement|null>;
 }
 
 const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
