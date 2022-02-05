@@ -29,7 +29,7 @@ const Home: NextPage = () => {
         <div className={styles.container}>
             <div className={styles.header}>
                 <span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
-                <Link href="https://git.c0ntroller.de/c0ntroller/frontpage"><a>Source</a></Link>
+                <Link href="https://github.com/C0ntroller/c0ntroller.de"><a>Source</a></Link>
                 <span className={styles.divider}>|</span>
                 <Link href="https://github.com/C0ntroller/c0ntroller.de/issues/new"><a>Bug?</a></Link>
                 <span className={styles.divider}>|</span>
