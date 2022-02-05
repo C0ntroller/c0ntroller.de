@@ -61,7 +61,10 @@ Last updated: ${lastUpdate} | <a href="https://git.c0ntroller.de/c0ntroller/fron
         <a href="javascript:void(0);" onClick={() => setVisible(false)}>
             <div className={styles.modalClose}><div className={styles.modalCloseAlign}>X</div></div>
         </a>
-        <div ref={containerRef} className={`${styles.modalContainer} asciidoc`}>
+        <div className={styles.modalContainer}>
+            <div className={`${styles.modalText} asciidoc`} ref={containerRef}>
+                
+            </div>
         </div>
     </div>;
 };
