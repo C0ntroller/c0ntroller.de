@@ -10,4 +10,4 @@ When changes are made to `senpai` it will be deploy on https://c0ntroller.de
 
 When changes are made in the `dev` branch it will be deployed on https://dev.c0ntroller.de
 
-AsciiDoc-files with projects descriptions are hosted in [c0ntroller/frontpage-projects](/c0ntroller/frontpage-projects)
+AsciiDoc-files with projects descriptions are hosted in [c0ntroller/frontpage-projects](https://git.c0ntroller.de/c0ntroller/frontpage-projects)

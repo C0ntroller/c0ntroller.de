@@ -31,7 +31,7 @@ const Home: NextPage = () => {
                 <span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
                 <Link href="https://git.c0ntroller.de/c0ntroller/frontpage"><a>Source</a></Link>
                 <span className={styles.divider}>|</span>
-                <Link href="https://git.c0ntroller.de/c0ntroller/frontpage/issues/new"><a>Bug?</a></Link>
+                <Link href="https://github.com/C0ntroller/c0ntroller.de/issues/new"><a>Bug?</a></Link>
                 <span className={styles.divider}>|</span>
                 <Link href="https://github.com/C0ntroller" passHref><GithubLogo color="var(--repl-color)" className={styles.iconLink} /></Link>
                 <span className={styles.divider}>|</span>
