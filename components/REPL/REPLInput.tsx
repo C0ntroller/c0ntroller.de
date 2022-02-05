@@ -50,6 +50,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
         const currentInput = input.value.toLowerCase();
         // Force lowercase
         input.value = currentInput;
+        if (currentInput.trim() === "") input.value = "";
 
         if (currentInput.includes(" ")) {
             // Command already typed
@@ -83,8 +84,8 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
 
         if (e.key === "Enter") {
             e.preventDefault();
-            const command = (e.target as HTMLInputElement).value;
-            setCmdHistory(cmdHistory.concat([command]).splice(0, 100));
+            const command = (e.target as HTMLInputElement).value.trim();
+            if (cmdHistory.at(-1) !== command) setCmdHistory(cmdHistory.concat([command]).splice(0, 100));
             clearInput(input);
             setInCmdHistory(-1);
             setCurrentCmd([]);
