@@ -101,7 +101,7 @@ const help: Command = {
                 "Hello user!",
                 "What you see here should resemble an CLI. If you ever used Linux this should be pretty easy for you.",
                 "Everyone else: Have no fear. It is pretty simple. You just type in commands and the output is shown here or it does something on the webite.",
-                "To find out, which commands are available, you can type just 'help'.",
+                "To find out, which commands are available, you can type just %{help}.",
                 "",
                 "Have fun!"
             ];
@@ -140,7 +140,7 @@ const project: Command = {
     flags: {
         minimal: {short: "m", long: "minimal", desc: "Only show minimal information."},
         source: {short: "s", long: "source", desc: "Open git repository of project."},
-        list: {short: "l", long: "list", desc: "Show list of projects."}
+        list: {short: "l", long: "list", desc: "\tShow list of projects."}
     },
     subcommands: {name: {name: "name", desc: "Name of the project."}},
     execute: (flags, args, _raw, cmdIf) => {
