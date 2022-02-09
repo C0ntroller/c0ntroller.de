@@ -6,7 +6,7 @@
     width: 100vw;
     height: 100vh;
     padding: 5%;
-    background: transparent;
+    background: rgba(0,0,0,0.5);
     --modal-gray: #0e0f0e;
 }
 
@@ -19,6 +19,7 @@
     border-radius: 20px;
     overflow-y: auto;
     position: relative;
+    clear: none;
 }
 
 .modalText {
@@ -34,7 +35,8 @@
     width: 2em;
     height: 2em;
     font-family: sans-serif;
-    margin-bottom: 10px;
+    margin-top: -3em;
+    margin-bottom: 1em;
     z-index: 100;
 }
 
