@@ -7,10 +7,11 @@
     height: 100vh;
     padding: 5%;
     background: transparent;
+    --modal-gray: #0e0f0e;
 }
 
 .modalContainer {
-    background: #0e0f0e;
+    background: var(--modal-gray, #0e0f0e);
     color: #ccc;
     width: 100%;
     height: 100%;
@@ -28,7 +29,7 @@
 .modalClose {
     float: right;
     position: relative;
-    background: #272b30;
+    background: var(--modal-gray, #0e0f0e);
     border-radius: 50%;
     width: 2em;
     height: 2em;
@@ -51,7 +52,7 @@
 /* Firefox */
 .modalContainer {
     scrollbar-width: auto;
-    scrollbar-color: var(--repl-color, #188a18) #272b30;
+    scrollbar-color: var(--repl-color, #188a18) var(--modal-gray, #0e0f0e);
 }
 
 /* Chrome, Edge, and Safari */
@@ -60,7 +61,7 @@
 }
 
 .modalContainer::-webkit-scrollbar-track {
-    background: #272b30;
+    background: var(--modal-gray, #0e0f0e);
     border-bottom-right-radius: 20px;
     border-top-right-radius: 20px;
 }
