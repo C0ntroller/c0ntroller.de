@@ -82,11 +82,14 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
     };
 
     return <div className={styles.container} onClick={focusInput}>
-        { history.map((value, idx) => {
-            return <div className={styles.line} key={idx}>
+        { history.map((value, idx) => <div className={styles.line} key={idx}>
                 {parseLine(value)}
-            </div>;}
-        )}
+            </div>)
+        }
+        {<noscript>
+            <div className={styles.line}>JavaScript must be enabled, else this site won&apos;t work.</div>
+            <div className={styles.line}>This site doesn&apos;t use any trackers, so please enable JS!</div>
+        </noscript>}
     </div>;
 };
 
