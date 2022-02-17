@@ -1,6 +1,8 @@
 {
   "name": "c0ntroller.de",
   "short_name": "c0ntroller.de",
+  "description": "My personal homepage in the style of a CLI.",
+  "start_url": ".",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -15,5 +17,8 @@
   ],
   "theme_color": "#444444",
   "background_color": "#444444",
-  "display": "standalone"
+  "display": "standalone",
+  "dir": "auto",
+  "lang": "en-US",
+  "orientation": "any"
 }
