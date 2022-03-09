@@ -7,6 +7,7 @@
     height: 100vh;
     padding: 5%;
     background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(1px);
     --modal-gray: #0e0f0e;
 }
 
