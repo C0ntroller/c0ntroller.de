@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { GithubLogo, InstagramLogo, DiscordLogo, GameController } from "phosphor-react";
 import { useRef, useState } from "react";
 import ProjectModal from "../components/ProjectModal";
@@ -29,24 +28,24 @@ const Home: NextPage = () => {
         <div className={styles.container}>
             <div className={styles.header}>
                 <span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
-                <Link href="https://github.com/C0ntroller/c0ntroller.de"><a>Source</a></Link>
+                <a href="https://github.com/C0ntroller/c0ntroller.de" target="_blank">Source</a>
                 <span className={styles.divider}>|</span>
-                <Link href="https://github.com/C0ntroller/c0ntroller.de/issues/new"><a>Bug?</a></Link>
+                <a href="https://github.com/C0ntroller/c0ntroller.de/issues/new" target="_blank">Bug?</a>
                 <span className={styles.divider}>|</span>
-                <Link href="https://github.com/C0ntroller" passHref><GithubLogo color="var(--repl-color)" className={styles.iconLink} /></Link>
+                <a href="https://github.com/C0ntroller" target="_blank"><GithubLogo color="var(--repl-color)" className={styles.iconLink} /></a>
                 <span className={styles.divider}>|</span>
-                <Link href="https://www.instagram.com/c0ntroller/" passHref><InstagramLogo color="var(--repl-color)" className={styles.iconLink} /></Link>
+                <a href="https://www.instagram.com/c0ntroller/" target="_blank"><InstagramLogo color="var(--repl-color)" className={styles.iconLink} /></a>
                 <span className={styles.divider}>|</span>
-                <Link href="https://steamcommunity.com/id/c0ntroller/" passHref><GameController color="var(--repl-color)" className={styles.iconLink} /></Link>
+                <a href="https://steamcommunity.com/id/c0ntroller/" target="_blank"><GameController color="var(--repl-color)" className={styles.iconLink} /></a>
                 <span className={styles.divider}>|</span>
-                <Link href="https://discordapp.com/users/224208617820127233" passHref>
+                <a href="https://discordapp.com/users/224208617820127233" target="_blank">
                     <span className={styles.tooltip} style={{ cursor: "pointer" }}>
                         <DiscordLogo color="var(--repl-color)" className={styles.iconLink} />
                         <span className={styles.tooltiptext}>
                             C0ntroller_Z#3883
                         </span>
                     </span>
-                </Link><span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
+                </a><span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
             </div>
             <REPL inputRef={inputRef} modalManipulation={{setModalVisible, setModalProject}}/>
         </div>
