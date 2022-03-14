@@ -36,9 +36,10 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
         while (idxStart !== -1 && idxSep !== -1 && idxEnd !== -1) {
             const linkText = line.substring(idxStart+2, idxSep);
             const linkHref = line.substring(idxSep+1, idxEnd);
+            const isLocal = linkHref.startsWith("https://c0ntroller.de") || linkHref.startsWith("/");
 
             result.push(line.substring(0, idxStart));
-            result.push(<Link href={linkHref}><a className={styles.link} target={linkHref.startsWith("https://c0ntroller.de") || linkHref.startsWith("/") ? "_self" : "_blank"}>{linkText}</a></Link>);
+            result.push(<Link href={linkHref}><a className={styles.link} target={isLocal ? "_self" : "_blank"} rel={isLocal ? "" : "noreferrer"}>{linkText}</a></Link>);
             
             line = line.substring(idxEnd+1);
             idxStart = line.indexOf("#{");
