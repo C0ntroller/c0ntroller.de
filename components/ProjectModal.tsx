@@ -2,17 +2,19 @@ import type { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
 import asciidoctor from "asciidoctor";
 import styles from "../styles/ProjectModal.module.css";
-import Link from "next/link";
+import type { Project, Diary } from "../lib/projects/types";
+//import Link from "next/link";
 
 interface ModalInput {
-    project: string;
+    project: Project|Diary|undefined;
+    projectType: "project"|"diary";
     visible: boolean;
     setVisible: CallableFunction;
 }
 
 const ad = asciidoctor();
 
-const ProjectModal: NextPage<ModalInput> = ({ project, visible, setVisible }) => {
+const ProjectModal: NextPage<ModalInput> = ({ project, projectType, visible, setVisible }) => {
     const projectEmpty = "<div>Kein Projekt ausgewählt.</div>";
     const [projectData, setProjectData] = useState<string>(projectEmpty);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -29,24 +31,24 @@ Last updated: ${lastUpdate} | <a href="https://git.c0ntroller.de/c0ntroller/fron
     `;
 
     useEffect(() => {
-        if (project && project !== "") {
+        if (project && project.name) {
             // TODO
             // set Spinner
             setProjectData("Loading...");
-            fetch(`/api/projects/${project}`).then((res) => {
+            fetch(`/api/${projectType === "diary" ? "diaries" : "projects"}/${project.name}`).then((res) => {
                 if (res.status === 404) setProjectData(projectNotFoundHtml);
                 if (res.status !== 200) setProjectData(projectServerErrorHtml);
                 res.text().then(data => {
                     try {
                         const adDoc = ad.load(data, { attributes: { showtitle: true } });
-                        setProjectData(adDoc.convert(adDoc).toString() + generateFooter(project, adDoc.getAttribute("docdatetime")));
+                        setProjectData(adDoc.convert(adDoc).toString() + generateFooter(project.name, adDoc.getAttribute("docdatetime")));
                     } catch {
                         setProjectData(projectServerErrorHtml);
                     }
                 });
             });
-        } else if (project === "") setProjectData(projectEmpty);
-    }, [project, projectEmpty, projectNotFoundHtml, projectServerErrorHtml]);
+        } else if (typeof project === "undefined") setProjectData(projectEmpty);
+    }, [project, projectType, projectEmpty, projectNotFoundHtml, projectServerErrorHtml]);
 
     useEffect(() => {
         if (projectData && containerRef.current && projectData !== "") {

@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { MutableRefObject, useState, createRef, useEffect } from "react";
 import { CommandInterface } from "../../lib/commands";
 import styles from "../../styles/REPL/REPLInput.module.css";
-import { Project } from "../../lib/projects/types";
+import type { ProjectList } from "../../lib/projects/types";
 
 interface REPLInputParams {
     historyCallback: CallableFunction;
@@ -12,10 +12,11 @@ interface REPLInputParams {
     modalManipulation: {
         setModalVisible: CallableFunction;
         setModalProject: CallableFunction;
+        setModalProjectType: CallableFunction;
     }
 }
 
-async function fetchProjects(endpoint: string): Promise<Project[]> {
+async function fetchProjects(endpoint: string): Promise<ProjectList> {
     const res = await fetch(endpoint);
     return res.json();
 }
@@ -28,7 +29,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
     const [inCmdHistory, setInCmdHistory] = useState<number>(-1);
     const [cmdHistory, setCmdHistory] = useState<string[]>([]);
     const [usrInputTmp, setUsrInputTmp] = useState<string>("");
-    const [cmdIf, setCmdIf] = useState<CommandInterface>(new CommandInterface(modalManipulation, []));
+    const [cmdIf, setCmdIf] = useState<CommandInterface>(new CommandInterface(modalManipulation, {projects: [], diaries: []}));
     const { data: projects, error: projectsError } = useSWR("/api/projects?swr=1", fetchProjects);
 
     const setInput = (inputRef: HTMLInputElement, input: string) => {

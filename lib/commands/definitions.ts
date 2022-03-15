@@ -146,7 +146,9 @@ const project: Command = {
     execute: (flags, args, _raw, cmdIf) => {
         if (project.flags && checkFlagInclude(flags, project.flags.list)) {
             const result = ["Found the following projects:"];
-            cmdIf.projects.forEach(project => result.push(`\t${project.name}\t${project.short}`));
+            cmdIf.projects.projects.forEach(project => result.push(`\t${project.name}\t${project.short_desc}`));
+            result.push("And the following diaries:");
+            cmdIf.projects.diaries.forEach(diary => result.push(`\t${diary.name}\t${diary.short_desc}`));
             return result;
         }
 
@@ -154,7 +156,8 @@ const project: Command = {
 
         if (args[0] === "this") args[0] = "homepage";
 
-        const pjt = cmdIf.projects.find(p => p.name === args[0]);
+        let [pjt, ptype] = [cmdIf.projects.projects.find(p => p.name === args[0]), "project"];
+        if (!pjt) [pjt, ptype] = [cmdIf.projects.diaries.find(p => p.name === args[0]), "diary"];
         if (!pjt) return [
             `Cannot find project ${args[0]}!`,
             "You can see available projects using 'project -l'."
@@ -170,7 +173,8 @@ const project: Command = {
         }
         if (project.flags && checkFlagInclude(flags, project.flags.minimal)) return pjt.desc;
 
-        cmdIf.callbacks.setModalProject(args[0]);
+        cmdIf.callbacks.setModalProjectType(ptype);
+        cmdIf.callbacks.setModalProject(pjt);
         cmdIf.callbacks.setModalVisible(true);
         return [];
     }

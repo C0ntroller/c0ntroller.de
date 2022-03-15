@@ -9,6 +9,7 @@ interface IREPLProps {
     modalManipulation: {
         setModalVisible: CallableFunction;
         setModalProject: CallableFunction;
+        setModalProjectType: CallableFunction;
     }
 }
 

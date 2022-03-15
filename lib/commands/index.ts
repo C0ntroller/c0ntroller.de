@@ -1,16 +1,17 @@
-import { Project } from "../projects/types";
+import type { ProjectList } from "../projects/types";
 import { printSyntax, commandList } from "./definitions";
 
 interface CommandInterfaceCallbacks {
-    setModalVisible: CallableFunction, 
-    setModalProject: CallableFunction
+    setModalVisible: CallableFunction; 
+    setModalProject: CallableFunction;
+    setModalProjectType: CallableFunction;
 }
 
 export class CommandInterface {
     callbacks: CommandInterfaceCallbacks;
-    projects: Project[];
+    projects: ProjectList;
 
-    constructor(callbacks: CommandInterfaceCallbacks, projects: Project[]) {
+    constructor(callbacks: CommandInterfaceCallbacks, projects: ProjectList) {
         this.callbacks = callbacks;
         this.projects = projects;
     }

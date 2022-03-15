@@ -4,12 +4,14 @@ import { GithubLogo, InstagramLogo, DiscordLogo, GameController } from "phosphor
 import { useRef, useState } from "react";
 import ProjectModal from "../components/ProjectModal";
 import REPL from "../components/REPL";
+import type { Project, Diary } from "../lib/projects/types";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [modalVisible, setModalVisible] = useState<boolean>(false);
-    const [modalProject, setModalProject] = useState<string>("");
+    const [modalProject, setModalProject] = useState<Project|Diary|undefined>(undefined);
+    const [modalProjectType, setModalProjectType] = useState<"project"|"diary">("project");
 
     const focusInput = () => { if (inputRef.current) inputRef.current.focus(); };
 
@@ -24,7 +26,7 @@ const Home: NextPage = () => {
         <Head>
             <title>c0ntroller.de</title>
         </Head>
-        <ProjectModal visible={modalVisible} project={modalProject} setVisible={setModalVisible}/>
+        <ProjectModal visible={modalVisible} project={modalProject} projectType={modalProjectType} setVisible={setModalVisible}/>
         <div className={styles.container}>
             <div className={styles.header}>
                 <span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
@@ -47,7 +49,7 @@ const Home: NextPage = () => {
                     </span>
                 </a><span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
             </div>
-            <REPL inputRef={inputRef} modalManipulation={{setModalVisible, setModalProject}}/>
+            <REPL inputRef={inputRef} modalManipulation={{setModalVisible, setModalProject, setModalProjectType}}/>
         </div>
     </main>);
 };
