@@ -19,7 +19,9 @@ export async function generateContent(content: Project|Diary, selectedPage?: num
 async function generateProjectHTML(project: Project): Promise<string> {
     const resp = await fetch(`/content/projects/${project.name}.adoc`);
     if (resp.status !== 200) return projectServerErrorHtml;
-    const adDoc = ad.load(await resp.text(), { attributes: { showtitle: true } });
+    const rawAd = await resp.text();
+    const pathsCorrected = rawAd.replace(/(image[:]+)(.*\.[a-zA-Z]+)\[/g, `$1/content/projects/data_${project.name}/$2[`);
+    const adDoc = ad.load(pathsCorrected, { attributes: { showtitle: true } });
     return `${adDoc.convert(adDoc).toString()}
 <hr>
 <div id="footer">
