@@ -17,7 +17,7 @@ export class CommandInterface {
 
     static commandCompletion(input: string): string[] {
         if (input === "") return [];
-        const candidates = commandList.filter(cmd => cmd.name.substring(0, input.length) === input).map(cmd => cmd.name);
+        const candidates = commandList.filter(cmd => cmd.name.startsWith(input)).map(cmd => cmd.name);
         return candidates;
     }
 

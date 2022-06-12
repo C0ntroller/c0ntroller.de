@@ -15,7 +15,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
     const typed = createRef<HTMLSpanElement>();
     const completion = createRef<HTMLSpanElement>();
     const [currentCmd, setCurrentCmd] = useState<string[]>([]);
-    const [justTabbed, setJustTabbed] = useState<number>(0);
+    let [justTabbed, setJustTabbed] = useState<number>(0); // Because setters are not in sync but the events are too fast
     const [inCmdHistory, setInCmdHistory] = useState<number>(-1);
     const [cmdHistory, setCmdHistory] = useState<string[]>([]);
     const [usrInputTmp, setUsrInputTmp] = useState<string>("");
@@ -29,7 +29,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
         //if(typed.current) typed.current.innerHTML = input;
         //if(completion.current) completion.current.innerHTML = "";
         inputRef.dispatchEvent(new Event("input", { bubbles: true }));
-        inputRef.dispatchEvent(new Event("change", { bubbles: true }));
+        inputRef.dispatchEvent(new Event("change", { bubbles: true,  }));
     };
 
     const clearInput = (inputRef: HTMLInputElement) => {
@@ -52,24 +52,30 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
             return;
         } else {
             input.maxLength = 20;
-            // Get completion hint
-            const suggest = CommandInterface.commandCompletion(currentInput);
-            setCurrentCmd(suggest);
-            if (suggest.length === 0) suggest.push("");
-            if (typed.current) typed.current.innerHTML = currentInput;
-            if (completion.current) completion.current.innerHTML = suggest[0].substring(currentInput.length);
+            if(justTabbed === 0) {
+                // Get completion hint
+                const suggest = CommandInterface.commandCompletion(currentInput);
+                setCurrentCmd(suggest);
+                
+                if (suggest.length === 0) suggest.push("");
+                if (typed.current) typed.current.innerHTML = currentInput;
+                if (completion.current) completion.current.innerHTML = suggest[0].substring(currentInput.length);
+            } else {
+                if (typed.current) typed.current.innerHTML = "";
+                if (completion.current) completion.current.innerHTML = "";
+            }
         }        
     };
 
     const keyEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
         const input = (e.target as HTMLInputElement);
-        if (e.key === "Tab") {
-            e.preventDefault();
-        }
+        if (e.key === "Tab") e.preventDefault();
+
         if (e.key === "Tab" && currentCmd.length !== 0) {
             const cmd = `${currentCmd[justTabbed % currentCmd.length]}${currentCmd.length === 1 ? " " : ""}`;
-            setInput(input, cmd);
             setJustTabbed(justTabbed + 1);
+            justTabbed += 1; // Because setters are not in sync but the events are too fast
+            setInput(input, cmd);
             return false;
         } else setJustTabbed(0);
 
