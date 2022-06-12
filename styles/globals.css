@@ -5,9 +5,12 @@
 
 * {
   box-sizing: border-box !important;
-  --repl-color: #188a18;
-  --repl-color-link: #2ac02a;
-  --repl-color-hint: #092909;
+}
+
+:root {  
+  --repl-color: rgb(24, 138, 24);
+  --repl-color-link: rgb(31, 179, 31);
+  --repl-color-hint: rgba(24, 138, 24, 0.3);
 }
 
 body {

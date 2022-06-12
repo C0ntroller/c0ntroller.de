@@ -1,7 +1,8 @@
 import type { Diary, Project } from "../content/types";
 import type { Command, Flag } from "./types";
+import Color from "color";
 
-function getCommandByName(name: string): Command|undefined {
+function getCommandByName(name: string): Command | undefined {
     return commandList.find(cmd => cmd.name === name);
 }
 
@@ -18,7 +19,7 @@ function checkFlags(flags: string[], cmd: Command): boolean {
     if (!cmd.flags) return false;
 
     for (const flag of flags) {
-        const isLong = flag.substring(0,2) === "--";
+        const isLong = flag.substring(0, 2) === "--";
         const flagObj = Object.values(cmd.flags).find(f => isLong ? f.long === flag.substring(2) : f.short === flag.substring(1));
         if (!flagObj) return false;
     }
@@ -52,7 +53,7 @@ export function printSyntax(cmd: Command): string[] {
             flagsOption += `-${flag.short} `;
             flagsDesc.push(`\t-${flag.short}\t--${flag.long}\t${flag.desc}`);
         }));
-        flagsOption = flagsOption.substring(0, flagsOption.length-1) + "]";
+        flagsOption = flagsOption.substring(0, flagsOption.length - 1) + "]";
     }
 
     let subcmdOption = "";
@@ -65,10 +66,10 @@ export function printSyntax(cmd: Command): string[] {
             subcmdOption += `${subcmd.name}|`;
             subcmdDesc.push(`\t${subcmd.name}\t${subcmd.desc}`);
         }));
-        subcmdOption = subcmdOption.substring(0, subcmdOption.length-1) + "]";
+        subcmdOption = subcmdOption.substring(0, subcmdOption.length - 1) + "]";
     }
 
-    return [`Usage: ${cmd.name}${flagsOption}${subcmdOption}`].concat(flagsDesc).concat(subcmdDesc);   
+    return [`Usage: ${cmd.name}${flagsOption}${subcmdOption}`].concat(flagsDesc).concat(subcmdDesc);
 }
 
 const about: Command = {
@@ -95,7 +96,7 @@ const about: Command = {
 const help: Command = {
     name: "help",
     desc: "Shows helptext.",
-    flags: {more: { long: "this", short: "t", desc: "Show information about this site." }},
+    flags: { more: { long: "this", short: "t", desc: "Show information about this site." } },
     execute: (flags) => {
         if (help.flags && checkFlagInclude(flags, help.flags.more)) {
             return [
@@ -122,7 +123,7 @@ const man: Command = {
     name: "man",
     desc: "Provides a manual for a command.",
     subcommands: {
-        command: {name: "command", desc: "Name of a command"}
+        command: { name: "command", desc: "Name of a command" }
     },
     execute: (_flags, args) => {
         if (args.length !== 1) {
@@ -139,22 +140,22 @@ const project: Command = {
     name: "project",
     desc: "Show information about a project.",
     flags: {
-        minimal: {short: "m", long: "minimal", desc: "Only show minimal information."},
-        source: {short: "s", long: "source", desc: "Open git repository of project."},
-        list: {short: "l", long: "list", desc: "\tShow list of projects."}
+        minimal: { short: "m", long: "minimal", desc: "Only show minimal information." },
+        source: { short: "s", long: "source", desc: "Open git repository of project." },
+        list: { short: "l", long: "list", desc: "\tShow list of projects." }
     },
-    subcommands: {name: {name: "name", desc: "Name of the project."}},
+    subcommands: { name: { name: "name", desc: "Name of the project." } },
     execute: (flags, args, _raw, cmdIf) => {
         if (project.flags && checkFlagInclude(flags, project.flags.list)) {
             const result = ["Found the following projects:"];
 
             const projects = cmdIf.content.filter(p => p.type === "project");
-            if(projects.length === 0) result.push("\tNo projects found.");
+            if (projects.length === 0) result.push("\tNo projects found.");
             else projects.forEach(project => result.push(`\t${project.name}\t${project.short_desc}`));
 
             result.push("And the following diaries:");
             const diaries = cmdIf.content.filter(p => p.type === "diary");
-            if(diaries.length === 0) result.push("\tNo diaries found.");
+            if (diaries.length === 0) result.push("\tNo diaries found.");
             else diaries.forEach(diary => result.push(`\t${diary.name}\t${diary.short_desc}`));
 
             return result;
@@ -164,7 +165,7 @@ const project: Command = {
 
         if (args[0] === "this") args[0] = "homepage";
 
-        let [pjt] = [cmdIf.content.find(p => p.name === args[0]) as Project|Diary|undefined];
+        let [pjt] = [cmdIf.content.find(p => p.name === args[0]) as Project | Diary | undefined];
         if (!pjt) return [
             `Cannot find project ${args[0]}!`,
             "You can see available projects using 'project -l'."
@@ -209,4 +210,32 @@ const clear: Command = {
     execute: () => []
 };
 
-export const commandList = [about, help, man, project, exitCmd, clear].sort((a, b) => a.name.localeCompare(b.name));
+const color: Command = {
+    name: "color",
+    desc: "Changes the color of the site.",
+    subcommands: {
+        reset: { name: "reset", desc: "Resets the color." },
+    },
+    execute: (_flags, args, _raw, _cmdIf) => {
+        if (!window || !window.document) return [];
+        if (args.length !== 1) return printSyntax(color);
+        if (args[0] === "reset") {
+            window.document.documentElement.style.removeProperty("--repl-color");
+            window.document.documentElement.style.removeProperty("--repl-color-link");
+            window.document.documentElement.style.removeProperty("--repl-color-hint");
+            return ["Color reset."];
+        } else {
+            try {
+                const color = Color(args.join().trim());
+                window?.document.documentElement.style.setProperty("--repl-color", color.string());
+                window?.document.documentElement.style.setProperty("--repl-color-link", color.lighten(0.3).rgb().string());
+                window?.document.documentElement.style.setProperty("--repl-color-hint", color.fade(0.7).string());
+            } catch {
+                return ["Invalid color!"];
+            }
+            return ["Color set.", "#{Link|https://google.de}.", "%{command}"];
+        }
+    }
+};
+
+export const commandList = [about, help, man, project, exitCmd, clear, color].sort((a, b) => a.name.localeCompare(b.name));
