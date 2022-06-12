@@ -25,11 +25,12 @@ const ProjectModal: NextPage = () => {
 
     const containerRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
+    /*useEffect(() => {
+        console.log(content);
         if (content && containerRef.current) {
             containerRef.current.innerHTML = content;
         }
-    }, [content]);
+    }, [content]);*/
 
     if (!visible) return <></>;
 
@@ -43,7 +44,7 @@ const ProjectModal: NextPage = () => {
             // If diaryPages
             // Show page selector
         }
-            <div className={`${styles.modalText} asciidoc`} ref={containerRef}>
+            <div className={`${styles.modalText} asciidoc`} ref={containerRef} dangerouslySetInnerHTML={{__html: content ? content : projectEmpty}}>
                 
             </div>
         </div>
