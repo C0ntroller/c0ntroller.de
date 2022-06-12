@@ -7,7 +7,7 @@ services:
     volumes:
       # Relative paths are located in the tmp folder where the project is cloned
       - /srv/website-dev/content:/app/public/content:ro
-      - git_mask:/app/public/projects/.git
+      - git_mask:/app/public/content/.git
     networks:
       - traefik
     labels:
