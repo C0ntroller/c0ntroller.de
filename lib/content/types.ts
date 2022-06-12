@@ -1,9 +1,9 @@
-export interface ProjectList {
-    projects: Project[];
-    diaries: Diary[];
-}
+export type ContentList = (Project|Diary)[];
+
+export type ContentType = "project" | "diary";
 
 export interface Project {
+    type: "project";
     name: string;
     desc: string[];
     short_desc: string;
@@ -12,6 +12,7 @@ export interface Project {
 }
 
 export interface Diary {
+    type: "diary";
     name: string;
     desc: string[];
     short_desc: string;
@@ -19,6 +20,6 @@ export interface Diary {
     repo?: string;
     entries: {
         title: string;
-        path: string;
+        filename: string;
     }[];
 }

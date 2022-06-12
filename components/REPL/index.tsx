@@ -6,14 +6,9 @@ import type { NextPage } from "next";
 
 interface IREPLProps {
     inputRef: MutableRefObject<HTMLInputElement|null>;
-    modalManipulation: {
-        setModalVisible: CallableFunction;
-        setModalProject: CallableFunction;
-        setModalProjectType: CallableFunction;
-    }
 }
 
-const REPL: NextPage<IREPLProps> = ({ inputRef, modalManipulation }) => {
+const REPL: NextPage<IREPLProps> = ({ inputRef }) => {
     const date = new Date();
     const [history, manipulateHistory] = useState<string[]>([`cer0 0S - ${date.toLocaleDateString()}`]);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -30,7 +25,7 @@ const REPL: NextPage<IREPLProps> = ({ inputRef, modalManipulation }) => {
 
     return (<div className={styles.container} ref={containerRef}>
         <REPLHistory history={history} inputRef={inputRef} />
-        <REPLInput historyCallback={onCommandExecuted} historyClear={onClearHistory} inputRef={inputRef} modalManipulation={modalManipulation} />
+        <REPLInput historyCallback={onCommandExecuted} historyClear={onClearHistory} inputRef={inputRef} />
         <div style={{flexGrow: 2}} onClick={focusInput}></div>
     </div>);
 };

@@ -1,19 +1,18 @@
-import type { ProjectList } from "../projects/types";
+import type { ContentList } from "../content/types";
 import { printSyntax, commandList } from "./definitions";
 
 interface CommandInterfaceCallbacks {
-    setModalVisible: CallableFunction; 
-    setModalProject: CallableFunction;
-    setModalProjectType: CallableFunction;
+    setModalVisible?: CallableFunction; 
+    setModalContent?: CallableFunction;
 }
 
 export class CommandInterface {
-    callbacks: CommandInterfaceCallbacks;
-    projects: ProjectList;
+    callbacks?: CommandInterfaceCallbacks;
+    content: ContentList = [];
 
-    constructor(callbacks: CommandInterfaceCallbacks, projects: ProjectList) {
+    constructor(callbacks?: CommandInterfaceCallbacks, content?: ContentList) {
         this.callbacks = callbacks;
-        this.projects = projects;
+        this.content = content || [];
     }
 
     static commandCompletion(input: string): string[] {

@@ -1,3 +1,4 @@
+import type { Diary, Project } from "../content/types";
 import type { Command, Flag } from "./types";
 
 function getCommandByName(name: string): Command|undefined {
@@ -146,9 +147,16 @@ const project: Command = {
     execute: (flags, args, _raw, cmdIf) => {
         if (project.flags && checkFlagInclude(flags, project.flags.list)) {
             const result = ["Found the following projects:"];
-            cmdIf.projects.projects.forEach(project => result.push(`\t${project.name}\t${project.short_desc}`));
+
+            const projects = cmdIf.content.filter(p => p.type === "project");
+            if(projects.length === 0) result.push("\tNo projects found.");
+            else projects.forEach(project => result.push(`\t${project.name}\t${project.short_desc}`));
+
             result.push("And the following diaries:");
-            cmdIf.projects.diaries.forEach(diary => result.push(`\t${diary.name}\t${diary.short_desc}`));
+            const diaries = cmdIf.content.filter(p => p.type === "diary");
+            if(diaries.length === 0) result.push("\tNo diaries found.");
+            else diaries.forEach(diary => result.push(`\t${diary.name}\t${diary.short_desc}`));
+
             return result;
         }
 
@@ -156,8 +164,7 @@ const project: Command = {
 
         if (args[0] === "this") args[0] = "homepage";
 
-        let [pjt, ptype] = [cmdIf.projects.projects.find(p => p.name === args[0]), "project"];
-        if (!pjt) [pjt, ptype] = [cmdIf.projects.diaries.find(p => p.name === args[0]), "diary"];
+        let [pjt] = [cmdIf.content.find(p => p.name === args[0]) as Project|Diary|undefined];
         if (!pjt) return [
             `Cannot find project ${args[0]}!`,
             "You can see available projects using 'project -l'."
@@ -173,9 +180,8 @@ const project: Command = {
         }
         if (project.flags && checkFlagInclude(flags, project.flags.minimal)) return pjt.desc;
 
-        cmdIf.callbacks.setModalProjectType(ptype);
-        cmdIf.callbacks.setModalProject(pjt);
-        cmdIf.callbacks.setModalVisible(true);
+        if (cmdIf.callbacks?.setModalContent) cmdIf.callbacks.setModalContent(pjt);
+        if (cmdIf.callbacks?.setModalVisible) cmdIf.callbacks.setModalVisible(true);
         return [];
     }
 };
@@ -203,4 +209,4 @@ const clear: Command = {
     execute: () => []
 };
 
-export const commandList = [about, help, man, project, exitCmd, clear];
+export const commandList = [about, help, man, project, exitCmd, clear].sort((a, b) => a.name.localeCompare(b.name));

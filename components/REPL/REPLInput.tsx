@@ -1,27 +1,17 @@
 import type { NextPage } from "next";
-import useSWR from "swr";
-import { MutableRefObject, useState, createRef, useEffect } from "react";
+import { MutableRefObject, useState, createRef } from "react";
 import { CommandInterface } from "../../lib/commands";
 import styles from "../../styles/REPL/REPLInput.module.css";
-import type { ProjectList } from "../../lib/projects/types";
+import { useCommands } from "../contexts/CommandInterface";
+import { useModalFunctions } from "../contexts/ModalFunctions";
 
 interface REPLInputParams {
     historyCallback: CallableFunction;
     historyClear: CallableFunction;
     inputRef: MutableRefObject<HTMLInputElement|null>;
-    modalManipulation: {
-        setModalVisible: CallableFunction;
-        setModalProject: CallableFunction;
-        setModalProjectType: CallableFunction;
-    }
 }
 
-async function fetchProjects(endpoint: string): Promise<ProjectList> {
-    const res = await fetch(endpoint);
-    return res.json();
-}
-
-const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, inputRef, modalManipulation}) => {
+const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, inputRef}) => {
     const typed = createRef<HTMLSpanElement>();
     const completion = createRef<HTMLSpanElement>();
     const [currentCmd, setCurrentCmd] = useState<string[]>([]);
@@ -29,8 +19,8 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
     const [inCmdHistory, setInCmdHistory] = useState<number>(-1);
     const [cmdHistory, setCmdHistory] = useState<string[]>([]);
     const [usrInputTmp, setUsrInputTmp] = useState<string>("");
-    const [cmdIf, setCmdIf] = useState<CommandInterface>(new CommandInterface(modalManipulation, {projects: [], diaries: []}));
-    const { data: projects, error: projectsError } = useSWR("/api/projects?swr=1", fetchProjects);
+    const {cmdContext: cmdIf} = useCommands();
+    const { modalFunctions } = useModalFunctions();
 
     const setInput = (inputRef: HTMLInputElement, input: string) => {
         const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
@@ -38,8 +28,8 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
         nativeSetter.call(inputRef, input);
         //if(typed.current) typed.current.innerHTML = input;
         //if(completion.current) completion.current.innerHTML = "";
-        const event = new Event("input", { bubbles: true });
-        inputRef.dispatchEvent(event);
+        inputRef.dispatchEvent(new Event("input", { bubbles: true }));
+        inputRef.dispatchEvent(new Event("change", { bubbles: true }));
     };
 
     const clearInput = (inputRef: HTMLInputElement) => {
@@ -83,73 +73,67 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
             return false;
         } else setJustTabbed(0);
 
-        if (e.key === "Enter") {
-            e.preventDefault();
-            const command = (e.target as HTMLInputElement).value.trim();
-            if (cmdHistory.at(-1) !== command) setCmdHistory(cmdHistory.concat([command]).splice(0, 100));
-            clearInput(input);
-            setInCmdHistory(-1);
-            setCurrentCmd([]);
-            if (command === "clear") {
+        switch (true) {
+            case e.key === "Enter": {
+                e.preventDefault();
+                const command = (e.target as HTMLInputElement).value.trim();
+                if (cmdHistory.at(-1) !== command) setCmdHistory(cmdHistory.concat([command]).splice(0, 100));
+                clearInput(input);
+                setInCmdHistory(-1);
+                setCurrentCmd([]);
+                if (command === "clear") {
+                    historyClear();
+                    return false;
+                }
+                const result = cmdIf.executeCommand(command);
+                historyCallback(result);
+                return false;
+            }
+            case e.key === "d" && e.ctrlKey: {
+                e.preventDefault();
+                const result = cmdIf.executeCommand("exit");
+                clearInput(input);
+                historyCallback(result);
+                return false;
+            }
+            case e.key === "l" && e.ctrlKey: {
+                e.preventDefault();
+                clearInput(input);
                 historyClear();
                 return false;
             }
-            const result = cmdIf.executeCommand(command);
-            historyCallback(result);
-            return false;
-        }
-
-        if (e.key === "d" && e.ctrlKey) {
-            e.preventDefault();
-            const result = cmdIf.executeCommand("exit");
-            clearInput(input);
-            historyCallback(result);
-            return false;
-        }
-
-        if (e.key === "l" && e.ctrlKey) {
-            e.preventDefault();
-            clearInput(input);
-            historyClear();
-            return false;
-        }
-
-        if ((e.key === "c" || e.key === "u") && e.ctrlKey) {
-            e.preventDefault();
-            clearInput(input);
-            return false;
-        }
-
-        if (e.key === "ArrowUp") {
-            e.preventDefault();
-            const idx = inCmdHistory + 1;
-            if (idx < cmdHistory.length) {
-                if (inCmdHistory === -1) setUsrInputTmp(input.value);
-
-                const cmd = cmdHistory[cmdHistory.length - idx - 1];
-                setInput(input, cmd);
-                setInCmdHistory(idx);
+            case (e.key === "c" || e.key === "u") && e.ctrlKey: {
+                e.preventDefault();
+                clearInput(input);
+                return false;
             }
-        }
+            case e.key === "ArrowUp": {
+                e.preventDefault();
+                const idx = inCmdHistory + 1;
+                if (idx < cmdHistory.length) {
+                    if (inCmdHistory === -1) setUsrInputTmp(input.value);
 
-        if (e.key === "ArrowDown") {
-            e.preventDefault();
-            const idx = inCmdHistory - 1;
-            if (0 <= idx) {
-                const cmd = cmdHistory[cmdHistory.length - idx - 1];
-                setInput(input, cmd);
-                setInCmdHistory(idx);
-            } else if (idx === -1) {
-                setInput(input, usrInputTmp);
-                setInCmdHistory(-1);
+                    const cmd = cmdHistory[cmdHistory.length - idx - 1];
+                    setInput(input, cmd);
+                    setInCmdHistory(idx);
+                }
+                return false;
+            }
+            case e.key === "ArrowDown": {
+                e.preventDefault();
+                const idx = inCmdHistory - 1;
+                if (0 <= idx) {
+                    const cmd = cmdHistory[cmdHistory.length - idx - 1];
+                    setInput(input, cmd);
+                    setInCmdHistory(idx);
+                } else if (idx === -1) {
+                    setInput(input, usrInputTmp);
+                    setInCmdHistory(-1);
+                }
+                return false;
             }
         }
     };
-
-    useEffect(() => {
-        if (!projectsError && projects) setCmdIf(new CommandInterface(modalManipulation, projects));
-        // In any other case we just don't create another interface. 
-    }, [projects, projectsError, modalManipulation]);
 
     return <div className={styles.wrapperwrapper}>
         <span className={styles.inputstart}>$&nbsp;</span>

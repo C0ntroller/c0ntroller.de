@@ -2,11 +2,13 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import "../styles/globals.css";
 import "../styles/customAsciidoc.scss";
+import { CommandsProvider } from "../components/contexts/CommandInterface";
+import { ModalFunctionProvider } from "../components/contexts/ModalFunctions";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <>
     <Head>
-      <meta charSet="utf-8"/>
+      <meta charSet="utf-8" />
       <meta name="description" content="This is the homepage of C0ntroller." />
       <meta name="keyword" content="private, homepage, cli, hacker, terminal, javascript, js, nextjs, react, responsive" />
       <meta name="author" content="C0ntroller" />
@@ -22,8 +24,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png" />
       <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png" />
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
-      <link rel="icon" type="image/png" sizes="192x192"  href="/android-chrome-192x192.png" />
-      <link rel="icon" type="image/png" sizes="512x512"  href="/android-chrome-512x512.png" />
+      <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+      <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
       <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
       <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -32,7 +34,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       <meta name="msapplication-TileImage" content="/mstile-310x310.png" />
       <meta name="theme-color" content="#444444" />
     </Head>
-    <Component {...pageProps} />
+    <CommandsProvider>
+      <ModalFunctionProvider>
+        <Component {...pageProps} />
+      </ModalFunctionProvider>
+    </CommandsProvider>
   </>;
 }
 

@@ -1,32 +1,47 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { GithubLogo, InstagramLogo, DiscordLogo, GameController } from "phosphor-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef,useCallback } from "react";
+import { useCommands } from "../components/contexts/CommandInterface";
+import { useModalFunctions } from "../components/contexts/ModalFunctions";
 import ProjectModal from "../components/ProjectModal";
 import REPL from "../components/REPL";
-import type { Project, Diary } from "../lib/projects/types";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const [modalVisible, setModalVisible] = useState<boolean>(false);
-    const [modalProject, setModalProject] = useState<Project|Diary|undefined>(undefined);
-    const [modalProjectType, setModalProjectType] = useState<"project"|"diary">("project");
+    const { modalFunctions } = useModalFunctions();
+    const { setContents } = useCommands();
+
+    const updateProjects = useCallback(async () => {
+        try {
+            const res = await fetch("/content/list.json");
+            const projects = await res.json();
+            setContents(projects);
+        } catch {}
+    }, [setContents]);
+
+    updateProjects();
 
     const focusInput = () => { if (inputRef.current) inputRef.current.focus(); };
 
     const hideModalOnEsc = (e: React.KeyboardEvent) => {
         if (e.key === "Escape") {
             e.preventDefault();
-            setModalVisible(false);
+            if(modalFunctions.setVisible) modalFunctions.setVisible(false);
         }
     };
+
+    useEffect(() => {
+        const interval = setInterval(updateProjects, 30 * 1000);
+        return () => clearInterval(interval);
+    }, [updateProjects]);
 
     return (<main onKeyDown={hideModalOnEsc} tabIndex={-1}>
         <Head>
             <title>c0ntroller.de</title>
         </Head>
-        <ProjectModal visible={modalVisible} project={modalProject} projectType={modalProjectType} setVisible={setModalVisible}/>
+        <ProjectModal />
         <div className={styles.container}>
             <div className={styles.header}>
                 <span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
@@ -49,7 +64,7 @@ const Home: NextPage = () => {
                     </span>
                 </a><span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
             </div>
-            <REPL inputRef={inputRef} modalManipulation={{setModalVisible, setModalProject, setModalProjectType}}/>
+            <REPL inputRef={inputRef} />
         </div>
     </main>);
 };

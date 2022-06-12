@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import { BaseSyntheticEvent, MutableRefObject, useEffect, useRef } from "react";
+import type { BaseSyntheticEvent, MutableRefObject } from "react";
 import styles from "../../styles/REPL/REPLHistory.module.css";
 
 interface REPLHistoryParams {
