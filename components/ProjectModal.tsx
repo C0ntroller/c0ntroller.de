@@ -20,7 +20,7 @@ const ProjectModal: NextPage = () => {
 
     const { updateCallbacks: updateCmdCallbacks } = useCommands();
     const { updateCallbacks: updateModalCallbacks } = useModalFunctions();
-    updateCmdCallbacks({ setModalVisible: setVisible, setModalContent});
+    updateCmdCallbacks({ setModalVisible: setVisible, setModalContent, setModalHTML: setContent });
     updateModalCallbacks({ setVisible, setContent: setModalContent, setHtml: setContent });
 
     const containerRef = useRef<HTMLDivElement>(null);

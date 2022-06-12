@@ -216,7 +216,7 @@ const color: Command = {
     subcommands: {
         reset: { name: "reset", desc: "Resets the color." },
     },
-    execute: (_flags, args, _raw, _cmdIf) => {
+    execute: (_flags, args, _raw, cmdIf) => {
         if (!window || !window.document) return [];
         if (args.length !== 1) return printSyntax(color);
         if (args[0] === "reset") {
@@ -234,6 +234,17 @@ const color: Command = {
             window?.document.documentElement.style.setProperty("--repl-color", color.string());
             window?.document.documentElement.style.setProperty("--repl-color-link", color.lighten(0.3).rgb().string());
             window?.document.documentElement.style.setProperty("--repl-color-hint", color.fade(0.7).string());
+
+            console.log(color.hex().toLowerCase());
+            switch(true) {
+                case color.hex().toLowerCase() === "#1f1e33": {
+                    // eslint-disable-next-line quotes
+                    if (cmdIf.callbacks?.setModalHTML) cmdIf.callbacks?.setModalHTML(`<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/w4U9S5eX3eY" title="YouTube video player" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen></iframe>`);
+                    if (cmdIf.callbacks?.setModalVisible) cmdIf.callbacks?.setModalVisible(true);
+                    break;
+                }
+            }
+
             return ["Color set | #{Link|#} | %{help}"];
         }
     }
