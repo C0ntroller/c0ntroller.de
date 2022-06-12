@@ -225,15 +225,16 @@ const color: Command = {
             window.document.documentElement.style.removeProperty("--repl-color-hint");
             return ["Color reset."];
         } else {
+            let color: Color;
             try {
-                const color = Color(args.join().trim());
-                window?.document.documentElement.style.setProperty("--repl-color", color.string());
-                window?.document.documentElement.style.setProperty("--repl-color-link", color.lighten(0.3).rgb().string());
-                window?.document.documentElement.style.setProperty("--repl-color-hint", color.fade(0.7).string());
+                color = Color(args.join().trim());
             } catch {
                 return ["Invalid color!"];
             }
-            return ["Color set.", "#{Link|https://google.de}.", "%{command}"];
+            window?.document.documentElement.style.setProperty("--repl-color", color.string());
+            window?.document.documentElement.style.setProperty("--repl-color-link", color.lighten(0.3).rgb().string());
+            window?.document.documentElement.style.setProperty("--repl-color-hint", color.fade(0.7).string());
+            return ["Color set | #{Link|#} | %{help}"];
         }
     }
 };

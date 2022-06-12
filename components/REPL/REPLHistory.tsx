@@ -36,7 +36,7 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
         while (idxStart !== -1 && idxSep !== -1 && idxEnd !== -1) {
             const linkText = line.substring(idxStart+2, idxSep);
             const linkHref = line.substring(idxSep+1, idxEnd);
-            const isLocal = linkHref.startsWith("https://c0ntroller.de") || linkHref.startsWith("/");
+            const isLocal = linkHref.startsWith("https://c0ntroller.de") || linkHref.startsWith("/") || linkHref.startsWith("#");
 
             result.push(line.substring(0, idxStart));
             result.push(<Link href={linkHref}><a className={styles.link} target={isLocal ? "_self" : "_blank"} rel={isLocal ? "" : "noreferrer"}>{linkText}</a></Link>);
@@ -46,7 +46,9 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
             idxSep = line.indexOf("|", idxStart);
             idxEnd = line.indexOf("}", idxSep);
         }
-        result.push(line.substring(idxEnd+1));
+        
+        // Its already cut off
+        result.push(line);
         return result;
     };
 
@@ -70,7 +72,9 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
             idxStart = line.indexOf("%{");
             idxEnd = line.indexOf("}", idxStart);
         }
-        result.push(line.substring(idxEnd+1));
+
+        // Its already cut off
+        result.push(line);
         return result;
     };
 
