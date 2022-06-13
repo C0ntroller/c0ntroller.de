@@ -53,7 +53,7 @@ const ProjectModal: NextPage = () => {
             </select>
         );
 
-        return <div className={styles.pageSelector}>{prev}{currentPage > 0 ? <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span> : null}{select}{currentPage < currentContent.entries.length ? <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span> : null}{next}</div>;
+        return <div className={styles.pageSelector}>{prev}<span style={{visibility: currentPage > 0 ? "visible" : "hidden"}}>&nbsp;&nbsp;|&nbsp;&nbsp;</span>{select}<span style={{visibility: currentPage < currentContent.entries.length ? "visible" : "hidden"}}>&nbsp;&nbsp;|&nbsp;&nbsp;</span>{next}</div>;
     })();
 
     return <div className={styles.modal}>

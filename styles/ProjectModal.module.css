@@ -41,7 +41,7 @@
     z-index: 100;
 }
 
-/* Mobile possitioning */
+/* Non-mobile positioning */
 @media all and (min-width: 1050px) {
     .modalClose {
         position: relative;
@@ -96,8 +96,8 @@
 }
 
 .pageSelector {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr max-content max-content max-content 1fr;
     font-family: sans-serif;
 }
 
@@ -120,14 +120,26 @@
     text-decoration: underline;
 }
 
-.leftSelectSpace, .rightSelectSpace {
-    flex-grow: 2;
-}
-
 .leftSelectSpace {
-    text-align: right;
+    justify-self: right;
 }
 
 .rightSelectSpace {
-    text-align: left;
+    justify-self: left;
+}
+
+
+/* On mobile we only want to show the html select */
+@media all and (max-width: 500px) {
+    .leftSelectSpace, .rightSelectSpace, .pageSelector span {
+        display: none;
+    }
+    .pageSelector select {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+    .pageSelector {
+        display: block;
+    }
 }
