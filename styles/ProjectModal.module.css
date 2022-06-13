@@ -74,3 +74,40 @@
     border-radius: 20px;
     border: none;
 }
+
+.pageSelector {
+    display: flex;
+    flex-direction: row;
+    font-family: sans-serif;
+}
+
+.pageSelector:last-of-type {
+    margin-top: 10px;
+}
+
+.pageSelector select {
+    background: var(--modal-gray); /* Transparent does not work for the dropdown */
+    color: var(--repl-color-link);
+    font-size: 1rem;
+}
+
+.pageSelector a:link, .pageSelector a:visited, .pageSelector a:hover, .pageSelector a:active {
+    color: var(--repl-color-link);
+    text-decoration: none;
+}
+
+.pageSelector a:hover {
+    text-decoration: underline;
+}
+
+.leftSelectSpace, .rightSelectSpace {
+    flex-grow: 2;
+}
+
+.leftSelectSpace {
+    text-align: right;
+}
+
+.rightSelectSpace {
+    text-align: left;
+}

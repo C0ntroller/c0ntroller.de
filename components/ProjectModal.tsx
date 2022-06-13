@@ -1,52 +1,58 @@
 import type { NextPage } from "next";
-import { useContext, useEffect, useRef, useState } from "react";
-import asciidoctor from "asciidoctor";
+import { useRef, useState } from "react";
 import styles from "../styles/ProjectModal.module.css";
 import type { Project, Diary } from "../lib/content/types";
 import { useCommands } from "./contexts/CommandInterface";
 import { generateContent, projectEmpty } from "../lib/content/generate";
 import { useModalFunctions } from "./contexts/ModalFunctions";
-//import Link from "next/link";
 
 const ProjectModal: NextPage = () => {
     const [visible, setVisible] = useState<boolean>(false);
-    const [diaryPages, setDiaryPages] = useState<string[]>([]);
-    const [content, setContent] = useState<string>(projectEmpty);
+    const [currentContent, setCurrentContent] = useState<Project | Diary | undefined>(undefined);
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const [HTMLContent, setHTMLContent] = useState<string>(projectEmpty);
 
-    const setModalContent = async (content: Project|Diary, selectedPage?: number) => {
-        if (content.type === "diary") setDiaryPages(content.entries.map(entry => entry.title));
-        setContent(await generateContent(content, selectedPage));
+    const setModalContent = async (content: Project | Diary, selectedPage?: number) => {
+        setCurrentContent(content);
+        if (content.type === "diary") setCurrentPage(selectedPage === undefined ? 0 : selectedPage);
+        setHTMLContent(await generateContent(content, selectedPage));
     };
 
     const { updateCallbacks: updateCmdCallbacks } = useCommands();
     const { updateCallbacks: updateModalCallbacks } = useModalFunctions();
-    updateCmdCallbacks({ setModalVisible: setVisible, setModalContent, setModalHTML: setContent });
-    updateModalCallbacks({ setVisible, setContent: setModalContent, setHtml: setContent });
+    updateCmdCallbacks({ setModalVisible: setVisible, setModalContent, setModalHTML: setHTMLContent });
+    updateModalCallbacks({ setVisible, setContent: setModalContent, setHtml: setHTMLContent });
 
     const containerRef = useRef<HTMLDivElement>(null);
 
-    /*useEffect(() => {
-        console.log(content);
-        if (content && containerRef.current) {
-            containerRef.current.innerHTML = content;
-        }
-    }, [content]);*/
-
     if (!visible) return <></>;
+
+    const nextPageSelector = (() => {
+        if (!currentContent || currentContent?.type !== "diary" || currentContent.entries.length === 0) return null;
+
+        const prev = <span className={styles.leftSelectSpace}>{currentPage > 0 ? <a href="#" onClick={() => setModalContent(currentContent, currentPage - 1)}>&lt; {currentPage - 1 > 0 ? currentContent.entries[currentPage - 2].title : "Main page"}</a> : null}</span>;
+        const next = <span className={styles.rightSelectSpace}>{currentPage < currentContent.entries.length ? <a href="#" onClick={() => setModalContent(currentContent, currentPage + 1)}>{currentContent.entries[currentPage].title} &gt;</a> : null}</span>;
+
+        const select = (
+            <select onChange={(e) => setModalContent(currentContent, Number.parseInt(e.target.value))} value={currentPage}>
+                <option key={-1} value={0}>Main page</option>
+                {currentContent.entries.map((entry, i) => <option key={i} value={i + 1}>{entry.title}</option>)}
+            </select>
+        );
+
+        return <div className={styles.pageSelector}>{prev}{currentPage > 0 ? <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span> : null}{select}{currentPage < currentContent.entries.length ? <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span> : null}{next}</div>;
+    })();
 
     return <div className={styles.modal}>
         <a onClick={() => setVisible(false)}>
             <div className={styles.modalClose}><div className={styles.modalCloseAlign}>X</div></div>
         </a>
         <div className={styles.modalContainer}>
-        {
-            // TODO
-            // If diaryPages
-            // Show page selector
-        }
-            <div className={`${styles.modalText} asciidoc`} ref={containerRef} dangerouslySetInnerHTML={{__html: content ? content : projectEmpty}}>
-                
+            {nextPageSelector}
+            <div className={`${styles.modalText} asciidoc`} ref={containerRef} dangerouslySetInnerHTML={{ __html: HTMLContent ? HTMLContent : projectEmpty }}>
+
             </div>
+            {nextPageSelector}
         </div>
     </div>;
 };

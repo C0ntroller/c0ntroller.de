@@ -26,21 +26,24 @@ async function generateProjectHTML(project: Project): Promise<string> {
 <hr>
 <div id="footer">
     <div id="footer-text">
-        Last updated: ${adDoc.getAttribute("docdatetime")} | <a href="https://git.c0ntroller.de/c0ntroller/frontpage-content/src/branch/senpai/projects/${project.name}.adoc">Document source</a>
+        Last updated: ${adDoc.getAttribute("docdatetime")} | <a href="https://git.c0ntroller.de/c0ntroller/frontpage-content/src/branch/senpai/projects/${project.name}.adoc" target="_blank">Document source</a>
     </div>
 </div>`;
 }
 
 async function generateDiaryHTML(diary: Diary, selectedPage?: number): Promise<string> {
-    const resp = selectedPage === undefined ? await fetch(`/content/diaries/${diary.name}.adoc`) : await fetch(`/content/diaries/${diary.name}/${diary.entries[selectedPage].filename}.adoc`);
+    const page: number = Number.parseInt(selectedPage?.toString() || "0") - 1;
+    const resp = page === -1 ? await fetch(`/content/diaries/${diary.name}.adoc`) : await fetch(`/content/diaries/${diary.name}/${diary.entries[page].filename}.adoc`);
     if (resp.status !== 200) return projectServerErrorHtml;
-    const adDoc = ad.load(await resp.text(), { attributes: { showtitle: true } });
-    const gitfile = selectedPage === undefined ? `${diary.name}.adoc` : `${diary.name}/${diary.entries[selectedPage].filename}.adoc`;
+    const rawAd = await resp.text();
+    const pathsCorrected = rawAd.replace(/(image[:]{1,2})(.*\.[a-zA-Z]+)\[/g, "$1/content/diaries/$2[");
+    const adDoc = ad.load(pathsCorrected, { attributes: { showtitle: true } });
+    const gitfile = page === -1 ? `${diary.name}.adoc` : `${diary.name}/${diary.entries[page].filename}.adoc`;
     return `${adDoc.convert(adDoc).toString()}
 <hr>
 <div id="footer">
     <div id="footer-text">
-        Last updated: ${adDoc.getAttribute("docdatetime")} | <a href="https://git.c0ntroller.de/c0ntroller/frontpage-content/src/branch/senpai/diaries/${gitfile}">Document source</a>
+        Last updated: ${adDoc.getAttribute("docdatetime")} | <a href="https://git.c0ntroller.de/c0ntroller/frontpage-content/src/branch/senpai/diaries/${gitfile}" target="_blank">Document source</a>
     </div>
 </div>`;
 }

@@ -1,15 +1,19 @@
 .asciidoc {
-    /*@import "../node_modules/@asciidoctor/core/dist/css/asciidoctor.css";*/
+    font-family: sans-serif;
+
     @import "./asciidocBootSlate";
+
     h1 {
         color: var(--repl-color-link, #2ac02a);
         font-size: 3em;
     }
+
     h2,
     h3 {
         font-weight: bold;
         text-decoration: underline;
     }
+
     h2,
     h3,
     h4,
@@ -17,18 +21,21 @@
     h6 {
         color: var(--repl-color, #188a18);
     }
-    font-family: sans-serif;
+
     #preamble {
         font-style: italic;
         font-size: 120%;
     }
+
     .paragraph {
         line-height: 1.3;
     }
-    tbody>tr:nth-of-type(odd), #footer {
+
+    tbody>tr:nth-of-type(odd),
+    #footer {
         background-color: #1f2420;
     }
-    
+
     tbody>tr:hover {
         background-color: #364239;
     }
