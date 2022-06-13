@@ -1,10 +1,19 @@
 import type { NextPage } from "next";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "../styles/ProjectModal.module.css";
 import type { Project, Diary } from "../lib/content/types";
 import { useCommands } from "./contexts/CommandInterface";
 import { generateContent, projectEmpty } from "../lib/content/generate";
 import { useModalFunctions } from "./contexts/ModalFunctions";
+
+// Code Highlighting
+import hljs from "highlight.js";
+import rust from "highlight.js/lib/languages/rust";
+import bash from "highlight.js/lib/languages/shell";
+hljs.registerLanguage("rust", rust);
+hljs.registerLanguage("bash", bash);
+hljs.registerLanguage("console", bash);
+hljs.registerLanguage("shell", bash);
 
 const ProjectModal: NextPage = () => {
     const [visible, setVisible] = useState<boolean>(false);
@@ -22,6 +31,10 @@ const ProjectModal: NextPage = () => {
     const { updateCallbacks: updateModalCallbacks } = useModalFunctions();
     updateCmdCallbacks({ setModalVisible: setVisible, setModalContent, setModalHTML: setHTMLContent });
     updateModalCallbacks({ setVisible, setContent: setModalContent, setHtml: setHTMLContent });
+
+    useEffect(() => {
+        hljs.highlightAll();
+    }, [HTMLContent]);
 
     const containerRef = useRef<HTMLDivElement>(null);
 
