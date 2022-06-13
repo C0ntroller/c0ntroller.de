@@ -57,7 +57,7 @@ const ProjectModal: NextPage = () => {
     })();
 
     return <div className={styles.modal}>
-        <a onClick={() => setVisible(false)}>
+        <a onClick={() => setVisible(false)} href={"#"}>
             <div className={styles.modalClose}><div className={styles.modalCloseAlign}>X</div></div>
         </a>
         <div className={styles.modalContainer}>
