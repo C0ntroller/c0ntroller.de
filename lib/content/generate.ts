@@ -26,7 +26,7 @@ async function generateProjectHTML(project: Project): Promise<string> {
 <hr>
 <div id="footer">
     <div id="footer-text">
-        Last updated: ${adDoc.getAttribute("docdatetime")} | <a href="https://git.c0ntroller.de/c0ntroller/frontpage-content/src/branch/senpai/projects/${project.name}.adoc" target="_blank">Document source</a>
+        Last updated: ${new Date(adDoc.getAttribute("docdatetime")).toLocaleString()} | <a href="https://git.c0ntroller.de/c0ntroller/frontpage-content/src/branch/senpai/projects/${project.name}.adoc" target="_blank">Document source</a>
     </div>
 </div>`;
 }
@@ -43,7 +43,7 @@ async function generateDiaryHTML(diary: Diary, selectedPage?: number): Promise<s
 <hr>
 <div id="footer">
     <div id="footer-text">
-        Last updated: ${adDoc.getAttribute("docdatetime")} | <a href="https://git.c0ntroller.de/c0ntroller/frontpage-content/src/branch/senpai/diaries/${gitfile}" target="_blank">Document source</a>
+        Last updated: ${new Date(adDoc.getAttribute("docdatetime")).toLocaleString()} | <a href="https://git.c0ntroller.de/c0ntroller/frontpage-content/src/branch/senpai/diaries/${gitfile}" target="_blank">Document source</a>
     </div>
 </div>`;
 }
