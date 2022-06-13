@@ -20,7 +20,7 @@ async function generateProjectHTML(project: Project): Promise<string> {
     const resp = await fetch(`/content/projects/${project.name}.adoc`);
     if (resp.status !== 200) return projectServerErrorHtml;
     const rawAd = await resp.text();
-    const pathsCorrected = rawAd.replace(/(image[:]+)(.*\.[a-zA-Z]+)\[/g, `$1/content/projects/data_${project.name}/$2[`);
+    const pathsCorrected = rawAd.replace(/(image[:]+)(.*\.[a-zA-Z]+)\[/g, "$1/content/projects/$2[");
     const adDoc = ad.load(pathsCorrected, { attributes: { showtitle: true } });
     return `${adDoc.convert(adDoc).toString()}
 <hr>
