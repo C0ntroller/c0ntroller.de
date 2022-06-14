@@ -2,7 +2,7 @@
     font-family: sans-serif;
 
     @import "./asciidocBootSlate";
-    @import "~highlight.js/styles/github";
+    @import "~highlight.js/scss/atom-one-dark";
 
     h1 {
         color: var(--repl-color-link, #2ac02a);
@@ -49,5 +49,16 @@
 
     tbody>tr:hover {
         background-color: #364239;
+    }
+
+    pre {
+        background-color: #282c34;
+        border: 1px solid var(--repl-color-hint, #188a18);
+        padding: 1px;
+    }
+
+    code {
+        background-color: #282c34;
+        color: #abb2bf;
     }
 }
