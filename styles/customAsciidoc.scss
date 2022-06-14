@@ -54,8 +54,12 @@
     pre {
         background-color: #282c34;
         border: 1px solid var(--repl-color-hint, #188a18);
-        padding: 1px;
+        padding: 1em;
         color: #abb2bf;
+    }
+
+    pre.highlight {
+        padding: 1px;
     }
 
     code {
