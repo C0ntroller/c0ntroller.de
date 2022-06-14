@@ -1,11 +1,13 @@
 import type { NextPage } from "next";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, isValidElement } from "react";
 import { useRouter } from "next/router";
 import styles from "../styles/ProjectModal.module.css";
 import type { Project, Diary } from "../lib/content/types";
 import { useCommands } from "./contexts/CommandInterface";
 import { generateContent, projectEmpty } from "../lib/content/generate";
 import { useModalFunctions } from "./contexts/ModalFunctions";
+import Spinner from "./Spinner";
+import { renderToStaticMarkup } from "react-dom/server";
 
 // Code Highlighting
 import hljs from "highlight.js";
@@ -17,25 +19,45 @@ hljs.registerLanguage("console", bash);
 hljs.registerLanguage("shell", bash);
 
 const ProjectModal: NextPage = () => {
-    const [visible, setVisible] = useState<boolean>(false);
-    const [currentContent, setCurrentContent] = useState<Project | Diary | undefined>(undefined);
+    const [visible, _setVisible] = useState<boolean>(false);
+    const [currentContent, _setCurrentContent] = useState<Project | Diary | undefined>(undefined);
     const [currentPage, setCurrentPage] = useState<number>(0);
-    const [HTMLContent, setHTMLContent] = useState<string>(projectEmpty);
+    const [HTMLContent, _setHTMLContent] = useState<string>(projectEmpty);
     const router = useRouter();
 
     const { updateCallbacks: updateCmdCallbacks, cmdContext } = useCommands();
     const { updateCallbacks: updateModalCallbacks } = useModalFunctions();
 
+    const setHTMLContent = (html: any) => {
+        switch (true) {
+            case typeof html === "string": {
+                _setHTMLContent(html);
+                return;
+            }
+            case isValidElement(html): {
+                _setHTMLContent(renderToStaticMarkup(html));
+                return;
+            }
+            default: {
+                try {
+                    _setHTMLContent(html.toString());
+                } catch {}
+                return;
+            }
+        }
+    };
+
     const setModalContent = async (content: Project | Diary, selectedPage?: number) => {
-        setCurrentContent(content);
+        _setCurrentContent(content);
         router.replace("#", `#/${content.type}/${content.name}${content.type === "diary" && selectedPage ? `/${selectedPage}`: ""}`, {shallow: true});
         if (content.type === "diary") setCurrentPage(selectedPage === undefined ? 0 : selectedPage);
+        setHTMLContent(<Spinner size={200} />);
         setHTMLContent(await generateContent(content, selectedPage));
     };
 
-    const setModalVisible = async (visible: boolean) => {
+    const setVisible = async (visible: boolean) => {
         if (!visible) router.replace("#", undefined, {shallow: true});
-        setVisible(visible);
+        _setVisible(visible);
     };
 
     const onContentReady = () => {
@@ -43,8 +65,8 @@ const ProjectModal: NextPage = () => {
         if (selected[2]) cmdContext.executeCommand(`project ${selected[2]}`);
     };
 
-    updateCmdCallbacks({ setModalVisible, setModalContent, setModalHTML: setHTMLContent });
-    updateModalCallbacks({ setVisible: setModalVisible, setContent: setModalContent, setHtml: setHTMLContent, onContentReady });
+    updateCmdCallbacks({ setModalVisible: setVisible, setModalContent, setModalHTML: setHTMLContent });
+    updateModalCallbacks({ setVisible, setContent: setModalContent, setHtml: setHTMLContent, onContentReady });
 
     useEffect(() => {
         hljs.highlightAll();
@@ -71,7 +93,7 @@ const ProjectModal: NextPage = () => {
     })();
 
     return <div className={styles.modal}>
-        <a onClick={() => setModalVisible(false)} className={"fake-link"}>
+        <a onClick={() => setVisible(false)} className={"fake-link"}>
             <div className={styles.modalClose}><div className={styles.modalCloseAlign}>X</div></div>
         </a>
         <div className={styles.modalContainer}>

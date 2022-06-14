@@ -1,0 +1,28 @@
+.spinnerPath {
+    stroke: var(--repl-color);
+    stroke-width: 25;
+    fill: none;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    8.33%, 16.67% { transform: rotate(60deg); }
+    25%, 33.33% { transform: rotate(120deg); }
+    41.67%, 50% { transform: rotate(180deg); }
+    58.33%, 66.67% { transform: rotate(240deg); }
+    75%, 83.33% { transform: rotate(300deg); }
+    91.67%, 100% { transform: rotate(360deg); }
+}
+
+.spinnerContainer {
+    margin: 0 auto;
+    animation: spin 7s linear infinite;
+    position: relative;
+}
+
+.spinner {
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}

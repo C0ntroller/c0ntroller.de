@@ -5,7 +5,7 @@ import type { Project, Diary } from "../../lib/content/types";
 interface ModalFunctions {
     setVisible?: CallableFunction;
     setContent?: (content: Project| Diary) => void;
-    setHtml?: (html: string) => void;
+    setHtml?: (html: any) => void;
     onContentReady?: () => void;
 }
 

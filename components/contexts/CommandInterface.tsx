@@ -6,7 +6,7 @@ import type { Diary, Project, ContentList } from "../../lib/content/types";
 interface CommandInterfaceCallbacks {
     setModalVisible?: (visible: boolean) => void; 
     setModalContent?: (content: Project | Diary, selectedPage?: number) => void;
-    setModalHTML?: (html: string) => void;
+    setModalHTML?: (html: any) => void;
 }
 
 const commandInterface = new CommandInterface();
