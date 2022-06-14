@@ -2,15 +2,15 @@ import { MutableRefObject, useEffect, useRef, useState } from "react";
 import REPLInput from "./REPLInput";
 import REPLHistory from "./REPLHistory";
 import styles from "../../styles/REPL/REPLComplete.module.css";
-import type { NextPage } from "next";
+import type { NextPage, GetStaticProps } from "next";
 
 interface IREPLProps {
     inputRef: MutableRefObject<HTMLInputElement|null>;
+    buildTime: string;
 }
 
-const REPL: NextPage<IREPLProps> = ({ inputRef }) => {
-    const date = new Date();
-    const [history, manipulateHistory] = useState<string[]>([`cer0 0S - ${date.toLocaleDateString()}`]);
+const REPL: NextPage<IREPLProps> = ({ inputRef, buildTime }) => {
+    const [history, manipulateHistory] = useState<string[]>([`cer0 0S - Build ${buildTime}`]);
     const containerRef = useRef<HTMLDivElement>(null);
     const onCommandExecuted = (result: string[]) => manipulateHistory(result.reverse().concat(history).slice(0, 1000));
     const onClearHistory = () => manipulateHistory([]);

@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { NextPage, GetStaticProps } from "next";
 import Head from "next/head";
 import { GithubLogo, InstagramLogo, DiscordLogo, GameController } from "phosphor-react";
 import { useEffect, useRef,useCallback } from "react";
@@ -8,7 +8,7 @@ import ProjectModal from "../components/ProjectModal";
 import REPL from "../components/REPL";
 import styles from "../styles/Home.module.css";
 
-const Home: NextPage = () => {
+const Home: NextPage<{ buildTime: string }> = ({ buildTime }) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const { modalFunctions } = useModalFunctions();
     const { setContents } = useCommands();
@@ -64,9 +64,20 @@ const Home: NextPage = () => {
                     </span>
                 </a><span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
             </div>
-            <REPL inputRef={inputRef} />
+            <REPL inputRef={inputRef} buildTime={buildTime} />
         </div>
     </main>);
+};
+
+export const getStaticProps: GetStaticProps = async (_context) => {
+    const date = new Date();
+    const padD = (n: number) => n.toString().padStart(2, "0");
+    const buildTime = `${date.getUTCFullYear()}${padD(date.getUTCDate())}${padD(date.getUTCMonth() + 1)}-${padD(date.getUTCHours())}${padD(date.getUTCMinutes())}`;
+    return {
+        props: {
+            buildTime
+        }
+    };
 };
 
 export default Home;
