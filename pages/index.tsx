@@ -21,8 +21,6 @@ const Home: NextPage<{ buildTime: string }> = ({ buildTime }) => {
         } catch {}
     }, [setContents]);
 
-    updateProjects();
-
     const focusInput = () => { if (inputRef.current) inputRef.current.focus(); };
 
     const hideModalOnEsc = (e: React.KeyboardEvent) => {
@@ -33,9 +31,10 @@ const Home: NextPage<{ buildTime: string }> = ({ buildTime }) => {
     };
 
     useEffect(() => {
+        updateProjects().then(() => { if (modalFunctions.onContentReady) modalFunctions.onContentReady(); });
         const interval = setInterval(updateProjects, 30 * 1000);
         return () => clearInterval(interval);
-    }, [updateProjects]);
+    }, [updateProjects, modalFunctions]);
 
     return (<main onKeyDown={hideModalOnEsc} tabIndex={-1}>
         <Head>

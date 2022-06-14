@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import styles from "../styles/ProjectModal.module.css";
 import type { Project, Diary } from "../lib/content/types";
 import { useCommands } from "./contexts/CommandInterface";
@@ -20,17 +21,30 @@ const ProjectModal: NextPage = () => {
     const [currentContent, setCurrentContent] = useState<Project | Diary | undefined>(undefined);
     const [currentPage, setCurrentPage] = useState<number>(0);
     const [HTMLContent, setHTMLContent] = useState<string>(projectEmpty);
+    const router = useRouter();
+
+    const { updateCallbacks: updateCmdCallbacks, cmdContext } = useCommands();
+    const { updateCallbacks: updateModalCallbacks } = useModalFunctions();
 
     const setModalContent = async (content: Project | Diary, selectedPage?: number) => {
         setCurrentContent(content);
+        router.replace("#", `#/${content.type}/${content.name}${content.type === "diary" && selectedPage ? `/${selectedPage}`: ""}`, {shallow: true});
         if (content.type === "diary") setCurrentPage(selectedPage === undefined ? 0 : selectedPage);
         setHTMLContent(await generateContent(content, selectedPage));
     };
 
-    const { updateCallbacks: updateCmdCallbacks } = useCommands();
-    const { updateCallbacks: updateModalCallbacks } = useModalFunctions();
-    updateCmdCallbacks({ setModalVisible: setVisible, setModalContent, setModalHTML: setHTMLContent });
-    updateModalCallbacks({ setVisible, setContent: setModalContent, setHtml: setHTMLContent });
+    const setModalVisible = async (visible: boolean) => {
+        if (!visible) router.replace("#", undefined, {shallow: true});
+        setVisible(visible);
+    };
+
+    const onContentReady = () => {
+        const selected = window.location.hash.split("/");
+        if (selected[2]) cmdContext.executeCommand(`project ${selected[2]}`);
+    };
+
+    updateCmdCallbacks({ setModalVisible, setModalContent, setModalHTML: setHTMLContent });
+    updateModalCallbacks({ setVisible: setModalVisible, setContent: setModalContent, setHtml: setHTMLContent, onContentReady });
 
     useEffect(() => {
         hljs.highlightAll();
@@ -43,8 +57,8 @@ const ProjectModal: NextPage = () => {
     const nextPageSelector = (() => {
         if (!currentContent || currentContent?.type !== "diary" || currentContent.entries.length === 0) return null;
 
-        const prev = <span className={styles.leftSelectSpace}>{currentPage > 0 ? <a href="#" onClick={() => setModalContent(currentContent, currentPage - 1)}>&lt; {currentPage - 1 > 0 ? currentContent.entries[currentPage - 2].title : "Main page"}</a> : null}</span>;
-        const next = <span className={styles.rightSelectSpace}>{currentPage < currentContent.entries.length ? <a href="#" onClick={() => setModalContent(currentContent, currentPage + 1)}>{currentContent.entries[currentPage].title} &gt;</a> : null}</span>;
+        const prev = <span className={styles.leftSelectSpace}>{currentPage > 0 ? <a className={"fake-link"} onClick={() => setModalContent(currentContent, currentPage - 1)}>&lt; {currentPage - 1 > 0 ? currentContent.entries[currentPage - 2].title : "Main page"}</a> : null}</span>;
+        const next = <span className={styles.rightSelectSpace}>{currentPage < currentContent.entries.length ? <a className={"fake-link"} onClick={() => setModalContent(currentContent, currentPage + 1)}>{currentContent.entries[currentPage].title} &gt;</a> : null}</span>;
 
         const select = (
             <select onChange={(e) => setModalContent(currentContent, Number.parseInt(e.target.value))} value={currentPage}>
@@ -57,7 +71,7 @@ const ProjectModal: NextPage = () => {
     })();
 
     return <div className={styles.modal}>
-        <a onClick={() => setVisible(false)} href={"#"}>
+        <a onClick={() => setModalVisible(false)} className={"fake-link"}>
             <div className={styles.modalClose}><div className={styles.modalCloseAlign}>X</div></div>
         </a>
         <div className={styles.modalContainer}>

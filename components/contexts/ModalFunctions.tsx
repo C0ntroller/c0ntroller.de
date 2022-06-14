@@ -6,6 +6,7 @@ interface ModalFunctions {
     setVisible?: CallableFunction;
     setContent?: (content: Project| Diary) => void;
     setHtml?: (html: string) => void;
+    onContentReady?: () => void;
 }
 
 const modalFunctions: ModalFunctions = {};
