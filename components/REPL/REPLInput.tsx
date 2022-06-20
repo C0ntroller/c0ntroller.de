@@ -83,6 +83,10 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
             case e.key === "Enter": {
                 e.preventDefault();
                 const command = (e.target as HTMLInputElement).value.trim();
+                if (command.length === 0) {
+                    historyCallback(["$"]);
+                    return;
+                }
                 if (cmdHistory.at(-1) !== command) setCmdHistory(cmdHistory.concat([command]).splice(0, 100));
                 clearInput(input);
                 setInCmdHistory(-1);
