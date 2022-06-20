@@ -10,9 +10,9 @@
 }
 
 .container::-webkit-scrollbar-track {
-background:rgb(0, 0, 0);
+    background:rgb(0, 0, 0);
 }
 
 .container::-webkit-scrollbar-thumb {
-background:rgb(24, 138, 24);
+    background: var(--repl-color);
 }
