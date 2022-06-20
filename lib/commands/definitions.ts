@@ -215,6 +215,7 @@ const color: Command = {
     desc: "Changes the color of the site.",
     subcommands: {
         reset: { name: "reset", desc: "Resets the color." },
+        value: { name: "value", desc: "Any valid (css) color value." },
     },
     execute: (_flags, args, _raw, cmdIf) => {
         if (!window || !window.document) return [];
