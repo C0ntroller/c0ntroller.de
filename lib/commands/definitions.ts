@@ -257,8 +257,7 @@ const color: Command = {
 
             switch(true) {
                 case color.hex().toLowerCase() === "#1f1e33": {
-                    // eslint-disable-next-line quotes
-                    if (cmdIf.callbacks?.setModalHTML) cmdIf.callbacks?.setModalHTML(`<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/w4U9S5eX3eY" title="YouTube video player" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen></iframe>`);
+                    if (cmdIf.callbacks?.setModalHTML) cmdIf.callbacks?.setModalHTML('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/w4U9S5eX3eY" title="YouTube video player" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen></iframe>');
                     if (cmdIf.callbacks?.setModalVisible) cmdIf.callbacks?.setModalVisible(true);
                     break;
                 }
