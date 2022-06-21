@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, isValidElement } from "react";
 import { useRouter } from "next/router";
 import styles from "../styles/ProjectModal.module.css";
 import type { Project, Diary } from "../lib/content/types";
-import { useCommands } from "./contexts/CommandInterface";
+import { useCommands } from "../lib/commands/ContextProvider";
 import { generateContent, projectEmpty } from "../lib/content/generate";
 import { useModalFunctions } from "./contexts/ModalFunctions";
 import Spinner from "./Spinner";

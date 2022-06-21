@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
-import { MutableRefObject, useState, createRef } from "react";
+import { MutableRefObject, useState, createRef, useEffect } from "react";
 import { CommandInterface } from "../../lib/commands";
 import styles from "../../styles/REPL/REPLInput.module.css";
-import { useCommands } from "../contexts/CommandInterface";
+import { useCommands } from "../../lib/commands/ContextProvider";
 import { useModalFunctions } from "../contexts/ModalFunctions";
 
 interface REPLInputParams {
@@ -19,8 +19,10 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
     const [inCmdHistory, setInCmdHistory] = useState<number>(-1);
     const [cmdHistory, setCmdHistory] = useState<string[]>([]);
     const [usrInputTmp, setUsrInputTmp] = useState<string>("");
-    const {cmdContext: cmdIf} = useCommands();
+    const {cmdContext: cmdIf, updateCallbacks} = useCommands();
     const { modalFunctions } = useModalFunctions();
+
+    updateCallbacks({ getCmdHistory: () => cmdHistory });
 
     const setInput = (inputRef: HTMLInputElement, input: string) => {
         const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
@@ -144,6 +146,16 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
             }
         }
     };
+
+    useEffect(() => {
+        if (!window || !cmdIf) return;
+        const color = window.localStorage.getItem("color");
+        if(color) cmdIf.executeCommand(`color ${color}`);
+        const history = window.localStorage.getItem("history");
+        try {
+            if (history) setCmdHistory(JSON.parse(history));     
+        } catch {}
+    }, [cmdIf]);
 
     return <div className={styles.wrapperwrapper}>
         <span className={styles.inputstart}>$&nbsp;</span>

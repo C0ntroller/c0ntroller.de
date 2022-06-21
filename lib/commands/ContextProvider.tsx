@@ -1,13 +1,8 @@
 import { createContext, useContext } from "react";
 import type { PropsWithChildren } from "react";
-import { CommandInterface } from "../../lib/commands";
-import type { Diary, Project, ContentList } from "../../lib/content/types";
-
-interface CommandInterfaceCallbacks {
-    setModalVisible?: (visible: boolean) => void; 
-    setModalContent?: (content: Project | Diary, selectedPage?: number) => void;
-    setModalHTML?: (html: any) => void;
-}
+import { CommandInterface } from ".";
+import type { ContentList } from "../content/types";
+import type { CommandInterfaceCallbacks } from "./types";
 
 const commandInterface = new CommandInterface();
 const CommandContext = createContext(commandInterface);

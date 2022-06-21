@@ -1,11 +1,6 @@
-import type { ContentList, Diary, Project } from "../content/types";
+import type { ContentList } from "../content/types";
 import { printSyntax, commandList } from "./definitions";
-
-interface CommandInterfaceCallbacks {
-    setModalVisible?: (visible: boolean) => void; 
-    setModalContent?: (content: Project|Diary, selectedPage?: number) => void;
-    setModalHTML?: (html: string) => void;
-}
+import { CommandInterfaceCallbacks } from "./types";
 
 export class CommandInterface {
     callbacks?: CommandInterfaceCallbacks;

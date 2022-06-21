@@ -87,7 +87,7 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
     };
 
     return <div className={styles.container} onClick={focusInput}>
-        { history.map((value, idx) => <div className={styles.line} key={idx}>
+        { history.map((value, idx) => <div className={styles.line} key={`${idx}${value}`}>
                 {parseLine(value)}
             </div>)
         }

@@ -210,6 +210,19 @@ const clear: Command = {
     execute: () => []
 };
 
+const getColors = () => {
+    const replColor = window.document.documentElement.style.getPropertyValue("--repl-color") || window.getComputedStyle(document.documentElement).getPropertyValue("--repl-color") || "rgb(24, 138, 24)";
+    const linkColor = window.document.documentElement.style.getPropertyValue("--repl-color-link") || window.getComputedStyle(document.documentElement).getPropertyValue("--repl-color-link") || "rgb(31, 179, 31)";
+    const hintColor = window.document.documentElement.style.getPropertyValue("--repl-color-hint") || window.getComputedStyle(document.documentElement).getPropertyValue("--repl-color-hint") || "rgba(24, 138, 24, 0.3)";
+    return [replColor, linkColor, hintColor];
+};
+
+const setColors = (color: Color) => {
+    window?.document.documentElement.style.setProperty("--repl-color", color.string());
+    window?.document.documentElement.style.setProperty("--repl-color-link", color.lighten(0.3).rgb().string());
+    window?.document.documentElement.style.setProperty("--repl-color-hint", color.fade(0.7).string());
+};
+
 const color: Command = {
     name: "color",
     desc: "Changes the color of the site.",
@@ -219,7 +232,15 @@ const color: Command = {
     },
     execute: (_flags, args, _raw, cmdIf) => {
         if (!window || !window.document) return [];
-        if (args.length !== 1) return printSyntax(color);
+        if (args.length === 0) {
+            const colors = getColors();
+            return [
+                "Current colors:",
+                `Text:\t\t${colors[0]}`,
+                `Links:\t\t${colors[1]}`,
+                `Completion:\t${colors[2]}`
+            ];
+        }
         if (args[0] === "reset") {
             window.document.documentElement.style.removeProperty("--repl-color");
             window.document.documentElement.style.removeProperty("--repl-color-link");
@@ -228,15 +249,12 @@ const color: Command = {
         } else {
             let color: Color;
             try {
-                color = Color(args.join().trim());
+                color = Color(args.join(" ").trim());
             } catch {
                 return ["Invalid color!"];
             }
-            window?.document.documentElement.style.setProperty("--repl-color", color.string());
-            window?.document.documentElement.style.setProperty("--repl-color-link", color.lighten(0.3).rgb().string());
-            window?.document.documentElement.style.setProperty("--repl-color-hint", color.fade(0.7).string());
+            setColors(color);
 
-            console.log(color.hex().toLowerCase());
             switch(true) {
                 case color.hex().toLowerCase() === "#1f1e33": {
                     // eslint-disable-next-line quotes
@@ -251,4 +269,43 @@ const color: Command = {
     }
 };
 
-export const commandList = [about, help, man, project, exitCmd, clear, color].sort((a, b) => a.name.localeCompare(b.name));
+const save: Command = {
+    name: "save",
+    desc: "Saves the current color and command history to local storage.",
+    subcommands: {
+        clear: { name: "clear", desc: "Clear the saved data." },
+        confirm: { name: "confirm", desc: "You explicitly confirm, you allow saving to the local storage." }
+    },
+    execute: (_flags, args, _raw, cmdIf) => {
+        const defaultRet = [
+            "You can save the current color and command history to local storage.", 
+            "To do so, use %{save confirm}.",
+            "By using this command above you agree on saving the non-functional data to local storage.",
+            "The data will never leave your computer!"
+        ];
+
+        if (args.length === 0) {
+            return defaultRet;
+        } else if (args[0] === "clear") {
+            window.localStorage.clear();
+            return ["Colors and history removed from storage."];
+        } else if (args[0] === "confirm") {
+            const result = [];
+
+            const currentColors = getColors();
+            const color = new Color(currentColors[0]);
+            if(color.contrast(new Color("#000")) === 1 || color.alpha() < 0.1) result.push("Skipping saving the color because it's too dark.");
+            else window.localStorage.setItem("color", currentColors[0]);
+
+            const history = cmdIf.callbacks?.getCmdHistory ? cmdIf.callbacks.getCmdHistory() : [];
+            window.localStorage.setItem("history", JSON.stringify(history));
+
+            result.push("Colors and history saved to storage.");
+            return result;
+        } else {
+            return printSyntax(save);
+        }
+    },
+};
+
+export const commandList = [about, help, man, project, exitCmd, clear, color, save].sort((a, b) => a.name.localeCompare(b.name));

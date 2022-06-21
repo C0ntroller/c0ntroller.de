@@ -2,7 +2,7 @@ import type { NextPage, GetStaticProps } from "next";
 import Head from "next/head";
 import { GithubLogo, InstagramLogo, DiscordLogo, GameController } from "phosphor-react";
 import { useEffect, useRef,useCallback } from "react";
-import { useCommands } from "../components/contexts/CommandInterface";
+import { useCommands } from "../lib/commands/ContextProvider";
 import { useModalFunctions } from "../components/contexts/ModalFunctions";
 import ProjectModal from "../components/ProjectModal";
 import REPL from "../components/REPL";
