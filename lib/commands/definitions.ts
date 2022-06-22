@@ -293,13 +293,16 @@ const save: Command = {
 
             const currentColors = getColors();
             const color = new Color(currentColors[0]);
-            if(color.contrast(new Color("#000")) === 1 || color.alpha() < 0.1) result.push("Skipping saving the color because it's too dark.");
-            else window.localStorage.setItem("color", currentColors[0]);
+            if(color.contrast(new Color("#000")) < 1.1 || color.alpha() < 0.1) result.push("Skipping saving the color because it's too dark.");
+            else {
+                window.localStorage.setItem("color", currentColors[0]);
+                result.push("Color saved to local storage.");
+            }
 
             const history = cmdIf.callbacks?.getCmdHistory ? cmdIf.callbacks.getCmdHistory() : [];
             window.localStorage.setItem("history", JSON.stringify(history));
 
-            result.push("Colors and history saved to storage.");
+            result.push("History saved to storage.");
             return result;
         } else {
             return printSyntax(save);
