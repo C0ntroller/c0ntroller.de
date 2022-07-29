@@ -144,7 +144,7 @@ const project: Command = {
         source: { short: "s", long: "source", desc: "Open git repository of project." },
         list: { short: "l", long: "list", desc: "\tShow list of projects." }
     },
-    subcommands: { name: { name: "name", desc: "Name of the project." } },
+    subcommands: { name: { name: "name", desc: "Name of the project." }, page: {name: "page", desc: "Page of the diary (only for diaries; 0 is mainpage)."} },
     execute: (flags, args, _raw, cmdIf) => {
         if (project.flags && checkFlagInclude(flags, project.flags.list)) {
             const result = ["Found the following projects:"];
@@ -161,7 +161,7 @@ const project: Command = {
             return result;
         }
 
-        if (args.length !== 1) return printSyntax(project);
+        if (args.length < 1 || args.length > 2) return printSyntax(project);
 
         if (args[0] === "this") args[0] = "homepage";
 
@@ -181,9 +181,32 @@ const project: Command = {
         }
         if (project.flags && checkFlagInclude(flags, project.flags.minimal)) return pjt.desc;
 
-        if (cmdIf.callbacks?.setModalContent) cmdIf.callbacks.setModalContent(pjt);
+        const result: string[] = [];
+
+        let selectedPage: number|undefined = Number.parseInt(args[1] || "");
+
+        if (args[1]) {
+            if(Number.isNaN(selectedPage)) {
+                result.push("Invalid page number, ignoring it.");
+                selectedPage = undefined;
+            } else {
+                if (pjt.type !== "diary") {
+                    result.push("This is not a diary, ignoring page.");
+                    selectedPage = undefined;
+                } else {
+                    if (selectedPage < 0 || selectedPage > pjt.entries.length) {
+                        result.push("Invalid page number, ignoring it.");
+                        selectedPage = undefined;
+                    }
+                }
+            }
+        } else {
+            selectedPage = undefined;
+        }
+
+        if (cmdIf.callbacks?.setModalContent) cmdIf.callbacks.setModalContent(pjt, selectedPage);
         if (cmdIf.callbacks?.setModalVisible) cmdIf.callbacks.setModalVisible(true);
-        return [];
+        return result;
     }
 };
 
