@@ -48,15 +48,15 @@ const Home: NextPage<{ buildTime: string }> = ({ buildTime }) => {
                 <span className={styles.divider}>|</span>
                 <a href="https://github.com/C0ntroller/c0ntroller.de/issues/new" target="_blank" rel="noreferrer">Bug?</a>
                 <span className={styles.divider}>|</span>
-                <a href="https://github.com/C0ntroller" target="_blank" rel="noreferrer"><GithubLogo color="var(--repl-color)" className={styles.iconLink} /></a>
+                <a href="https://github.com/C0ntroller" target="_blank" rel="noreferrer"><GithubLogo color="var(--repl-color)" className={styles.iconLink} alt="Link to GitHub (Icon)" /></a>
                 <span className={styles.divider}>|</span>
-                <a href="https://www.instagram.com/c0ntroller/" target="_blank" rel="noreferrer"><InstagramLogo color="var(--repl-color)" className={styles.iconLink} /></a>
+                <a href="https://www.instagram.com/c0ntroller/" target="_blank" rel="noreferrer"><InstagramLogo color="var(--repl-color)" className={styles.iconLink} alt="Link to Instagram (Icon)" /></a>
                 <span className={styles.divider}>|</span>
-                <a href="https://steamcommunity.com/id/c0ntroller/" target="_blank" rel="noreferrer"><GameController color="var(--repl-color)" className={styles.iconLink} /></a>
+                <a href="https://steamcommunity.com/id/c0ntroller/" target="_blank" rel="noreferrer"><GameController color="var(--repl-color)" className={styles.iconLink} alt="Link to Steam (Icon)" /></a>
                 <span className={styles.divider}>|</span>
                 <a href="https://discordapp.com/users/224208617820127233" target="_blank" rel="noreferrer">
                     <span className={styles.tooltip} style={{ cursor: "pointer" }}>
-                        <DiscordLogo color="var(--repl-color)" className={styles.iconLink} />
+                        <DiscordLogo color="var(--repl-color)" className={styles.iconLink} alt="Discord Logo with a link and small popup. My Username is C0ntroller_Z#3883." />
                         <span className={styles.tooltiptext}>
                             C0ntroller_Z#3883
                         </span>
