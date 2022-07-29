@@ -62,7 +62,7 @@ const ProjectModal: NextPage = () => {
 
     const onContentReady = () => {
         const selected = window.location.hash.split("/");
-        if (selected[2]) cmdContext.executeCommand(`project ${selected[2]}`);
+        if (selected.length > 2) cmdContext.executeCommand(`project ${selected[2]}${selected[3] ? ` ${selected[3]}` : ""}`);
     };
 
     updateCmdCallbacks({ setModalVisible: setVisible, setModalContent, setModalHTML: setHTMLContent });
