@@ -1,6 +1,7 @@
 import type { Diary, Project } from "../content/types";
 import type { Command, Flag } from "./types";
 import Color from "color";
+import styles from "../../styles/Random.module.scss";
 
 function getCommandByName(name: string): Command | undefined {
     return commandList.find(cmd => cmd.name === name);
@@ -285,7 +286,10 @@ const color: Command = {
             switch(true) {
                 case color.hex().toLowerCase() === "#1f1e33": {
                     if (cmdIf.callbacks?.setModalHTML && cmdIf.callbacks?.setModalVisible) {
-                        cmdIf.callbacks?.setModalHTML('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/w4U9S5eX3eY" title="YouTube video player" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen></iframe>');
+                        cmdIf.callbacks?.setModalHTML(`
+                        <div class="${styles.modalVideoContainer}">
+                            <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/w4U9S5eX3eY" title="YouTube video player" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                        </div>`);
                         cmdIf.callbacks?.setModalVisible(true);
                     }
                     break;
@@ -343,8 +347,27 @@ const pingi: Command = {
     name: "pingi",
     desc: "<3",
     execute: (_flags, _args, _raw, cmdIf) => {
+        const pingiImg = [
+            "hJQFR4dpyyZskjmbAkvlnNYi",
+            "LjwTg8qftDGLDfYyNH5OMY6L",
+            "niaM6yPxKBQV8umkh0xpkbCH",
+            "7hcMiKlbn9QWNbwA3DFcpk6A",
+            "xFnQEWlO5jqvJ4lruK4C8zfq",
+            "CplNRTMYuwmSW8WH2UxCi5NU",
+            "oQ03IzrBkLwCwsUtdp3zn0nW",
+            "36zkZSuWmhAa89ErDR4myYW0",
+            "HZvdYHr4fqYRTkTn8zw4akjA",
+            "VdTAABUXCpo5Gom7aszQDw1c",
+            "zwIJwof4beiqDiy3PBkYmZYd"
+        ];
         if (cmdIf.callbacks?.setModalHTML && cmdIf.callbacks.setModalVisible) {
-            cmdIf.callbacks.setModalHTML('<img src="https://openai-labs-public-images-prod.azureedge.net/user-jomUNcw4rd0bDGfcOQUAbYNO/generations/generation-hJQFR4dpyyZskjmbAkvlnNYi/image.webp" />');
+            const img = pingiImg[Math.floor(Math.random()*pingiImg.length)];
+            cmdIf.callbacks.setModalHTML(`
+            <a href="https://labs.openai.com/s/${img}" target="_blank" rel="noreferrer" class="${styles.modalImageContainerSquare}">
+                <span class="${styles.imgLoading}">Loading cute image...</span>
+                <img src="https://openai-labs-public-images-prod.azureedge.net/user-jomUNcw4rd0bDGfcOQUAbYNO/generations/generation-${img}/image.webp" alt="Incredibly cute AI created image of a penguin and a rabbit." />
+            </a>
+            <small><i>Made with DALL-E</i></small>`);
             cmdIf.callbacks.setModalVisible(true);
         }
         return ["<3"];
