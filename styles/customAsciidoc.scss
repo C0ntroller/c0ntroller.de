@@ -66,4 +66,15 @@
         background-color: #282c34;
         color: #abb2bf;
     }
+
+    /* This _should_ have been included in the Asciidoc style but it isn't */
+    .underline { text-decoration:underline; }
+    .overline { text-decoration:overline; }
+    .line-through { text-decoration:line-through; }
+    :not(pre)>code.nobreak{ word-wrap:normal; }
+    :not(pre)>code.nowrap { white-space:nowrap; }
+    pre.nowrap, pre.nowrap pre { 
+        white-space:pre; 
+        word-wrap:normal; 
+    }
 }
