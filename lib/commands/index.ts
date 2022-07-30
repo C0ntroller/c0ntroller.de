@@ -13,7 +13,7 @@ export class CommandInterface {
 
     static commandCompletion(input: string): string[] {
         if (input === "") return [];
-        const candidates = commandList.filter(cmd => cmd.name.startsWith(input)).map(cmd => cmd.name);
+        const candidates = commandList.filter(cmd => !cmd.hidden && cmd.name.startsWith(input)).map(cmd => cmd.name);
         return candidates;
     }
 
@@ -24,7 +24,7 @@ export class CommandInterface {
         if (!cmd) return [`$ ${command}`].concat(this.illegalCommand(command));
     
         const parsed = this.seperateFlags(args.splice(1));
-        const result = parsed.flags.includes("--help") ? printSyntax(cmd) : cmd.execute(parsed.flags, parsed.subcmds, command, this);
+        const result = parsed.flags.includes("--help") || parsed.flags.includes("-?") ? printSyntax(cmd) : cmd.execute(parsed.flags, parsed.subcmds, command, this);
     
         return [`$ ${command}`].concat(result);
     }

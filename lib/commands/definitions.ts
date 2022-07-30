@@ -81,14 +81,16 @@ const about: Command = {
             "So you want to know what this is about?",
             "",
             "Well, the answer is pretty unspectecular:",
-            "This site presents some stuff that the user named C0ntroller created.",
-            "If you wander arround you will find various projects.",
+            "This site presents some stuff that me, a human created.",
+            "If you look arround you can read about my various projects.",
             "",
             "The navigation is done via this console interface.",
             "Even when you open a project page you don't need your mouse - just press Esc to close it.",
             "",
             "I hope you enjoy your stay here!",
-            "If you wanted more information about the page itself, type %{project this} or %{help -t}."
+            "If you want to know more about the creation of this page, type %{project this}.",
+            "",
+            "If you are kind of lost what to do, type %{help --this}."
         ];
     }
 };
@@ -101,19 +103,21 @@ const help: Command = {
         if (help.flags && checkFlagInclude(flags, help.flags.more)) {
             return [
                 "Hello user!",
-                "What you see here should resemble an CLI. If you ever used Linux this should be pretty easy for you.",
-                "Everyone else: Have no fear. It is pretty simple. You just type in commands and the output is shown here or it does something on the webite.",
-                "To find out, which commands are available, you can type just %{help}.",
+                "What you see here should resemble a CLI. If you ever used Linux this should be pretty easy for you.",
+                "",
+                "Everyone else: Have no fear. It is pretty simple.", 
+                "You just type in commands and the output is shown here or it does something on the webite.",
+                "To find out, which commands are available, you can type %{help}.",
+                "",
+                "When wanting to know how to use a command, type %{man <command>} or %{<command> --help}.",
                 "",
                 "Have fun!"
             ];
         } else {
             const available = ["Available commands:"];
-            commandList.forEach(cmd => available.push(`\t${cmd.name}\t${cmd.desc}`));
-            available.concat([
-                "",
-                "Need more help? Type 'help -m'!"
-            ]);
+            commandList.filter(cmd => !cmd.hidden).forEach(cmd => available.push(`\t${cmd.name}\t${cmd.desc}`));
+            available.push("");
+            available.push("Need help about the general usage? Type %{help --this}!");
             return available;
         }
     }
@@ -333,4 +337,40 @@ const save: Command = {
     },
 };
 
-export const commandList = [about, help, man, project, exitCmd, clear, color, save].sort((a, b) => a.name.localeCompare(b.name));
+const pingi: Command = {
+    name: "pingi",
+    desc: "<3",
+    execute: () => {
+        return ["<3"];
+    },
+    hidden: true
+};
+
+const blahaj: Command = {
+    name: "blahaj",
+    desc: "Blahaj is the best.",
+    execute: () => {
+        setColors(Color("#88a7b9"));
+        return [" _________         .    .",
+                "(..       \\_    ,  |\\  /|",
+                " \\       O  \\  /|  \\ \\/ / ",
+                "  \\______    \\/ |   \\  / ",
+                "     vvvv\\    \\ |   /  |",
+                "    \\^^^^  ==   \\_/   |",
+                "    `\\_   ===    \\.  |",
+                "    / /\\_   \\ /      |",
+                "    |/   \\_  \\|      /",
+                "           \\________/"  ];
+    },
+    hidden: true
+};
+
+const ping: Command = {
+    name: "ping",
+    desc: "Ping!",
+    execute: () => {
+        return ["Pong!"];
+    },
+};
+
+export const commandList = [about, help, man, project, exitCmd, clear, color, save, pingi, blahaj, ping].sort((a, b) => a.name.localeCompare(b.name));
