@@ -19,12 +19,3 @@ body {
   color: var(--repl-color);
   background: #000;
 }
-
-.fake-link {
-  color: var(--repl-color-link);
-  text-decoration: none;
-  cursor: pointer;
-}
-.fake-link:hover {
-  text-decoration: underline;
-}

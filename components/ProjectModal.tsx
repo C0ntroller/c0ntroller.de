@@ -79,8 +79,8 @@ const ProjectModal: NextPage = () => {
     const nextPageSelector = (() => {
         if (!currentContent || currentContent?.type !== "diary" || currentContent.entries.length === 0) return null;
 
-        const prev = <span className={styles.leftSelectSpace}>{currentPage > 0 ? <a className={"fake-link"} onClick={() => setModalContent(currentContent, currentPage - 1)}>&lt; {currentPage - 1 > 0 ? currentContent.entries[currentPage - 2].title : "Main page"}</a> : null}</span>;
-        const next = <span className={styles.rightSelectSpace}>{currentPage < currentContent.entries.length ? <a className={"fake-link"} onClick={() => setModalContent(currentContent, currentPage + 1)}>{currentContent.entries[currentPage].title} &gt;</a> : null}</span>;
+        const prev = <span className={styles.leftSelectSpace}>{currentPage > 0 ? <a className={styles.fakeLink} onClick={() => setModalContent(currentContent, currentPage - 1)}>&lt; {currentPage - 1 > 0 ? currentContent.entries[currentPage - 2].title : "Main page"}</a> : null}</span>;
+        const next = <span className={styles.rightSelectSpace}>{currentPage < currentContent.entries.length ? <a className={styles.fakeLink} onClick={() => setModalContent(currentContent, currentPage + 1)}>{currentContent.entries[currentPage].title} &gt;</a> : null}</span>;
 
         const select = (
             <select onChange={(e) => setModalContent(currentContent, Number.parseInt(e.target.value))} value={currentPage}>
@@ -93,7 +93,7 @@ const ProjectModal: NextPage = () => {
     })();
 
     return <div className={styles.modal}>
-        <a onClick={() => setVisible(false)} className={"fake-link"}>
+        <a onClick={() => setVisible(false)} className={styles.fakeLink}>
             <div className={styles.modalClose}><div className={styles.modalCloseAlign}>X</div></div>
         </a>
         <div className={styles.modalContainer}>

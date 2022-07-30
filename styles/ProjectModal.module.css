@@ -143,3 +143,13 @@
         display: block;
     }
 }
+
+.fakeLink {
+    color: var(--repl-color-link);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.fakeLink:hover {
+    text-decoration: underline;
+}
