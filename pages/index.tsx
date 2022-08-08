@@ -8,6 +8,7 @@ import ProjectModal from "../components/ProjectModal";
 import REPL from "../components/REPL";
 import styles from "../styles/Home.module.css";
 import type { ContentList } from "../lib/content/types";
+import { useRouter } from "next/router";
 
 const Home: NextPage<{ buildTime: string }> = ({ buildTime }) => {
     const inputRef = useRef<HTMLInputElement>(null);

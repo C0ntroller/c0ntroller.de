@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useEffect, useRef, useState, isValidElement } from "react";
+import { useEffect, useRef, useState, isValidElement, useCallback } from "react";
 import { useRouter } from "next/router";
 import styles from "../styles/ProjectModal.module.css";
 import type { Project, Diary } from "../lib/content/types";
@@ -56,13 +56,23 @@ const ProjectModal: NextPage = () => {
     };
 
     const setVisible = async (visible: boolean) => {
-        if (!visible) router.replace("#", undefined, {shallow: true});
+        if (!visible) {
+            if (window) window.removeEventListener("hashchange", contentFromHash);
+            router.replace("#", undefined, {shallow: true});
+        } else {
+            if (window) window.addEventListener("hashchange", contentFromHash);
+        }
         _setVisible(visible);
     };
 
-    const onContentReady = () => {
+    const contentFromHash = () => {
+        if (!window) return;
         const selected = window.location.hash.split("/");
         if (selected.length > 2) cmdContext.executeCommand(`project ${selected[2]}${selected[3] ? ` ${selected[3]}` : ""}`);
+    };
+
+    const onContentReady = () => {
+        contentFromHash();
     };
 
     updateCmdCallbacks({ setModalVisible: setVisible, setModalContent, setModalHTML: setHTMLContent });
