@@ -7,6 +7,7 @@ import { useModalFunctions } from "../components/contexts/ModalFunctions";
 import ProjectModal from "../components/ProjectModal";
 import REPL from "../components/REPL";
 import styles from "../styles/Home.module.css";
+import type { ContentList } from "../lib/content/types";
 
 const Home: NextPage<{ buildTime: string }> = ({ buildTime }) => {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -16,7 +17,10 @@ const Home: NextPage<{ buildTime: string }> = ({ buildTime }) => {
     const updateProjects = useCallback(async () => {
         try {
             const res = await fetch("/content/list.json");
-            const projects = await res.json();
+            const projects: ContentList = await res.json();
+            projects.sort((a, b) => {
+                return a.name.localeCompare(b.name);
+            });
             setContents(projects);
         } catch {}
     }, [setContents]);
