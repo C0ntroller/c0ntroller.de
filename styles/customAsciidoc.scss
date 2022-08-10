@@ -79,7 +79,7 @@
     }
 
     /* A custom indicator that this code is in fact faulty */
-    .notCompiling {
+    .notCompiling code {
         display: block;
         position: relative;
         /*
@@ -96,11 +96,22 @@
             top: 1em;
             right: 1em;
             display: inline-block;
-            width: 1.2em;
-            height: 1.2em;
+            width: 1.3em;
+            height: 1.3em;
             text-align: center;
             font-weight: bolder;
-            padding: 1px 1px 0px 1px;
+            padding: 1px 1px 1px 1px;
+            font-family: sans-serif;
+            font-size: 1rem;
+        }
+
+        &:hover::after {
+            content: "Code is faulty!";
+            font-weight: bold;
+            color: #a30e0e;
+            position: absolute;
+            right: 1em;
+            bottom: 1em;
         }
     }
 }
