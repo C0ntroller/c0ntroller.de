@@ -77,4 +77,30 @@
         white-space:pre; 
         word-wrap:normal; 
     }
+
+    /* A custom indicator that this code is in fact faulty */
+    .notCompiling {
+        display: block;
+        position: relative;
+        /*
+        .content {
+            position: absolute;
+        }*/
+
+        &::before {
+            content: "!";
+            color: white;
+            background-color: #a30e0e;
+            border-radius: 50%;
+            position: absolute;
+            top: 1em;
+            right: 1em;
+            display: inline-block;
+            width: 1.2em;
+            height: 1.2em;
+            text-align: center;
+            font-weight: bolder;
+            padding: 2px 2px 0px 2px;
+        }
+    }
 }
