@@ -39,7 +39,7 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
             const isLocal = linkHref.startsWith("https://c0ntroller.de") || linkHref.startsWith("/") || linkHref.startsWith("#");
 
             result.push(line.substring(0, idxStart));
-            result.push(<Link href={linkHref}><a className={styles.link} target={isLocal ? "_self" : "_blank"} rel={isLocal ? "" : "noreferrer"}>{linkText}</a></Link>);
+            result.push(<Link href={linkHref} key={`${linkHref}${line.length}`}><a className={styles.link} target={isLocal ? "_self" : "_blank"} rel={isLocal ? "" : "noreferrer"}>{linkText}</a></Link>);
             
             line = line.substring(idxEnd+1);
             idxStart = line.indexOf("#{");
@@ -52,7 +52,7 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
         return result;
     };
 
-    const makeCommands = (line: string|JSX.Element, indexKey: number) => {
+    const makeCommands = (line: string|JSX.Element) => {
         if (typeof line !== "string") return line;
 
         let idxStart = line.indexOf("%{");
@@ -65,7 +65,7 @@ const REPLHistory: NextPage<REPLHistoryParams> = ({history, inputRef}) => {
             const cmdText = line.substring(idxStart+2, idxEnd);
 
             result.push(line.substring(0, idxStart));
-            result.push(<span className={styles.cmd} onClick={forceInput} key={`${indexKey}${line.length}${cmdText}`}>{cmdText}</span>);
+            result.push(<span className={styles.cmd} onClick={forceInput} key={`${cmdText}${line.length}${cmdText}`}>{cmdText}</span>);
             
             
             line = line.substring(idxEnd+1);
