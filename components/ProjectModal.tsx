@@ -102,11 +102,11 @@ const ProjectModal: NextPage = () => {
         return <div className={styles.pageSelector}>{prev}<span style={{visibility: currentPage > 0 ? "visible" : "hidden"}}>&nbsp;&nbsp;|&nbsp;&nbsp;</span>{select}<span style={{visibility: currentPage < currentContent.entries.length ? "visible" : "hidden"}}>&nbsp;&nbsp;|&nbsp;&nbsp;</span>{next}</div>;
     })();
 
-    return <div className={styles.modal}>
+    return <div className={styles.modal} onClick={() => setVisible(false)}>
         <a onClick={() => setVisible(false)} className={styles.fakeLink}>
             <div className={styles.modalClose}><div className={styles.modalCloseAlign}>X</div></div>
         </a>
-        <div className={styles.modalContainer}>
+        <div className={styles.modalContainer} onClick={(event) => event.stopPropagation()}>
             {nextPageSelector}
             <div className={`${styles.modalText} asciidoc`} ref={containerRef} dangerouslySetInnerHTML={{ __html: HTMLContent ? HTMLContent : projectEmpty }}>
 
