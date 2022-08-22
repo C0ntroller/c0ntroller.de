@@ -306,9 +306,13 @@ const save: Command = {
     desc: "Saves the current color and command history to local storage.",
     subcommands: {
         clear: { name: "clear", desc: "Clear the saved data." },
-        confirm: { name: "confirm", desc: "You explicitly confirm, you allow saving to the local storage." }
+        confirm: { name: "confirm", desc: "You explicitly confirm, you allow saving to the local storage." },
     },
-    execute: (_flags, args, _raw, cmdIf) => {
+    flags: {
+        color: { short: "c", long: "color", desc: "Only save the color." },
+        history: { short: "h", long: "history", desc: "Only save the history." },
+    },
+    execute: (flags, args, _raw, cmdIf) => {
         const defaultRet = [
             "You can save the current color and command history to local storage.", 
             "To do so, use %{save confirm}.",
@@ -322,20 +326,28 @@ const save: Command = {
             window.localStorage.clear();
             return ["Colors and history removed from storage."];
         } else if (args[0] === "confirm") {
+            const saveColor = save.flags && checkFlagInclude(flags, save.flags.color);
+            const saveHistory = save.flags && checkFlagInclude(flags, save.flags.history);
+            const saveAll = !saveColor && !saveHistory;
+
             const result = [];
 
-            const currentColors = getColors();
-            const color = new Color(currentColors[0]);
-            if(color.contrast(new Color("#000")) < 1.1 || color.alpha() < 0.1) result.push("Skipping saving the color because it's too dark.");
-            else {
-                window.localStorage.setItem("color", currentColors[0]);
-                result.push("Color saved to local storage.");
+            if (saveColor || saveAll) {
+                const currentColors = getColors();
+                const color = new Color(currentColors[0]);
+                if(color.contrast(new Color("#000")) < 1.1 || color.alpha() < 0.1) result.push("Skipping saving the color because it's too dark.");
+                else {
+                    window.localStorage.setItem("color", currentColors[0]);
+                    result.push("Color saved to local storage.");
+                }
             }
 
-            const history = cmdIf.callbacks?.getCmdHistory ? cmdIf.callbacks.getCmdHistory() : [];
-            window.localStorage.setItem("history", JSON.stringify(history));
+            if (saveHistory || saveAll) {
+                const history = cmdIf.callbacks?.getCmdHistory ? cmdIf.callbacks.getCmdHistory() : [];
+                window.localStorage.setItem("history", JSON.stringify(history));
+                result.push("History saved to storage.");
+            }
 
-            result.push("History saved to storage.");
             return result;
         } else {
             return printSyntax(save);
