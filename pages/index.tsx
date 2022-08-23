@@ -9,11 +9,13 @@ import REPL from "../components/REPL";
 import styles from "../styles/Home.module.css";
 import type { ContentList } from "../lib/content/types";
 import { useRouter } from "next/router";
+import Rainbow from "../lib/colors";
 
 const Home: NextPage<{ buildTime: string }> = ({ buildTime }) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const { modalFunctions } = useModalFunctions();
     const { setContents } = useCommands();
+    const router = useRouter();
 
     const updateProjects = useCallback(async () => {
         try {
@@ -40,6 +42,12 @@ const Home: NextPage<{ buildTime: string }> = ({ buildTime }) => {
         const interval = setInterval(updateProjects, 30 * 1000);
         return () => clearInterval(interval);
     }, [updateProjects, modalFunctions]);
+
+    useEffect(() => {
+        if ("rainbow" in router.query) {
+            Rainbow.start();
+        }
+    }, [router]);
 
     return (<main onKeyDown={hideModalOnEsc} tabIndex={-1}>
         <Head>

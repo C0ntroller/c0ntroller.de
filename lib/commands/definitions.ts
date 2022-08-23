@@ -1,6 +1,8 @@
 import type { Diary, Project } from "../content/types";
 import type { Command, Flag } from "./types";
 import Color from "color";
+import { getColors, setColors } from "../colors";
+import Rainbow from "../colors";
 import styles from "../../styles/Random.module.scss";
 
 function getCommandByName(name: string): Command | undefined {
@@ -238,19 +240,6 @@ const clear: Command = {
     execute: () => []
 };
 
-const getColors = () => {
-    const replColor = window.document.documentElement.style.getPropertyValue("--repl-color") || window.getComputedStyle(document.documentElement).getPropertyValue("--repl-color") || "rgb(24, 138, 24)";
-    const linkColor = window.document.documentElement.style.getPropertyValue("--repl-color-link") || window.getComputedStyle(document.documentElement).getPropertyValue("--repl-color-link") || "rgb(31, 179, 31)";
-    const hintColor = window.document.documentElement.style.getPropertyValue("--repl-color-hint") || window.getComputedStyle(document.documentElement).getPropertyValue("--repl-color-hint") || "rgba(24, 138, 24, 0.3)";
-    return [replColor, linkColor, hintColor];
-};
-
-const setColors = (color: Color) => {
-    window?.document.documentElement.style.setProperty("--repl-color", color.string());
-    window?.document.documentElement.style.setProperty("--repl-color-link", color.lighten(0.3).rgb().string());
-    window?.document.documentElement.style.setProperty("--repl-color-hint", color.fade(0.7).string());
-};
-
 const color: Command = {
     name: "color",
     desc: "Changes the color of the site.",
@@ -270,6 +259,7 @@ const color: Command = {
             ];
         }
         if (args[0] === "reset") {
+            Rainbow.stop();
             window.document.documentElement.style.removeProperty("--repl-color");
             window.document.documentElement.style.removeProperty("--repl-color-link");
             window.document.documentElement.style.removeProperty("--repl-color-hint");
@@ -281,6 +271,7 @@ const color: Command = {
             } catch {
                 return ["Invalid color!"];
             }
+            Rainbow.stop();
             setColors(color);
 
             switch(true) {
@@ -414,4 +405,14 @@ const ping: Command = {
     },
 };
 
-export const commandList = [about, help, man, project, exitCmd, clear, color, save, pingi, blahaj, ping].sort((a, b) => a.name.localeCompare(b.name));
+const jeb_: Command = {
+    name: "jeb_",
+    desc: "🐑🌈",
+    execute: () => {
+        Rainbow.start();
+        return [];
+    },
+    hidden: true
+};
+
+export const commandList = [about, help, man, project, exitCmd, clear, color, save, pingi, blahaj, ping, jeb_].sort((a, b) => a.name.localeCompare(b.name));
