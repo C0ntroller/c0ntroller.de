@@ -84,7 +84,7 @@ const about: Command = {
             "So you want to know what this is about?",
             "",
             "Well, the answer is pretty unspectecular:",
-            "This site presents some stuff that me, a human created.",
+            "This site presents some stuff that me, a human, created.",
             "If you look arround you can read about my various projects.",
             "",
             "The navigation is done via this console interface.",
