@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import { useEffect, useRef, useState, isValidElement, useCallback } from "react";
 import { useRouter } from "next/router";
-import styles from "../styles/ProjectModal.module.css";
-import type { Project, Diary } from "../lib/content/types";
-import { useCommands } from "../lib/commands/ContextProvider";
-import { generateContent, projectEmpty } from "../lib/content/generate";
+import styles from "../../styles/ProjectModal.module.css";
+import type { Project, Diary } from "../../lib/content/types";
+import { useCommands } from "../../lib/commands/ContextProvider";
+import { generateContent, projectEmpty } from "../../lib/content/generate";
 import { useModalFunctions } from "./contexts/ModalFunctions";
-import Spinner from "./Spinner";
+import Spinner from "../Spinner";
 import { renderToStaticMarkup } from "react-dom/server";
 
 // Code Highlighting

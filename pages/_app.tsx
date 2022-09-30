@@ -3,7 +3,7 @@ import Head from "next/head";
 import "../styles/globals.css";
 import "../styles/customAsciidoc.scss";
 import { CommandsProvider } from "../lib/commands/ContextProvider";
-import { ModalFunctionProvider } from "../components/contexts/ModalFunctions";
+import { ModalFunctionProvider } from "../components/Terminal/contexts/ModalFunctions";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <>
