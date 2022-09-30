@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import type { PropsWithChildren } from "react";
-import type { Project, Diary } from "../../lib/content/types";
+import type { Project, Diary } from "../../../lib/content/types";
 
 interface ModalFunctions {
     setVisible?: CallableFunction;

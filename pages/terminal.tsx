@@ -6,7 +6,7 @@ import { useCommands } from "../lib/commands/ContextProvider";
 import { useModalFunctions } from "../components/Terminal/contexts/ModalFunctions";
 import ProjectModal from "../components/Terminal/ProjectModal";
 import REPL from "../components/Terminal/REPL";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Terminal/Terminal.module.css";
 import type { ContentList } from "../lib/content/types";
 import { useRouter } from "next/router";
 import Rainbow from "../lib/colors";

@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { MutableRefObject, useState, createRef, useEffect } from "react";
 import { CommandInterface } from "../../../lib/commands";
-import styles from "../../../styles/REPL/REPLInput.module.css";
+import styles from "../../../styles/Terminal/REPL/REPLInput.module.css";
 import { useCommands } from "../../../lib/commands/ContextProvider";
 import { useModalFunctions } from "../contexts/ModalFunctions";
 

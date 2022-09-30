@@ -9,6 +9,12 @@ import Spinner from "../components/Spinner";
 const Blog: NextPage<{}> = () => {
     const { data: projectList, error } = useSWR("/content/list.json", (...args) => fetch(...args).then(res => res.json()));
 
+    const generateCards = (type: string) => {
+        if (error) return <div>Error on fetching projects.</div>;
+        if (!projectList) return <Spinner size={200} color={"#fff"} />;
+        else return <div className="contentList">{(projectList as ContentList).filter(p => p.type === type).map(p => <ProjectCard key={p.name} title={p.name} description={p.desc.join(" ")} />)}</div>;
+    };
+
     return <>
         <Head>
             <title>c0ntroller.de</title>
@@ -18,11 +24,11 @@ const Blog: NextPage<{}> = () => {
         <p>Miaumiau Lorem ipsum</p>
         <h2>Projects</h2>
         {
-            projectList ? (projectList as ContentList).filter(p => p.type === "project").map(p => <ProjectCard key={p.name} title={p.name} description={p.desc.join(" ")} />) : <Spinner size={200} />
+            generateCards("project")
         }
         <h2>Diaries</h2>
         {
-            projectList ? (projectList as ContentList).filter(p => p.type === "diary").map(p => <ProjectCard key={p.name} title={p.name} description={p.desc.join(" ")} />) : <Spinner size={200} />
+            generateCards("diary")
         }
     </>;
 

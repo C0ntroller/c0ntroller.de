@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
 import { useEffect, useRef, useState, isValidElement, useCallback } from "react";
 import { useRouter } from "next/router";
-import styles from "../../styles/ProjectModal.module.css";
+import styles from "../../styles/Terminal/ProjectModal.module.css";
+import asciidocStyles from "../../styles/Terminal/customAsciidoc.module.scss";
 import type { Project, Diary } from "../../lib/content/types";
 import { useCommands } from "../../lib/commands/ContextProvider";
 import { generateContent, projectEmpty } from "../../lib/content/generate";
@@ -108,7 +109,7 @@ const ProjectModal: NextPage = () => {
         </a>
         <div className={styles.modalContainer} onClick={(event) => event.stopPropagation()}>
             {nextPageSelector}
-            <div className={`${styles.modalText} asciidoc`} ref={containerRef} dangerouslySetInnerHTML={{ __html: HTMLContent ? HTMLContent : projectEmpty }}>
+            <div className={`${styles.modalText} ${asciidocStyles.asciidoc}`} ref={containerRef} dangerouslySetInnerHTML={{ __html: HTMLContent ? HTMLContent : projectEmpty }}>
 
             </div>
             {nextPageSelector}

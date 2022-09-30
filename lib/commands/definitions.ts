@@ -3,7 +3,7 @@ import type { Command, Flag } from "./types";
 import Color from "color";
 import { getColors, setColors } from "../colors";
 import Rainbow from "../colors";
-import styles from "../../styles/Random.module.scss";
+import styles from "../../styles/Terminal/Random.module.scss";
 
 function getCommandByName(name: string): Command | undefined {
     return commandList.find(cmd => cmd.name === name);

@@ -1,9 +1,9 @@
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import REPLInput from "./REPLInput";
 import REPLHistory from "./REPLHistory";
-import styles from "../../../styles/REPL/REPLComplete.module.css";
+import styles from "../../../styles/Terminal/REPL/REPLComplete.module.css";
 import type { NextPage } from "next";
-import { useCommands } from "../../../lib/commands/ContextProvider";
+// import { useCommands } from "../../../lib/commands/ContextProvider";
 
 interface IREPLProps {
     inputRef: MutableRefObject<HTMLInputElement|null>;
