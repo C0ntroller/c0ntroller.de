@@ -18,7 +18,7 @@ function illegalUse(raw: string, cmd: Command): string[] {
 }
 
 function checkFlags(flags: string[], cmd: Command): boolean {
-    if (!flags || flags === []) return true;
+    if (!flags || flags.length === 0) return true;
     if (!cmd.flags) return false;
 
     for (const flag of flags) {
@@ -30,7 +30,7 @@ function checkFlags(flags: string[], cmd: Command): boolean {
 }
 
 function checkSubcmd(subcmds: string[], cmd: Command): boolean {
-    if (!subcmds || subcmds === []) return true;
+    if (!subcmds || subcmds.length === 0) return true;
     if (!cmd.subcommands) return false;
 
     for (const sc of subcmds) {
