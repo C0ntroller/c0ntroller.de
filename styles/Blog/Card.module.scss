@@ -1,5 +1,21 @@
 .card {
     border: 1px solid gray;
     border-radius: 5px;
-    max-width: 200px;
+    max-width: 40%;
+    margin: 1rem auto;
+    transition: box-shadow 0.1s ease-in-out;
+    cursor: pointer;
+    padding: 5px;
+
+    &:hover {
+        box-shadow: 0px 0px 10px blue;
+    }
+}
+
+.title {
+
+}
+
+.description {
+    
 }

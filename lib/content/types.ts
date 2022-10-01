@@ -9,6 +9,7 @@ interface Content {
     short_desc: string;
     more?: string;
     repo?: string;
+    title: string;
 }
 
 export interface Project extends Content {

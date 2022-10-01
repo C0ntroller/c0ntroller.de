@@ -5,6 +5,7 @@ import type { ContentList } from "../lib/content/types";
 import Navigation from "../components/Blog/Navigation";
 import ProjectCard from "../components/Blog/Card";
 import Spinner from "../components/Spinner";
+import styles from "../styles/Blog/Front.module.scss";
 
 const Blog: NextPage<{}> = () => {
     const { data: projectList, error } = useSWR("/content/list.json", (...args) => fetch(...args).then(res => res.json()));
@@ -12,7 +13,7 @@ const Blog: NextPage<{}> = () => {
     const generateCards = (type: string) => {
         if (error) return <div>Error on fetching projects.</div>;
         if (!projectList) return <Spinner size={200} color={"#fff"} />;
-        else return <div className="contentList">{(projectList as ContentList).filter(p => p.type === type).map(p => <ProjectCard key={p.name} title={p.name} description={p.desc.join(" ")} />)}</div>;
+        else return <div className={styles.contentList}>{(projectList as ContentList).filter(p => p.type === type).map(p => <ProjectCard key={p.name} title={p.title} description={p.desc.join(" ")} />)}</div>;
     };
 
     return <>
