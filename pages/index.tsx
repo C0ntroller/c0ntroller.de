@@ -20,17 +20,19 @@ const Blog: NextPage<{}> = () => {
         <Head>
             <title>c0ntroller.de</title>
         </Head>
-        <Navigation />
-        <h1>Hello there!</h1>
-        <p>Miaumiau Lorem ipsum</p>
-        <h2>Projects</h2>
-        {
-            generateCards("project")
-        }
-        <h2>Diaries</h2>
-        {
-            generateCards("diary")
-        }
+        <div className={styles.container}>
+            <header>
+                <Navigation />
+            </header>
+            <main>
+                <h1>Hello there!</h1>
+                <p>Miaumiau Lorem ipsum</p>
+                <h2>Projects</h2>
+                { generateCards("project") }
+                <h2>Diaries</h2>
+                { generateCards("diary") }
+            </main>
+        </div>
     </>;
 
 };

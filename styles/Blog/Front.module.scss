@@ -1,7 +1,19 @@
+.container {
+
+    header {
+        position: sticky;
+        top: 10px;
+    }
+
+    main {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+}
+
 .contentList {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    margin: 0 -1rem;
     padding: 0;
 }
