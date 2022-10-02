@@ -23,6 +23,8 @@ services:
       - "traefik.http.routers.website-dev-secure.tls.certresolver=le"
       - "traefik.http.routers.website-dev-secure.service=website-dev"
       - "traefik.http.services.website-dev.loadbalancer.server.port=3000"
+    environment:
+      - BASE_URL=https://dev.c0ntroller.de
 
 networks:
   traefik:

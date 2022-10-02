@@ -7,13 +7,13 @@ import ProjectCard from "../components/Blog/Card";
 import Spinner from "../components/Spinner";
 import styles from "../styles/Blog/Front.module.scss";
 
-const Blog: NextPage<{}> = () => {
-    const { data: projectList, error } = useSWR("/content/list.json", (...args) => fetch(...args).then(res => res.json()));
+const Blog: NextPage<{ content: ContentList }> = ({content}) => {
+    //const { data: projectList, error } = useSWR("/content/list.json", (...args) => fetch(...args).then(res => res.json()));
 
     const generateCards = (type: string) => {
-        if (error) return <div>Error on fetching projects.</div>;
-        if (!projectList) return <Spinner size={200} color={"#fff"} />;
-        else return <div className={styles.contentList}>{(projectList as ContentList).filter(p => p.type === type).map(p => <ProjectCard key={p.name} title={p.title} description={p.desc.join(" ")} />)}</div>;
+        //if (error) return <div>Error on fetching projects.</div>;
+        //if (!projectList) return <Spinner size={200} color={"#ff0000"} />;
+        /*else*/ return <div className={styles.contentList}>{content.filter(p => p.type === type).map(p => <ProjectCard key={p.name} title={p.title} description={p.desc.join(" ")} />)}</div>;
     };
 
     return <>
@@ -36,5 +36,13 @@ const Blog: NextPage<{}> = () => {
     </>;
 
 };
+
+export async function getServerSideProps() {
+    const url = process.env.BASE_URL || "https://c0ntroller.de";
+    const res = await fetch(`${url}/content/list.json`);
+    const content = await res.json();
+
+    return { props: { content } };
+}
 
 export default Blog;
