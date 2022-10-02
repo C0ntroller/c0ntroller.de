@@ -1,0 +1,33 @@
+.navigation {
+    display: block;
+    max-width: 1000px;
+    min-width: 300px;
+    box-shadow: 0px 2px 5px gray;
+    margin: 0 auto;
+    padding: 20px;
+    font-size: 120%;
+    height: calc(1em + 40px);
+    border-radius: calc((1em + 40px) / 2);
+    position: relative;
+}
+
+.logo {
+    display: inline-block;
+    margin-top: -10px;
+    height: calc(1em + 40px - 20px);
+    position: absolute;
+}
+
+.navLink {
+    display: inline-block;
+    transition: text-decoration 0.2s ease-in-out;
+    margin: auto 5px;
+
+    &:nth-of-type(1) {
+        margin-left: calc((501 / 204) * (1em + 40px - 20px) + 15px);
+    }
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
