@@ -12,7 +12,7 @@ const Spinner: NextPage<{size: number, color?: string}> = ({ size, color }) => {
     const vbSizeY = diameterY + (2 * padding);
 
     return <div style={{height: size, width: size}} className={styles.spinnerContainer}><svg height={"100%"} width={"100%"} viewBox={`-${padding} -${padding} ${vbSizeX} ${vbSizeY}`} className={styles.spinner}>
-        <polygon points={`${x0},${diameterY} 0,${diameterY/2} ${x0},0 ${x0+side},0 ${2*x0 + side},${diameterY/2} ${x0+side},${diameterY}`} className={styles.spinnerPath} fill={color} />
+        <polygon points={`${x0},${diameterY} 0,${diameterY/2} ${x0},0 ${x0+side},0 ${2*x0 + side},${diameterY/2} ${x0+side},${diameterY}`} className={styles.spinnerPath} style={{stroke: color}} />
     </svg></div>;
 };
 
