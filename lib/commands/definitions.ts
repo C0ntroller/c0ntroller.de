@@ -9,15 +9,15 @@ function getCommandByName(name: string): Command | undefined {
     return commandList.find(cmd => cmd.name === name);
 }
 
-function illegalUse(raw: string, cmd: Command): string[] {
+/*function illegalUse(raw: string, cmd: Command): string[] {
     return [
         "Syntax error!",
         `Cannot parse "${raw}"`,
         ""
     ].concat(printSyntax(cmd));
-}
+}*/
 
-function checkFlags(flags: string[], cmd: Command): boolean {
+/*function checkFlags(flags: string[], cmd: Command): boolean {
     if (!flags || flags.length === 0) return true;
     if (!cmd.flags) return false;
 
@@ -27,9 +27,9 @@ function checkFlags(flags: string[], cmd: Command): boolean {
         if (!flagObj) return false;
     }
     return true;
-}
+}*/
 
-function checkSubcmd(subcmds: string[], cmd: Command): boolean {
+/*function checkSubcmd(subcmds: string[], cmd: Command): boolean {
     if (!subcmds || subcmds.length === 0) return true;
     if (!cmd.subcommands) return false;
 
@@ -38,7 +38,7 @@ function checkSubcmd(subcmds: string[], cmd: Command): boolean {
         if (!flagObj) return false;
     }
     return true;
-}
+}*/
 
 function checkFlagInclude(flagsProvided: string[], flag: Flag): boolean {
     if (!flag) return false;

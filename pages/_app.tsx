@@ -1,7 +1,6 @@
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import "../styles/globals.css";
-//import "../styles/customAsciidoc.scss";
 import { CommandsProvider } from "../lib/commands/ContextProvider";
 import { ModalFunctionProvider } from "../components/Terminal/contexts/ModalFunctions";
 

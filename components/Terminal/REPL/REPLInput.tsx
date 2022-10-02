@@ -3,7 +3,7 @@ import { MutableRefObject, useState, createRef, useEffect } from "react";
 import { CommandInterface } from "../../../lib/commands";
 import styles from "../../../styles/Terminal/REPL/REPLInput.module.css";
 import { useCommands } from "../../../lib/commands/ContextProvider";
-import { useModalFunctions } from "../contexts/ModalFunctions";
+//import { useModalFunctions } from "../contexts/ModalFunctions";
 
 interface REPLInputParams {
     historyCallback: CallableFunction;
@@ -20,7 +20,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
     const [cmdHistory, setCmdHistory] = useState<string[]>([]);
     const [usrInputTmp, setUsrInputTmp] = useState<string>("");
     const {cmdContext: cmdIf, updateCallbacks} = useCommands();
-    const { modalFunctions } = useModalFunctions();
+    //const { modalFunctions } = useModalFunctions();
 
     updateCallbacks({ getCmdHistory: () => cmdHistory });
 
