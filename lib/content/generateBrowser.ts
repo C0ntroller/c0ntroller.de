@@ -1,3 +1,6 @@
+// This file is used for the generation of the static HTML files in the frontend.
+// It is used by the terminal.
+
 import type { Project, Diary } from "./types";
 import asciidoctor from "asciidoctor";
 
@@ -6,6 +9,8 @@ const projectNotFoundHtml = `<div class="${"error"}">Sorry! There is no data for
 const projectServerErrorHtml = `<div class="${"error"}">Sorry! A server error happend when the project data was fetched!</div>`;
 
 const ad = asciidoctor();
+
+const isDev = window?.location?.host.startsWith("dev") || false;
 
 export async function generateContent(content: Project|Diary, selectedPage?: number): Promise<string> {
     if(!content) return projectEmpty;
@@ -26,7 +31,7 @@ async function generateProjectHTML(project: Project): Promise<string> {
 <hr>
 <div id="footer">
     <div id="footer-text">
-        Last updated: ${new Date(adDoc.getAttribute("docdatetime")).toLocaleString()} | <a href="https://git.c0ntroller.de/c0ntroller/frontpage-content/src/branch/senpai/projects/${project.name}.adoc" target="_blank">Document source</a>
+        Last updated: ${new Date(adDoc.getAttribute("docdatetime")).toLocaleString()} | <a href="https://git.c0ntroller.de/c0ntroller/frontpage-content/src/branch/${isDev ? "dev" : "senpai"}/projects/${project.name}.adoc" target="_blank">Document source</a>
     </div>
 </div>`;
 }
@@ -43,7 +48,7 @@ async function generateDiaryHTML(diary: Diary, selectedPage?: number): Promise<s
 <hr>
 <div id="footer">
     <div id="footer-text">
-        Last updated: ${new Date(adDoc.getAttribute("docdatetime")).toLocaleString()} | <a href="https://git.c0ntroller.de/c0ntroller/frontpage-content/src/branch/senpai/diaries/${gitfile}" target="_blank">Document source</a>
+        Last updated: ${new Date(adDoc.getAttribute("docdatetime")).toLocaleString()} | <a href="https://git.c0ntroller.de/c0ntroller/frontpage-content/src/branch/${isDev ? "dev" : "senpai"}/diaries/${gitfile}" target="_blank">Document source</a>
     </div>
 </div>`;
 }

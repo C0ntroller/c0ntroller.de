@@ -24,7 +24,7 @@ services:
       - "traefik.http.routers.website-stable-secure.service=website-stable"
       - "traefik.http.services.website-stable.loadbalancer.server.port=3000"
     environment:
-      - BASE_URL=https://c0ntroller.de
+      - IS_DEV_ENV=true
 
 networks:
   traefik:

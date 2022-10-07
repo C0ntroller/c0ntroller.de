@@ -5,7 +5,7 @@ import styles from "../../styles/Terminal/ProjectModal.module.css";
 import asciidocStyles from "../../styles/Terminal/customAsciidoc.module.scss";
 import type { Project, Diary } from "../../lib/content/types";
 import { useCommands } from "../../lib/commands/ContextProvider";
-import { generateContent, projectEmpty } from "../../lib/content/generate";
+import { generateContent, projectEmpty } from "../../lib/content/generateBrowser";
 import { useModalFunctions } from "./contexts/ModalFunctions";
 import Spinner from "../Spinner";
 import { renderToStaticMarkup } from "react-dom/server";

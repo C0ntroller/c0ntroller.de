@@ -17,3 +17,15 @@ body {
   margin: 0;
   padding: 0;
 }
+
+#blogBody {
+  header {
+      position: sticky;
+      top: 10px;
+  }
+
+  main {
+      max-width: 900px;
+      margin: 0 auto;
+  }
+}

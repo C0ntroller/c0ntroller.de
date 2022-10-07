@@ -1,11 +1,21 @@
 import type { NextPage } from "next";
+import Link from "next/link";
 import styles from "../../styles/Blog/Card.module.scss";
 
-const ProjectCard: NextPage<{ title: string, description: string }> = ({ title, description}) => {
-    return <div className={styles.card}>
-        <h3 className={styles.title}>{title}</h3>
-        <p className={styles.description}>{description}</p>
-    </div>;
+interface IContentCard {
+    name: string;
+    title: string;
+    description: string;
+    type: "project" | "diary";
+}
+
+const ContentCard: NextPage<IContentCard> = (content: IContentCard) => {
+    return <Link href={`/blog/${content.type}/${content.name}`} passHref>
+        <div className={styles.card}>
+            <h3 className={styles.title}>{content.title}</h3>
+            <p className={styles.description}>{content.description}</p>
+        </div>
+    </Link>;
 };
 
-export default ProjectCard;
+export default ContentCard;
