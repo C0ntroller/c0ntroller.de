@@ -1,6 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import Head from "next/head";
-import Navigation from "../../../components/Blog/Navigation";
+import Layout from "../../../components/Blog/Layout";
 import { generateContent } from "../../../lib/content/generateBackend";
 import type { ContentList } from "../../../lib/content/types";
 
@@ -16,18 +15,10 @@ interface IContentRender {
 }
 
 const Post: NextPage<{ content: IContentRender }> = ({ content }) => {
-  return <>
-      <Head>
-        <title>{content.title} - c0ntroller.de</title>
-      </Head>
-      <div id={"blogBody"}>
-            <header>
-                <Navigation />
-            </header>
-            <main dangerouslySetInnerHTML={{ __html: content.html}}>
-            </main>
-        </div>
-    </>;
+  return <Layout title={`${content.title} - c0ntroller.de`}>
+            <div dangerouslySetInnerHTML={{ __html: content.html}}>
+            </div>
+    </Layout>;
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
