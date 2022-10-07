@@ -16,12 +16,14 @@
     margin-top: -10px;
     height: calc(1em + 40px - 20px);
     position: absolute;
+    cursor: pointer;
 }
 
 .navLink {
     display: inline-block;
     transition: text-decoration 0.2s ease-in-out;
     margin: auto 5px;
+    cursor: pointer;
 
     &:nth-of-type(1) {
         margin-left: calc((501 / 204) * (1em + 40px - 20px) + 15px);
