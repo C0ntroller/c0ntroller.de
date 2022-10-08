@@ -13,12 +13,23 @@ const projectServerErrorHtml = `<div class="${"error"}">Sorry! A server error ha
 
 const ad = asciidoctor();
 
-// No error catching here as we are screwed if this fails
+const listPath = resolve("./public", "content", "list.json");
 const projectPath = resolve("./public", "content", "projects");
 const diaryPath = resolve("./public", "content", "diaries");
+// No error catching here as we are screwed if this fails
 const projectFiles = readdirSync(projectPath, { withFileTypes: true }).filter((f) => f.isFile() && f.name.endsWith(".adoc"));
 // As we need the diaries too, no filter here
 const diaryFiles = readdirSync(diaryPath, { withFileTypes: true });
+
+export async function getContentList() {
+    try {
+        const list = await readFile(listPath, { encoding: "utf-8" });
+        return JSON.parse(list);
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
+}
 
 export async function generateContent(content: Project|Diary, selectedPage?: number): Promise<string> {
     if(!content) return projectEmpty;
