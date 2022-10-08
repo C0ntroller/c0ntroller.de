@@ -10,7 +10,7 @@ const projectServerErrorHtml = `<div class="${"error"}">Sorry! A server error ha
 
 const ad = asciidoctor();
 
-const isDev = window?.location?.host.startsWith("dev") || false;
+const isDev = typeof window !== "undefined" ? window.location.host.startsWith("dev") : false;
 
 export async function generateContent(content: Project|Diary, selectedPage?: number): Promise<string> {
     if(!content) return projectEmpty;
