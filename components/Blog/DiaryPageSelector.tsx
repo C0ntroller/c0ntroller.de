@@ -6,18 +6,22 @@ import { useEffect } from "react";
 
 import styles from "../../styles/Blog/DiaryPageSelector.module.scss";
 
-interface IContentNavBar {
+interface IContent {
     pages: string[];
     name: string;
     title: string;
     pageSelected: number
 }
 
-interface IContentNav extends IContentNavBar {
+interface IContentNavBar extends IContent {
+    mobile?: boolean;
+}
+
+interface IContentNav extends IContent {
     bottom?: boolean;
 }
 
-const PageSelectorBar: NextPage<IContentNavBar> = ({ pages, name, title, pageSelected }) => {
+const PageSelectorBar: NextPage<IContentNavBar> = ({ pages, name, title, pageSelected, mobile }) => {
     const router = useRouter();
 
     // When we are on the main page no previous page exists, otherwise we need to check if the previous page is the main page
@@ -46,8 +50,10 @@ const PageSelectorBar: NextPage<IContentNavBar> = ({ pages, name, title, pageSel
         </select>
     );
 
+    const classNames = mobile ? `${styles.barNav} ${styles.mobile}` : styles.barNav;
+
     return (
-        <div className={styles.barPageSelector}>
+        <div className={classNames}>
             {prev}
             <span style={{visibility: prevLink ? "visible" : "hidden"}}>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             {select}
@@ -62,11 +68,15 @@ const PageSelector: NextPage<IContentNav> = (content) => {
     if (content.bottom) return <PageSelectorBar pages={content.pages} name={content.name} title={content.title} pageSelected={content.pageSelected} />;
 
     return (
-        <div className={styles.navPageSelector}>
-            <Link href={`/blog/diary/${content.name}`}><a><h4>{content.title}</h4></a></Link>
-            <ul>
-                {content.pages.map((e, idx) => <li key={idx}><Link href={`/blog/diary/${content.name}/${idx + 1}`}><a>{e}</a></Link></li>)}
-            </ul>
+        <div className={styles.nav}>
+            <PageSelectorBar pages={content.pages} name={content.name} title={content.title} pageSelected={content.pageSelected} mobile />
+            
+            <div className={`${styles.sideNav} ${styles.desktop}`}>
+                <Link href={`/blog/diary/${content.name}`}><a><h4>{content.title}</h4></a></Link>
+                <ul>
+                    {content.pages.map((e, idx) => <li key={idx}><Link href={`/blog/diary/${content.name}/${idx + 1}`}><a>{e}</a></Link></li>)}
+                </ul>
+            </div>
         </div>
     );
 };
