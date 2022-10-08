@@ -1,7 +1,7 @@
 // This file is used to generate the HTML for the projects and diaries in the backend.
 // We can use fs and stuff here.
 
-import { readdirSync } from "fs";
+import { Dirent, readdirSync } from "fs";
 import { readFile } from "node:fs/promises";
 import { resolve } from "path";
 import type { Project, Diary } from "./types";
@@ -16,10 +16,17 @@ const ad = asciidoctor();
 const listPath = resolve("./public", "content", "list.json");
 const projectPath = resolve("./public", "content", "projects");
 const diaryPath = resolve("./public", "content", "diaries");
-// No error catching here as we are screwed if this fails
-const projectFiles = readdirSync(projectPath, { withFileTypes: true }).filter((f) => f.isFile() && f.name.endsWith(".adoc"));
+// Error catching as this is evaluated at build time
+let pf: Dirent[] = [];
+let df: Dirent[] = [];
+try { pf = readdirSync(projectPath, { withFileTypes: true }).filter((f) => f.isFile() && f.name.endsWith(".adoc")) }
+catch {}
 // As we need the diaries too, no filter here
-const diaryFiles = readdirSync(diaryPath, { withFileTypes: true });
+try { df = readdirSync(diaryPath, { withFileTypes: true }) }
+catch {}
+
+const projectFiles = pf;
+const diaryFiles = df;
 
 export async function getContentList() {
     try {
