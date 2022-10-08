@@ -10,11 +10,12 @@ interface IContentCard {
 }
 
 const ContentCard: NextPage<IContentCard> = (content: IContentCard) => {
-    return <Link href={`/blog/${content.type}/${content.name}`} passHref>
-        <div className={styles.card}>
-            <h3 className={styles.title}>{content.title}</h3>
-            <p className={styles.description}>{content.description}</p>
-        </div>
+    return <Link href={`/blog/${content.type}/${content.name}`}><a className="nostyle">
+            <div className={styles.card}>
+                <h3 className={styles.title}>{content.title}</h3>
+                <p className={styles.description}>{content.description}</p>
+            </div>
+        </a>
     </Link>;
 };
 

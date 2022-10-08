@@ -5,11 +5,13 @@ import styles from "../../styles/Blog/Navigation.module.scss";
 
 const Navigation: NextPage<{}> = () => {
     return <nav className={styles.navigation}>
-        <Link href={"/"} passHref>
-            <picture>
-                <source srcSet="/icon.png" type="image/png" />
-                <img src="/icon.png" alt={"Website icon, a red eye"} className={styles.logo} />
-            </picture>
+        <Link href={"/"}>
+            <a className="nostyle">
+                <picture>
+                    <source srcSet="/icon.png" type="image/png" />
+                    <img src="/icon.png" alt={"Website icon, a red eye"} className={styles.logo} />
+                </picture>
+            </a>
         </Link>
         <div className={styles.navLink}>Projects</div>
         <div className={styles.navLink}>About me</div>
