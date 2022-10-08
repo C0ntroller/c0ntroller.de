@@ -1,0 +1,3 @@
+[submodule "public/content"]
+	path = public/content
+	url = git@git.c0ntroller.de:c0ntroller/frontpage-content.git
