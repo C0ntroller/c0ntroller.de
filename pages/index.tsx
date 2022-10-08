@@ -1,8 +1,7 @@
 import type { NextPage } from "next";
 import type { ContentList } from "../lib/content/types";
 import ProjectCard from "../components/Blog/Card";
-
-import contentList from "../public/content/list.json";
+import { getContentList } from "../lib/content/generateBackend";
 
 import styles from "../styles/Blog/Front.module.scss";
 import Layout from "../components/Blog/Layout";
@@ -26,7 +25,7 @@ const Blog: NextPage<{ content: ContentList }> = ({content}) => {
 };
 
 export async function getServerSideProps() {
-    return { props: { content: contentList } };
+    return { props: { content: await getContentList() } };
 }
 
 export default Blog;
