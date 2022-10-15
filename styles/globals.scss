@@ -22,6 +22,9 @@
   --blog_content-blur: 10px;
   --blog_color: #ddd;
 
+  --blog_light-el-display: none;
+  --blog_dark-el-display: initial;
+
   &[data-theme="light"]{
     --blog_nav-background: rgba(192, 192, 192, 0.3);
     --blog_nav-border: #ccc;
@@ -32,6 +35,8 @@
     --blog_content-blur: 5px;
     --blog_color: #222;
 
+    --blog_light-el-display: initial;
+    --blog_dark-el-display: none;
   }
 }
 

@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
+import Layout from "../components/Blog/Layout";
 import type { ContentList } from "../lib/content/types";
 import ProjectCard from "../components/Blog/Card";
 import { getContentList } from "../lib/content/generateBackend";
 
 import styles from "../styles/Blog/Front.module.scss";
-import Layout from "../components/Blog/Layout";
 
 const Blog: NextPage<{ content: ContentList }> = ({content}) => {
     const generateCards = (type: string) => {

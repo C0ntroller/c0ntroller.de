@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { useEffect } from "react";
 import Head from "next/head";
 import Navigation from "./Navigation";
 
@@ -9,6 +10,15 @@ interface ILayoutProps {
 }
 
 const Layout: NextPage<ILayoutProps> = ({ title, children }) => {
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const theme = window.localStorage.getItem("theme");
+            if(!theme || !document) return;
+            document.documentElement.setAttribute("data-theme", theme);
+        }
+    }, []);
+    
     return <>
         <Head>
             <title>{title ?? "c0ntroller.de"}</title>
