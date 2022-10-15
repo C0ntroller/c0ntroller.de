@@ -2,34 +2,40 @@
     display: block;
     max-width: 1000px;
     min-width: 300px;
-    box-shadow: 0px 2px 5px gray;
+    position: relative;
+    height: calc(1em + 40px);
+
     margin: 0 auto;
     padding: 20px;
+
     font-size: 120%;
-    height: calc(1em + 40px);
+    /* height / 2 */
     border-radius: calc((1em + 40px) / 2);
-    position: relative;
-}
+    border: 1px solid var(--blog_nav-border);
+    background: var(--blog_nav-background);
+    backdrop-filter: blur(var(--blog_content-blur));
+    box-shadow: 0px 2px 5px gray;
 
-.logo {
-    display: inline-block;
-    margin-top: -10px;
-    height: calc(1em + 40px - 20px);
-    position: absolute;
-    cursor: pointer;
-}
-
-.navLink {
-    display: inline-block;
-    transition: text-decoration 0.2s ease-in-out;
-    margin: auto 5px;
-    cursor: pointer;
-
-    &:nth-of-type(1) {
-        margin-left: calc((501 / 204) * (1em + 40px - 20px) + 15px);
+    .logo {
+        display: inline-block;
+        margin-top: -10px;
+        height: calc(1em + 40px - 20px);
+        position: absolute;
+        cursor: pointer;
     }
 
-    &:hover {
-        text-decoration: underline;
+    .navLink {
+        display: inline-block;
+        transition: text-decoration 0.2s ease-in-out;
+        margin: auto 5px;
+        cursor: pointer;
+
+        &:nth-of-type(1) {
+            margin-left: calc((501 / 204) * (1em + 40px - 20px) + 15px);
+        }
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }

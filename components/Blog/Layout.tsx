@@ -20,6 +20,9 @@ const Layout: NextPage<ILayoutProps> = ({ title, children }) => {
             <main>
                 { children }
             </main>
+            <footer>
+                Copyright und so nen Stuff
+            </footer>
         </div>
     </>;
 };
