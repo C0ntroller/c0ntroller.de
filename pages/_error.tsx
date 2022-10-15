@@ -1,8 +1,9 @@
-import type { NextPage } from "next";
+import { NextPage, NextPageContext } from "next";
 import Link from "next/link";
 import styles from "../styles/Errorpage.module.css";
 
-const svg = `
+const Error: NextPage<{ statusCode?: number }> = ({ statusCode }) => {
+    const svg = `
 <svg viewBox="30 -20 450 280" x="0" y="0">
     <!-- Box -->
     <polygon points="100,70 170,0 370,50 370,180" style="fill:#b58747;" />
@@ -52,7 +53,7 @@ const svg = `
         <line x1="170" y1="0" x2="120" y2="30" />
     </g>
     <!-- Text -->
-    <text x="120" y="120" style="font-size:4em;font-weight:bold;fill:#000000;transform:rotateX(40deg) rotateY(21deg);">500</text>
+    <text x="120" y="120" style="font-size:4em;font-weight:bold;fill:#000000;transform:rotateX(40deg) rotateY(21deg);">${statusCode ? statusCode : "???"}</text>
     <!-- Killeraugen -->
     <ellipse cx="275" cy="150" rx="32" ry="20" style="fill:#291e0f;transform:rotateZ(12deg)" />
     <ellipse cx="266" cy="153" rx="7" ry="5" style="fill:#4a6b2a;transform:rotateZ(12deg)" />
@@ -63,17 +64,22 @@ const svg = `
 </svg>
 `;
 
-const Custom404: NextPage = () => {
     return <div className={styles.container}>
         <div id={styles.wrapper}>
-            <div id={styles.box} dangerouslySetInnerHTML={{__html: svg}}>
+            <div id={styles.box} dangerouslySetInnerHTML={{ __html: svg }}>
             </div>
             <div id={styles.errorText}>
-                The site you requested could not be found.<br/>
+                { statusCode === 404 ? "The site you requested could not be found." : "An error occurred." }
+                <br />
                 <Link href="/"><a>&gt; Back to the main page &lt;</a></Link>
             </div>
         </div>
     </div>;
 };
 
-export default Custom404;
+Error.getInitialProps = ({ res, err }: NextPageContext) => {
+    const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
+    return { statusCode };
+};
+
+export default Error;
