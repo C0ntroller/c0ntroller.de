@@ -14,5 +14,5 @@
 }
 
 .container::-webkit-scrollbar-thumb {
-    background: var(--repl-color);
+    background: var(--repl_color);
 }

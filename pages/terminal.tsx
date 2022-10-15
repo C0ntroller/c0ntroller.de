@@ -61,17 +61,17 @@ const Home: NextPage<{ buildTime: string }> = ({ buildTime }) => {
                 <span className={styles.divider}>|</span>
                 <a href="https://github.com/C0ntroller/c0ntroller.de/issues/new" target="_blank" rel="noreferrer">Bug?</a>
                 <span className={styles.divider}>|</span>
-                <a href="mailto:admin-website@c0ntroller.de" rel="noreferrer"><Envelope color="var(--repl-color)" className={styles.iconLink} alt="E-Mail" /></a>
+                <a href="mailto:admin-website@c0ntroller.de" rel="noreferrer"><Envelope color="var(--repl_color)" className={styles.iconLink} alt="E-Mail" /></a>
                 <span className={styles.divider}>|</span>
-                <a href="https://github.com/C0ntroller" target="_blank" rel="noreferrer"><GithubLogo color="var(--repl-color)" className={styles.iconLink} alt="GitHub" /></a>
+                <a href="https://github.com/C0ntroller" target="_blank" rel="noreferrer"><GithubLogo color="var(--repl_color)" className={styles.iconLink} alt="GitHub" /></a>
                 <span className={styles.divider}>|</span>
-                <a href="https://www.instagram.com/c0ntroller/" target="_blank" rel="noreferrer"><InstagramLogo color="var(--repl-color)" className={styles.iconLink} alt="Instagram" /></a>
+                <a href="https://www.instagram.com/c0ntroller/" target="_blank" rel="noreferrer"><InstagramLogo color="var(--repl_color)" className={styles.iconLink} alt="Instagram" /></a>
                 <span className={styles.divider}>|</span>
-                <a href="https://steamcommunity.com/id/c0ntroller/" target="_blank" rel="noreferrer"><GameController color="var(--repl-color)" className={styles.iconLink} alt="Steam" /></a>
+                <a href="https://steamcommunity.com/id/c0ntroller/" target="_blank" rel="noreferrer"><GameController color="var(--repl_color)" className={styles.iconLink} alt="Steam" /></a>
                 <span className={styles.divider}>|</span>
                 <a href="https://discordapp.com/users/224208617820127233" target="_blank" rel="noreferrer">
                     <span className={styles.tooltip} style={{ cursor: "pointer" }}>
-                        <DiscordLogo color="var(--repl-color)" className={styles.iconLink} alt="Discord" />
+                        <DiscordLogo color="var(--repl_color)" className={styles.iconLink} alt="Discord" />
                         <span className={styles.tooltiptext}>
                             C0ntroller_Z#3883
                         </span>

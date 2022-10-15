@@ -5,7 +5,7 @@
     @import "~highlight.js/scss/atom-one-dark";
 
     h1 {
-        color: var(--repl-color-link, #2ac02a);
+        color: var(--repl_color-link, #2ac02a);
         font-size: 2em;
     }
 
@@ -30,7 +30,7 @@
     h4,
     h5,
     h6 {
-        color: var(--repl-color, #188a18);
+        color: var(--repl_color, #188a18);
     }
 
     #preamble {
@@ -53,7 +53,7 @@
 
     pre {
         background-color: #282c34;
-        border: 1px solid var(--repl-color-hint, #188a18);
+        border: 1px solid var(--repl_color-hint, #188a18);
         padding: 1em;
         color: #abb2bf;
     }

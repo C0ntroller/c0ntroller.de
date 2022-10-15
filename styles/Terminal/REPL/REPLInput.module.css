@@ -5,7 +5,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    color: var(--repl-color);
+    color: var(--repl_color);
 }
 
 .wrapper {
@@ -32,7 +32,7 @@
     background: transparent;
     width: 100%;
     appearance: none !important;
-    caret-color: var(--repl-color);
+    caret-color: var(--repl_color);
     outline: none;
 }
 
@@ -64,6 +64,6 @@
 }
 
 .completion {
-    color: var(--repl-color-hint);
+    color: var(--repl_color-hint);
     flex-grow: 1;
 }

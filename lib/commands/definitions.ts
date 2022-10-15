@@ -260,9 +260,9 @@ const color: Command = {
         }
         if (args[0] === "reset") {
             Rainbow.stop();
-            window.document.documentElement.style.removeProperty("--repl-color");
-            window.document.documentElement.style.removeProperty("--repl-color-link");
-            window.document.documentElement.style.removeProperty("--repl-color-hint");
+            window.document.documentElement.style.removeProperty("--repl_color");
+            window.document.documentElement.style.removeProperty("--repl_color-link");
+            window.document.documentElement.style.removeProperty("--repl_color-hint");
             return ["Color reset."];
         } else {
             let color: Color;

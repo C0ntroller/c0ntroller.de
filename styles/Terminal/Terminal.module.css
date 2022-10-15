@@ -4,7 +4,7 @@
     height: 100vh;
     margin: 0;
     padding: 2px 10px 10px 10px;
-    color: var(--repl-color);
+    color: var(--repl_color);
     background: #000;
 }
 
@@ -25,17 +25,17 @@
 .header a:active,
 .header a:visited,
 .header a {
-    color: var(--repl-color);
+    color: var(--repl_color);
     text-decoration: underline;
     font-size: 0.9em;
 }
 
 .header a:hover {
-    color: var(--repl-color-link);
+    color: var(--repl_color-link);
 }
 
 .header .divider {
-    color: var(--repl-color);
+    color: var(--repl_color);
     margin: 0 5px;
     font-size: 1.1em;
 }
@@ -59,7 +59,7 @@
     visibility: hidden;
     width: 140px;
     background-color: #333;
-    color: var(--repl-color);
+    color: var(--repl_color);
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;

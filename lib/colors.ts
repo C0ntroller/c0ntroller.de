@@ -1,16 +1,16 @@
 import Color from "color";
 
 export function getColors() {
-    const replColor = window.document.documentElement.style.getPropertyValue("--repl-color") || window.getComputedStyle(document.documentElement).getPropertyValue("--repl-color") || "rgb(24, 138, 24)";
-    const linkColor = window.document.documentElement.style.getPropertyValue("--repl-color-link") || window.getComputedStyle(document.documentElement).getPropertyValue("--repl-color-link") || "rgb(31, 179, 31)";
-    const hintColor = window.document.documentElement.style.getPropertyValue("--repl-color-hint") || window.getComputedStyle(document.documentElement).getPropertyValue("--repl-color-hint") || "rgba(24, 138, 24, 0.3)";
+    const replColor = window.document.documentElement.style.getPropertyValue("--repl_color") || window.getComputedStyle(document.documentElement).getPropertyValue("--repl_color") || "rgb(24, 138, 24)";
+    const linkColor = window.document.documentElement.style.getPropertyValue("--repl_color-link") || window.getComputedStyle(document.documentElement).getPropertyValue("--repl_color-link") || "rgb(31, 179, 31)";
+    const hintColor = window.document.documentElement.style.getPropertyValue("--repl_color-hint") || window.getComputedStyle(document.documentElement).getPropertyValue("--repl_color-hint") || "rgba(24, 138, 24, 0.3)";
     return [replColor, linkColor, hintColor];
 };
 
 export function setColors(color: Color) {
-    window?.document.documentElement.style.setProperty("--repl-color", color.string());
-    window?.document.documentElement.style.setProperty("--repl-color-link", color.lighten(0.3).rgb().string());
-    window?.document.documentElement.style.setProperty("--repl-color-hint", color.fade(0.7).string());
+    window?.document.documentElement.style.setProperty("--repl_color", color.string());
+    window?.document.documentElement.style.setProperty("--repl_color-link", color.lighten(0.3).rgb().string());
+    window?.document.documentElement.style.setProperty("--repl_color-hint", color.fade(0.7).string());
 };
 
 export class Rainbow {

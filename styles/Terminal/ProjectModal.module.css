@@ -75,7 +75,7 @@
 /* Firefox */
 .modalContainer {
     scrollbar-width: auto;
-    scrollbar-color: var(--repl-color, #188a18) var(--modal-gray, #0e0f0e);
+    scrollbar-color: var(--repl_color, #188a18) var(--modal-gray, #0e0f0e);
 }
 
 /* Chrome, Edge, and Safari */
@@ -90,7 +90,7 @@
 }
 
 .modalContainer::-webkit-scrollbar-thumb {
-    background-color: var(--repl-color, #188a18);
+    background-color: var(--repl_color, #188a18);
     border-radius: 20px;
     border: none;
 }
@@ -107,12 +107,12 @@
 
 .pageSelector select {
     background: var(--modal-gray); /* Transparent does not work for the dropdown */
-    color: var(--repl-color-link);
+    color: var(--repl_color-link);
     font-size: 1rem;
 }
 
 .pageSelector a:link, .pageSelector a:visited, .pageSelector a:hover, .pageSelector a:active {
-    color: var(--repl-color-link);
+    color: var(--repl_color-link);
     text-decoration: none;
 }
 
@@ -145,7 +145,7 @@
 }
 
 .fakeLink {
-    color: var(--repl-color-link);
+    color: var(--repl_color-link);
     text-decoration: none;
     cursor: pointer;
 }
