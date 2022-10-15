@@ -16,10 +16,21 @@ export interface Project extends Content {
     type: "project";
 }
 
+export interface DiaryEntry {
+    title: string;
+    filename: string;
+}
+
 export interface Diary extends Content {
     type: "diary";
-    entries: {
-        title: string;
-        filename: string;
-    }[];
+    entries: DiaryEntry[];
+}
+
+export interface ProjectRender extends Project {
+    html: string;
+}
+
+export interface DiaryRender extends Diary {
+    html: string;
+    pageSelected: number;
 }

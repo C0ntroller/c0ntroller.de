@@ -1,21 +1,14 @@
 import type { GetServerSideProps, NextPage } from "next";
+import ContentPage from "../../../components/Blog/ContentPage";
 import Layout from "../../../components/Blog/Layout";
 import { generateContent, getContentList } from "../../../lib/content/generateBackend";
-import type { ContentList } from "../../../lib/content/types";
+import type { ContentList, ProjectRender } from "../../../lib/content/types";
 
 import styles from "../../../styles/Blog/Content.module.scss";
 
-interface IContentRender {
-    more?: string;
-    repo?: string;
-    title: string;
-    html: string;
-}
-
-const Post: NextPage<{ content: IContentRender }> = ({ content }) => {
+const Post: NextPage<{ content: ProjectRender }> = ({ content }) => {
     return <Layout title={`${content.title} - c0ntroller.de`}>
-        <div dangerouslySetInnerHTML={{ __html: content.html }}>
-        </div>
+        <ContentPage content={content} />
     </Layout>;
 };
 

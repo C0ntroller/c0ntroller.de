@@ -1,21 +1,14 @@
 import type { GetServerSideProps, NextPage } from "next";
-import DiaryPageSelector from "../../../../components/Blog/DiaryPageSelector";
+import ContentPage from "../../../../components/Blog/ContentPage";
 import Layout from "../../../../components/Blog/Layout";
 import { generateContent, getContentList } from "../../../../lib/content/generateBackend";
-import type { ContentList, Diary } from "../../../../lib/content/types";
+import type { ContentList, Diary, DiaryRender } from "../../../../lib/content/types";
 
 import styles from "../../../../styles/Blog/Content.module.scss";
 
-interface IContentRender extends Diary {
-    html: string;
-    pageSelected: number;
-}
-
-const DiaryMain: NextPage<{ content: IContentRender }> = ({ content }) => {
+const DiaryMain: NextPage<{ content: DiaryRender }> = ({ content }) => {
     return <Layout title={`${content.entries[content.pageSelected - 1].title} - ${content.title} - c0ntroller.de`}>
-        <div dangerouslySetInnerHTML={{ __html: content.html }}>
-        </div>
-        <DiaryPageSelector title={content.title} pageSelected={content.pageSelected} name={content.name} pages={content.entries.map(e => e.title)} bottom />
+        <ContentPage content={content} />
     </Layout>;
 };
 

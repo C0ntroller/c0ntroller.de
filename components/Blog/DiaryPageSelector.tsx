@@ -3,11 +3,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import type { ChangeEvent, ChangeEventHandler } from "react";
 import { useEffect } from "react";
+import type { DiaryEntry } from "../../lib/content/types";
 
 import styles from "../../styles/Blog/DiaryPageSelector.module.scss";
 
 interface IContent {
-    pages: string[];
     name: string;
     title: string;
     pageSelected: number
@@ -15,10 +15,12 @@ interface IContent {
 
 interface IContentNavBar extends IContent {
     mobile?: boolean;
+    pages: string[];
 }
 
 interface IContentNav extends IContent {
     bottom?: boolean;
+    pages: DiaryEntry[];
 }
 
 const PageSelectorBar: NextPage<IContentNavBar> = ({ pages, name, title, pageSelected, mobile }) => {
@@ -64,17 +66,18 @@ const PageSelectorBar: NextPage<IContentNavBar> = ({ pages, name, title, pageSel
 };
 
 const PageSelector: NextPage<IContentNav> = (content) => {
+    const entries = content.pages.map(p => p.title);
 
-    if (content.bottom) return <PageSelectorBar pages={content.pages} name={content.name} title={content.title} pageSelected={content.pageSelected} />;
+    if (content.bottom) return <PageSelectorBar pages={entries} name={content.name} title={content.title} pageSelected={content.pageSelected} />;
 
     return (
         <div className={styles.nav}>
-            <PageSelectorBar pages={content.pages} name={content.name} title={content.title} pageSelected={content.pageSelected} mobile />
+            <PageSelectorBar pages={entries} name={content.name} title={content.title} pageSelected={content.pageSelected} mobile />
             
             <div className={`${styles.sideNav} ${styles.desktop}`}>
                 <Link href={`/blog/diary/${content.name}`}><a><h4>{content.title}</h4></a></Link>
                 <ul>
-                    {content.pages.map((e, idx) => <li key={idx}><Link href={`/blog/diary/${content.name}/${idx + 1}`}><a>{e}</a></Link></li>)}
+                    {entries.map((e, idx) => <li key={idx}><Link href={`/blog/diary/${content.name}/${idx + 1}`}><a>{e}</a></Link></li>)}
                 </ul>
             </div>
         </div>
