@@ -1,5 +1,6 @@
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { ThemeProvider } from "next-themes";
 import "../styles/globals.scss";
 import { CommandsProvider } from "../lib/commands/ContextProvider";
 import { ModalFunctionProvider } from "../components/Terminal/contexts/ModalFunctions";
@@ -33,11 +34,13 @@ function MyApp({ Component, pageProps }: AppProps) {
       <meta name="msapplication-TileImage" content="/mstile-310x310.png" />
       <meta name="theme-color" content="#444444" />
     </Head>
-    <CommandsProvider>
-      <ModalFunctionProvider>
-        <Component {...pageProps} />
-      </ModalFunctionProvider>
-    </CommandsProvider>
+    <ThemeProvider>
+      <CommandsProvider>
+        <ModalFunctionProvider>
+          <Component {...pageProps} />
+        </ModalFunctionProvider>
+      </CommandsProvider>
+    </ThemeProvider>
   </>;
 }
 

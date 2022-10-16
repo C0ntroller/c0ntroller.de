@@ -54,13 +54,4 @@
     .spacer {
         flex-grow: 2;
     }
-
-    .themeSwitch {
-        .lightTheme {
-            display: var(--blog_dark-el-display)
-        }
-        .darkTheme {
-            display: var(--blog_light-el-display)
-        }
-    }
 }
