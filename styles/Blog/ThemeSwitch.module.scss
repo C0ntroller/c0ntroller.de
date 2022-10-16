@@ -2,9 +2,17 @@
     position: relative;
     width: 1.5em;
     height: 1.5em;
+    cursor: pointer;
 
     & > * {
         position: absolute;
+        opacity: 0;
+        transform: translate(0, 100%);
+    }
+
+    & > .selected {
+        opacity: 1;
+        transform: translate(0, 0);
     }
 
     .fadeOut {

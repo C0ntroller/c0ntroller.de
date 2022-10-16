@@ -42,6 +42,13 @@
         }
     }
 
+    .navIcon {
+        margin-right: 15px;
+        cursor: pointer;
+        display: block;
+        height: 2em;
+    }
+
     @media screen and (min-width: 300px) {
         .imgContainer {
             display: block;

@@ -20,9 +20,9 @@ const ThemeSwitch: NextPage<{ size?: string }> = ({ size }) => {
         setMounted(true);
     }, []);
 
-    const switchTheme = (theme: string) => {
-
-        if (theme === "dark") setFadeProps({
+    const switchTheme = (newTheme: string) => {
+        console.log(newTheme);
+        if (newTheme === "dark") setFadeProps({
                 sun: styles.fadeIn,
                 moon: styles.fadeOut
             });
@@ -31,7 +31,7 @@ const ThemeSwitch: NextPage<{ size?: string }> = ({ size }) => {
             moon: styles.fadeIn
         });
 
-        setTheme(theme);
+        setTheme(newTheme);
     };
 
     if (!mounted) {

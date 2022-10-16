@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import type { NextPage } from "next";
 import Link from "next/link";
-import { Terminal, Sun, Moon } from "phosphor-react";
+import { TerminalWindow } from "phosphor-react";
 import ThemeSwitch from "./ThemeSwitch";
 
 import styles from "../../styles/Blog/Navigation.module.scss";
@@ -17,9 +17,9 @@ const Navigation: NextPage<{}> = () => {
             </a>
         </Link>
         <div className={styles.navLink}><Link href={"/"}><a className="nostyle">Projects</a></Link></div>
-        <div className={styles.navLink}><Link href={"/"}><a className="nostyle">About me</a></Link></div>
+        <div className={styles.navLink}><Link href={"/me"}><a className="nostyle">About me</a></Link></div>
         <div className={styles.spacer}></div>
-        <Terminal size={"1.5em"} />
+        <div className={styles.navIcon}><Link href={"/terminal"}><a className="nostyle"><TerminalWindow size={"2em"} href={"/terminal"} /></a></Link></div>
         <ThemeSwitch />
     </nav>;
 };
