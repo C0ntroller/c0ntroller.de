@@ -2,7 +2,7 @@
     font-family: sans-serif;
 
     :global {
-        @import "./asciidocBootSlate";
+        @import "../asciidocMain";
         @import "~highlight.js/scss/atom-one-dark";
 
         h1 {

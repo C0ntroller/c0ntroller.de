@@ -4,8 +4,18 @@
 import { Dirent, readdirSync } from "fs";
 import { readFile } from "node:fs/promises";
 import { resolve } from "path";
+import { JSDOM } from "jsdom";
 import type { Project, Diary } from "./types";
 import asciidoctor from "asciidoctor";
+
+// Code Highlighting
+import hljs from "highlight.js";
+import rust from "highlight.js/lib/languages/rust";
+import bash from "highlight.js/lib/languages/shell";
+hljs.registerLanguage("rust", rust);
+hljs.registerLanguage("bash", bash);
+hljs.registerLanguage("console", bash);
+hljs.registerLanguage("shell", bash);
 
 export const projectEmpty = "<div>Kein Projekt ausgewählt.</div>";
 const projectNotFoundHtml = `<div class="${"error"}">Sorry! There is no data for this project. Please check back later to see if that changed!</div>`;
@@ -110,4 +120,12 @@ async function generateDiaryHTML(diary: Diary, selectedPage?: number): Promise<s
         console.error(e);
         return projectServerErrorHtml;
     }
+}
+
+export function generateHighlightedDOM(html: string) {
+    const el = new JSDOM(html);
+    el.window.document.querySelectorAll("pre code").forEach((block) => {
+        hljs.highlightElement(block as HTMLElement);
+    });
+    return el.window.document.body.innerHTML;
 }

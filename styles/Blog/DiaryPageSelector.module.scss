@@ -2,13 +2,13 @@
     float: right;
     background: transparent;
     /* 50px padding in main */
-    margin-right: -50px;
-    margin-top: -50px;
+    margin: -50px -50px 10px 10px;
     padding: 20px;
     border-bottom-left-radius: 1em;
     border-top-right-radius: 1em;
     border: none;
     border-left: 1px solid var(--blog_content-border);
+    border-bottom: 1px solid var(--blog_content-border);
 
     h4 {
         margin: 0 0 10px 0;

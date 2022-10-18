@@ -1,8 +1,10 @@
 import type { NextPage } from "next";
+import { useEffect } from "react";
 import type { ProjectRender, DiaryRender } from "../../lib/content/types";
 import DiaryPageSelector from "./DiaryPageSelector";
 
 import styles from "../../styles/Blog/Content.module.scss";
+
 
 const ContentPage: NextPage<{ content: ProjectRender | DiaryRender }> = ({ content }) => {
     return (<>
