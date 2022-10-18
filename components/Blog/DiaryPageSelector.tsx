@@ -15,6 +15,7 @@ interface IContent {
 
 interface IContentNavBar extends IContent {
     mobile?: boolean;
+    bottom?: boolean;
     pages: string[];
 }
 
@@ -23,7 +24,7 @@ interface IContentNav extends IContent {
     pages: DiaryEntry[];
 }
 
-const PageSelectorBar: NextPage<IContentNavBar> = ({ pages, name, title, pageSelected, mobile }) => {
+const PageSelectorBar: NextPage<IContentNavBar> = ({ pages, name, title, pageSelected, mobile, bottom }) => {
     const router = useRouter();
 
     // When we are on the main page no previous page exists, otherwise we need to check if the previous page is the main page
@@ -52,15 +53,17 @@ const PageSelectorBar: NextPage<IContentNavBar> = ({ pages, name, title, pageSel
         </select>
     );
 
-    const classNames = mobile ? `${styles.barNav} ${styles.mobile}` : styles.barNav;
+    const classNames = `${styles.barNav} ${mobile ? styles.mobile : ""} ${bottom ? styles.bottom : styles.top}`;
 
     return (
         <div className={classNames}>
+            <span></span> {/* Spacer */}
             {prev}
             <span style={{visibility: prevLink ? "visible" : "hidden"}}>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             {select}
             <span style={{visibility: nextLink ? "visible" : "hidden"}}>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             {next}
+            <span></span> {/* Spacer */}
         </div>
     );
 };
@@ -68,17 +71,17 @@ const PageSelectorBar: NextPage<IContentNavBar> = ({ pages, name, title, pageSel
 const PageSelector: NextPage<IContentNav> = (content) => {
     const entries = content.pages.map(p => p.title);
 
-    if (content.bottom) return <PageSelectorBar pages={entries} name={content.name} title={content.title} pageSelected={content.pageSelected} />;
+    if (content.bottom) return <PageSelectorBar pages={entries} name={content.name} title={content.title} pageSelected={content.pageSelected} bottom />;
 
     return (
         <div className={styles.nav}>
             <PageSelectorBar pages={entries} name={content.name} title={content.title} pageSelected={content.pageSelected} mobile />
             
             <div className={`${styles.sideNav} ${styles.desktop}`}>
-                <Link href={`/blog/diary/${content.name}`}><a><h4>{content.title}</h4></a></Link>
-                <ul>
-                    {entries.map((e, idx) => <li key={idx}><Link href={`/blog/diary/${content.name}/${idx + 1}`}><a>{e}</a></Link></li>)}
-                </ul>
+                <Link href={`/blog/diary/${content.name}`}><a><h4 className={content.pageSelected === 0 ? styles.thisPage : undefined}>{content.title}</h4></a></Link>
+                <ol>
+                    {entries.map((e, idx) => <li key={idx} className={content.pageSelected - 1 === idx ? styles.thisPage : undefined}><Link href={`/blog/diary/${content.name}/${idx + 1}`}><a>{e}</a></Link></li>)}
+                </ol>
             </div>
         </div>
     );

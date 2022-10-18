@@ -15,6 +15,7 @@
         border: 1px solid var(--blog_content-border);
         background: var(--blog_content-background);
         backdrop-filter: blur(var(--blog_content-blur));
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
   
     main {
@@ -30,7 +31,6 @@
     }
 
     footer {
-        
         margin: 5px auto 0;
         padding: 20px;
         border-bottom-left-radius: 1em;
