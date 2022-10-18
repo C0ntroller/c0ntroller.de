@@ -36,4 +36,11 @@
         border-bottom-left-radius: 1em;
         border-bottom-right-radius: 1em;
     }
+
+    h1 {
+        color: var(--blog_color-accent);
+    }
+    h2, h3, h4, h5, h6 {
+        color: var(--blog_color-accent-dark);
+    }
 }
