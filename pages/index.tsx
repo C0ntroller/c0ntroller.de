@@ -32,16 +32,14 @@ const Blog: NextPage<{ content: ContentList }> = ({content}) => {
         </div>;
     };
 
-    return <>
-        <Layout>
-            <h1>Hello there!</h1>
-            <p>Miaumiau Lorem ipsum</p>
-            <h2>Projects</h2>
-            { generateCards("project") }
-            <h2>Diaries</h2>
-            { generateCards("diary") }
-        </Layout>
-    </>;
+    return <Layout>
+        <h1>Hello there!</h1>
+        <p>Miaumiau Lorem ipsum</p>
+        <h2>Projects</h2>
+        { generateCards("project") }
+        <h2>Diaries</h2>
+        { generateCards("diary") }
+    </Layout>;
 
 };
 

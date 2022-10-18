@@ -1,19 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 import type { NextPage } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { TerminalWindow, House, User } from "phosphor-react";
 import ThemeSwitch from "./ThemeSwitch";
 
 import styles from "../../styles/Blog/Navigation.module.scss";
+import logo from "../../public/icon.png";
 
 const Navigation: NextPage<{}> = () => {
     return <nav className={styles.navigation}>
         <Link href={"/"}>
-            <a className={`nostyle ${styles.imgContainer}`}>
-                <picture>
+            <a className={`nostyle ${styles.imgContainer} ${styles.logo}`}>
+                <Image src={logo} alt={"Logo"} layout={"fill"} />
+                {/*<picture>
                     <source srcSet="/icon.png" type="image/png" />
                     <img src="/icon.png" alt={"Website icon, a red eye"} className={styles.logo} />
-                </picture>
+</picture>*/}
             </a>
         </Link>
         <div className={styles.navLink}>

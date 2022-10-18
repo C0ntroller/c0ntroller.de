@@ -29,6 +29,7 @@
 
     .logo {
         height: calc(1em + 40px - 20px);
+        width: calc((501 / 204) * (1em + 40px - 20px));
     }
 
     .navLink {
