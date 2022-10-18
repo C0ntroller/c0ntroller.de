@@ -62,7 +62,7 @@
         padding: 5px;
         border-radius: 1em;
         border: 1px solid var(--blog_content-border);
-        background: #333;
+        background: var(--blog_background-main);
     }
 
     &.top {

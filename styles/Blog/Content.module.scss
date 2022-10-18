@@ -6,7 +6,7 @@
         @import "../asciidocMain";
 
         h1 {
-            color: var(--repl_color-link, #2ac02a);
+            color: var(--blog_color-accent);
             font-size: 2em;
         }
 
@@ -31,7 +31,7 @@
         h4,
         h5,
         h6 {
-            color: var(--repl_color, #188a18);
+            color: var(--blog_color-accent-dark);
         }
 
         #preamble {
@@ -45,16 +45,21 @@
 
         tbody>tr:nth-of-type(odd),
         #footer {
-            background-color: #1f2420;
+            background-color: var(--blog_background-main);
+        }
+
+        #footer {
+            clear: right;
+            border-radius: 1em;
         }
 
         tbody>tr:hover {
-            background-color: #364239;
+            background-color: rgba(0,0,0,0.2);
         }
 
         pre {
             background-color: #282c34;
-            border: 1px solid var(--repl_color-hint, #188a18);
+            border: 1px solid var(--blog_content-border);
             padding: 1em;
             color: #abb2bf;
             clear: right;
@@ -64,9 +69,21 @@
             padding: 1px;
         }
 
-        code {
-            background-color: #282c34;
-            color: #abb2bf;
+        :not(pre)>code, kbd {
+            background-color: var(--blog_background-main);
+            color: inherit;
+
+            [data-theme="light"] & {
+                background-color: #d49a9a;
+            }
+        }
+
+        a:link, a:visited, a:active {
+            color: var(--blog_color-accent);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
 
         /* This _should_ have been included in the Asciidoc style but it isn't */

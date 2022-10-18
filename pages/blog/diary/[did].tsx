@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Layout from "../../../components/Blog/Layout";
 import ContentPage from "../../../components/Blog/ContentPage";
-import { generateContent, getContentList } from "../../../lib/content/generateBackend";
+import { generateContent, getContentList, prepareDOM } from "../../../lib/content/generateBackend";
 import type { ContentList, DiaryRender, Diary } from "../../../lib/content/types";
 
 const DiaryMain: NextPage<{ content: DiaryRender }> = ({ content }) => {
@@ -19,12 +19,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (!contentEntry) return { notFound: true };
 
     const contentHtml = await generateContent(contentEntry);
+    const contentPrepared = prepareDOM(contentHtml);
 
     return {
         props: {
             content: {
                 ...contentEntry,
-                html: contentHtml,
+                html: contentPrepared,
                 pageSelected: 0
             }
         }

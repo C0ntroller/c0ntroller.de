@@ -122,10 +122,15 @@ async function generateDiaryHTML(diary: Diary, selectedPage?: number): Promise<s
     }
 }
 
-export function generateHighlightedDOM(html: string) {
-    const el = new JSDOM(html);
-    el.window.document.querySelectorAll("pre code").forEach((block) => {
+export function prepareDOM(html: string) {
+    const dom = (new JSDOM(html)).window.document;
+    dom.querySelectorAll("pre code").forEach((block) => {
         hljs.highlightElement(block as HTMLElement);
     });
-    return el.window.document.body.innerHTML;
+
+    dom.querySelectorAll("a[href^='#']").forEach((link) => {
+        (link as HTMLAnchorElement).href = `/blog/${(link as HTMLAnchorElement).href.split("#")[1]}`;
+    });
+
+    return dom.body.innerHTML;
 }

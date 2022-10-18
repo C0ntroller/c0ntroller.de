@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import ContentPage from "../../../components/Blog/ContentPage";
 import Layout from "../../../components/Blog/Layout";
-import { generateContent, getContentList } from "../../../lib/content/generateBackend";
+import { generateContent, getContentList, prepareDOM } from "../../../lib/content/generateBackend";
 import type { ContentList, ProjectRender } from "../../../lib/content/types";
 
 const Post: NextPage<{ content: ProjectRender }> = ({ content }) => {
@@ -20,6 +20,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (!contentEntry) return { notFound: true };
 
     const contentHtml = await generateContent(contentEntry);
+    const contentPrepared = prepareDOM(contentHtml);
 
     return {
         props: {
@@ -27,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 more: contentEntry.more || null,
                 repo: contentEntry.repo || null,
                 title: contentEntry.title,
-                html: contentHtml,
+                html: contentPrepared,
             }
         }
     };
