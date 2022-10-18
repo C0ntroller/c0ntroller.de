@@ -170,7 +170,7 @@ const project: Command = {
 
         if (args.length < 1 || args.length > 2) return printSyntax(project);
 
-        if (args[0] === "this") args[0] = "homepage";
+        if (args[0] === "this") args[0] = "terminal";
 
         let [pjt] = [cmdIf.content.find(p => p.name === args[0]) as Project | Diary | undefined];
         if (!pjt) return [
