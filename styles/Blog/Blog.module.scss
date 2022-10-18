@@ -9,14 +9,18 @@
         top: 10px;
         z-index: 99;
     }
+
+    main, footer {
+        max-width: 950px;
+        border: 1px solid var(--blog_content-border);
+        background: var(--blog_content-background);
+        backdrop-filter: blur(var(--blog_content-blur));
+    }
   
     main {
-        max-width: 950px;
+        
         margin: 40px auto 0;
-        border: 1px solid var(--blog_border);
-        background: var(--blog_content-background);
         padding: 50px;
-        backdrop-filter: blur(var(--blog_content-blur));
         border-top-left-radius: 1em;
         border-top-right-radius: 1em;
 
@@ -26,12 +30,9 @@
     }
 
     footer {
-        max-width: 950px;
+        
         margin: 5px auto 0;
-        border: 1px solid var(--blog_border);
-        background: var(--blog_content-background);
         padding: 20px;
-        backdrop-filter: blur(10px);
         border-bottom-left-radius: 1em;
         border-bottom-right-radius: 1em;
     }
