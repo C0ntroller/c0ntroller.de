@@ -20,9 +20,8 @@ const ThemeSwitch: NextPage<{ size?: string }> = ({ size }) => {
         setMounted(true);
     }, []);
 
-    const switchTheme = (newTheme: string) => {
-        console.log(newTheme);
-        if (newTheme === "dark") setFadeProps({
+    const switchTheme = (theme: string) => {
+        if (theme === "dark") setFadeProps({
                 sun: styles.fadeIn,
                 moon: styles.fadeOut
             });
@@ -31,16 +30,16 @@ const ThemeSwitch: NextPage<{ size?: string }> = ({ size }) => {
             moon: styles.fadeIn
         });
 
-        setTheme(newTheme);
+        setTheme(theme);
     };
 
     if (!mounted) {
         return <div className={styles.switch} title="Theme switching needs JS to be enabled.">
-            <FileJs size={size || "1.5em"} />
+            <FileJs size={size || "1.5em"} className={styles.placeHolder} />
         </div>;
     }
 
-    const sunClasses = fadeProps.sun || (theme === "dark" ? styles.selected : undefined);
+    const sunClasses = fadeProps.sun || (theme !== "light" ? styles.selected : undefined);
     const moonClasses = fadeProps.moon || (theme === "light" ? styles.selected : undefined);
 
     return <div className={styles.switch}>

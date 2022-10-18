@@ -24,6 +24,11 @@
         animation: fadeIn 0.2s ease-in-out;
         animation-fill-mode: forwards;
     }
+
+    .placeHolder {
+        opacity: 1 !important;
+        transform: translate(0, 0) !important;
+    }
 }
 
 @keyframes fadeOut {
