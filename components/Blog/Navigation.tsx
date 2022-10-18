@@ -29,7 +29,7 @@ const Navigation: NextPage<{}> = () => {
             </a></Link>
         </div>
         <div className={styles.spacer}></div>
-        <div className={styles.navIcon}><Link href={"/terminal"}><a className="nostyle"><TerminalWindow size={"2em"} /></a></Link></div>
+        <div className={styles.navIcon}><a className="nostyle" href={"/terminal"}><TerminalWindow size={"2em"} /></a></div>
         <ThemeSwitch />
     </nav>;
 };
