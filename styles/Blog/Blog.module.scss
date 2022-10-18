@@ -3,6 +3,7 @@
     color: var(--blog_color);
     padding-bottom: 20px;
     min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
     header {
         position: sticky;
@@ -15,7 +16,6 @@
         border: 1px solid var(--blog_content-border);
         background: var(--blog_content-background);
         backdrop-filter: blur(var(--blog_content-blur));
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
   
     main {
