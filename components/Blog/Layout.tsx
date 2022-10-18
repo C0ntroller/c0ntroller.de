@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import { useEffect } from "react";
 import Head from "next/head";
 import Navigation from "./Navigation";
 

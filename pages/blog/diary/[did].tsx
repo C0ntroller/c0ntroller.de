@@ -4,8 +4,6 @@ import ContentPage from "../../../components/Blog/ContentPage";
 import { generateContent, getContentList } from "../../../lib/content/generateBackend";
 import type { ContentList, DiaryRender, Diary } from "../../../lib/content/types";
 
-import styles from "../../../styles/Blog/Content.module.scss";
-
 const DiaryMain: NextPage<{ content: DiaryRender }> = ({ content }) => {
     return <Layout title={`${content.title} - c0ntroller.de`}>
         <ContentPage content={content} />

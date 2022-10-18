@@ -4,8 +4,6 @@ import Layout from "../../../components/Blog/Layout";
 import { generateContent, getContentList } from "../../../lib/content/generateBackend";
 import type { ContentList, ProjectRender } from "../../../lib/content/types";
 
-import styles from "../../../styles/Blog/Content.module.scss";
-
 const Post: NextPage<{ content: ProjectRender }> = ({ content }) => {
     return <Layout title={`${content.title} - c0ntroller.de`}>
         <ContentPage content={content} />
