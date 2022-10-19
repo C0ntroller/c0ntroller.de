@@ -13,11 +13,11 @@ const AboutMe: NextPage = () => {
     return <Layout>
         <h1>This is me.</h1>
         <p className={styles.preText}>
-            Hi! My name is <strong>Daniel</strong> and I'm an automation engineer from Germany.
+            Hi! My name is <strong>Daniel</strong> and I&apos;m an automation engineer from Germany.
         </p>
         <p>
-            I'm currently studying <strong>Information Systems Engineering</strong> at the <strong>TU Dresden</strong><br/>
-            Currently I'm {age} years old.
+            I&apos;m currently studying <strong>Information Systems Engineering</strong> at the <strong>TU Dresden</strong><br/>
+            Currently I&apos;m {age} years old.
         </p>
     </Layout>;
 
