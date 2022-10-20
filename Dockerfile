@@ -1,7 +1,7 @@
 # From https://nextjs.org/docs/deployment
 
 # Rebuild the source code only when needed
-FROM node:alpine AS builder
+FROM node:lts-alpine AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json ./
@@ -11,7 +11,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN npm run build
 
 # Production image, copy all the files and run next
-FROM node:alpine AS runner
+FROM node:lts-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
