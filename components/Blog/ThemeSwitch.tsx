@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { Sun, Moon, FileJs } from "phosphor-react";
+import Icon from "@mdi/react";
+import { mdiWhiteBalanceSunny, mdiWeatherNight, mdiLanguageJavascript } from "@mdi/js";
 
 import styles from "../../styles/Blog/ThemeSwitch.module.scss";
 
@@ -35,7 +36,7 @@ const ThemeSwitch: NextPage<{ size?: string }> = ({ size }) => {
 
     if (!mounted) {
         return <div className={styles.switch} title="Theme switching needs JS to be enabled.">
-            <FileJs size={size || "1.5em"} className={styles.placeHolder} />
+            <Icon path={mdiLanguageJavascript} size={size || "1.5em"} className={styles.placeHolder} />
         </div>;
     }
 
@@ -43,8 +44,8 @@ const ThemeSwitch: NextPage<{ size?: string }> = ({ size }) => {
     const moonClasses = fadeProps.moon || (theme === "light" ? styles.selected : undefined);
 
     return <div className={styles.switch}>
-        <Sun size={size || "1.5em"} className={sunClasses} onClick={() => switchTheme("light")} />
-        <Moon size={size || "1.5em"} className={moonClasses} onClick={() => switchTheme("dark")}  />
+        <div className={sunClasses} onClick={() => switchTheme("light")}><Icon path={mdiWhiteBalanceSunny} size={size || "1.5em"} /></div>
+        <div className={moonClasses} onClick={() => switchTheme("dark")}><Icon path={mdiWeatherNight} size={size || "1.5em"} /></div>
     </div>;
 
 };

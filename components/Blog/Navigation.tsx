@@ -2,11 +2,12 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { TerminalWindow, House, User } from "phosphor-react";
+import Icon from "@mdi/react";
+import { mdiConsole, mdiAccount, mdiHome } from "@mdi/js";
 import ThemeSwitch from "./ThemeSwitch";
 
 import styles from "../../styles/Blog/Navigation.module.scss";
-import logo from "../../public/icon.png";
+import logo from "../../public/img/icon.png";
 
 const Navigation: NextPage<{}> = () => {
     return <nav className={styles.navigation}>
@@ -22,17 +23,17 @@ const Navigation: NextPage<{}> = () => {
         <div className={styles.navLink}>
             <Link href={"/"}><a className="nostyle">
             <span className={styles.linkText}>Projects</span>
-            <span className={styles.linkIcon}><House size={"2em"} /></span>
+            <span className={styles.linkIcon}><Icon path={mdiHome} size={"2em"} /></span>
             </a></Link>
         </div>
         <div className={styles.navLink}>
             <Link href={"/me"}><a className="nostyle">
                 <span className={styles.linkText}>About me</span>
-                <span className={styles.linkIcon}><User size={"2em"} /></span>
+                <span className={styles.linkIcon}><Icon path={mdiAccount} size={"2em"} /></span>
             </a></Link>
         </div>
         <div className={styles.spacer}></div>
-        <div className={styles.navIcon}><a className="nostyle" href={"/terminal"}><TerminalWindow size={"2em"} /></a></div>
+        <div className={styles.navIcon}><a className="nostyle" href={"/terminal"}><Icon path={mdiConsole} size={"2em"} /></a></div>
         <ThemeSwitch />
     </nav>;
 };

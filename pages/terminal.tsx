@@ -1,6 +1,8 @@
 import type { NextPage, GetStaticProps } from "next";
 import Head from "next/head";
-import { GithubLogo, InstagramLogo, DiscordLogo, GameController, Envelope } from "phosphor-react";
+import Icon from "@mdi/react";
+import { mdiEmail } from "@mdi/js";
+import { Discord, Github, Instagram, Steam } from "@icons-pack/react-simple-icons";
 import { useEffect, useRef,useCallback } from "react";
 import { useCommands } from "../lib/commands/ContextProvider";
 import { useModalFunctions } from "../components/Terminal/contexts/ModalFunctions";
@@ -49,6 +51,8 @@ const Home: NextPage<{ buildTime: string }> = ({ buildTime }) => {
         }
     }, [router]);
 
+    const iconSize = "1.3em";
+
     return (<main onKeyDown={hideModalOnEsc} tabIndex={-1}>
         <Head>
             <title>c0ntroller.de</title>
@@ -61,17 +65,17 @@ const Home: NextPage<{ buildTime: string }> = ({ buildTime }) => {
                 <span className={styles.divider}>|</span>
                 <a href="https://github.com/C0ntroller/c0ntroller.de/issues/new" target="_blank" rel="noreferrer">Bug?</a>
                 <span className={styles.divider}>|</span>
-                <a href="mailto:admin-website@c0ntroller.de" rel="noreferrer"><Envelope color="var(--repl_color)" className={styles.iconLink} alt="E-Mail" /></a>
+                <a href="mailto:admin-website@c0ntroller.de" rel="noreferrer" className={styles.iconLink}><Icon path={mdiEmail} color="var(--repl_color)" size={"1.5em"} /></a>
                 <span className={styles.divider}>|</span>
-                <a href="https://github.com/C0ntroller" target="_blank" rel="noreferrer"><GithubLogo color="var(--repl_color)" className={styles.iconLink} alt="GitHub" /></a>
+                <a href="https://github.com/C0ntroller" target="_blank" rel="noreferrer" className={styles.iconLink}><Github color="var(--repl_color)" size={iconSize} /></a>
                 <span className={styles.divider}>|</span>
-                <a href="https://www.instagram.com/c0ntroller/" target="_blank" rel="noreferrer"><InstagramLogo color="var(--repl_color)" className={styles.iconLink} alt="Instagram" /></a>
+                <a href="https://www.instagram.com/c0ntroller/" target="_blank" rel="noreferrer" className={styles.iconLink}><Instagram color="var(--repl_color)" size={iconSize} /></a>
                 <span className={styles.divider}>|</span>
-                <a href="https://steamcommunity.com/id/c0ntroller/" target="_blank" rel="noreferrer"><GameController color="var(--repl_color)" className={styles.iconLink} alt="Steam" /></a>
+                <a href="https://steamcommunity.com/id/c0ntroller/" target="_blank" rel="noreferrer" className={styles.iconLink}><Steam color="var(--repl_color)" size={iconSize} /></a>
                 <span className={styles.divider}>|</span>
-                <a href="https://discordapp.com/users/224208617820127233" target="_blank" rel="noreferrer">
+                <a href="https://discordapp.com/users/224208617820127233" target="_blank" rel="noreferrer" className={styles.iconLink}>
                     <span className={styles.tooltip} style={{ cursor: "pointer" }}>
-                        <DiscordLogo color="var(--repl_color)" className={styles.iconLink} alt="Discord" />
+                        <Discord color="var(--repl_color)" size={iconSize} />
                         <span className={styles.tooltiptext}>
                             C0ntroller_Z#3883
                         </span>
