@@ -4,7 +4,7 @@ import Layout from "../../../../components/Blog/Layout";
 import { generateContent, getContentList, prepareDOM } from "../../../../lib/content/generateBackend";
 import type { ContentList, Diary, DiaryRender } from "../../../../lib/content/types";
 
-const DiaryMain: NextPage<{ content: DiaryRender }> = ({ content }) => {
+const DiaryPage: NextPage<{ content: DiaryRender }> = ({ content }) => {
     return <Layout title={`${content.entries[content.pageSelected - 1].title} - ${content.title} - c0ntroller.de`}>
         <ContentPage content={content} />
     </Layout>;
@@ -32,4 +32,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
 };
 
-export default DiaryMain;
+export default DiaryPage;

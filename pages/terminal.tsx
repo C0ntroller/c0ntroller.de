@@ -13,7 +13,7 @@ import type { ContentList } from "../lib/content/types";
 import { useRouter } from "next/router";
 import Rainbow from "../lib/colors";
 
-const Home: NextPage<{ buildTime: string }> = ({ buildTime }) => {
+const Terminal: NextPage<{ buildTime: string }> = ({ buildTime }) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const { modalFunctions } = useModalFunctions();
     const { setContents } = useCommands();
@@ -99,4 +99,4 @@ export const getStaticProps: GetStaticProps = async (_context) => {
     };
 };
 
-export default Home;
+export default Terminal;

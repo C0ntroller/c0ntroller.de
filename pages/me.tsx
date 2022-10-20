@@ -32,7 +32,7 @@ const SkillCard: NextPage<{ card: SkillCard }> = ({ card }) => {
 </div>;
 };
 
-const AboutMe: NextPage = () => {
+const Me: NextPage = () => {
     useEffect(() => {
         const handleScrollAnimation = () => {
             document.querySelectorAll(".vpAnimated").forEach((element) => {
@@ -69,7 +69,6 @@ const AboutMe: NextPage = () => {
         <h2>Skills</h2>
         {skills().cards.map((card, i) => <SkillCard key={i} card={card} />)}
     </Layout>;
-
 };
 
-export default AboutMe;
+export default Me;
