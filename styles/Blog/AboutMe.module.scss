@@ -1,3 +1,30 @@
 .preText {
     font-size: 1.2em;
 }
+
+.percentBar {
+    position: relative;
+    height: 1em;
+    width: 100%;
+    border-radius: 0.5em;
+    border: 1px solid var(--blog_content-border);
+    background: transparent;
+
+    .front {
+        border-radius: 0.5em;
+        height: 100%;
+        position: absolute;
+        background: var(--blog_color-accent);
+        animation: barFill 2s ease-in-out;
+        animation-fill-mode: forwards;
+    }
+}
+
+@keyframes barFill {
+    0% {
+        width: 1em;
+    }
+    100% {
+        width: var(--barPct);
+    }
+}
