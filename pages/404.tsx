@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Errorpage.module.css";
 
@@ -64,7 +65,9 @@ const svg = `
 `;
 
 const Custom404: NextPage = () => {
-    return <div className={styles.container}>
+    return <>
+    <Head><title>Error 404 - c0ntroller.de</title></Head>
+    <div className={styles.container}>
         <div id={styles.wrapper}>
             <div id={styles.box} dangerouslySetInnerHTML={{__html: svg}}>
             </div>
@@ -73,7 +76,7 @@ const Custom404: NextPage = () => {
                 <Link href="/"><a>&gt; Back to the main page &lt;</a></Link>
             </div>
         </div>
-    </div>;
+    </div></>;
 };
 
 export default Custom404;
