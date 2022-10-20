@@ -25,10 +25,14 @@ const SkillBar: NextPage<{ skill: Skill }> = ({ skill }) => {
 const SkillCard: NextPage<{ card: SkillCard }> = ({ card }) => {
     return <div className={styles.card}>
     <h3>{card.title}</h3>
+    <div className={styles.skillBarsSet}>
     {card.skillBars.sort((bar1, bar2) => bar2.pct - bar1.pct).map((skill, i) =>
         <SkillBar key={i} skill={skill} />
-    )}<br/>
-    {card.additional?.map((skill, i) => <Badge additional={skill} key={i} />)}
+    )}
+    </div><br />
+    <div className={styles.badgeSet}>
+        {card.additional?.map((skill, i) => <Badge additional={skill} key={i} />)}
+    </div>
 </div>;
 };
 

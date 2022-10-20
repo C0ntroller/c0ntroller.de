@@ -20,6 +20,20 @@
     }
 }
 
+.badgeSet {
+    display: flex;
+    flex-direction: row;
+}
+
+.badge {
+    display: grid;
+    grid-template-columns: 1em auto;
+    column-gap: 5px;
+    border: 1px solid var(--blog_content-border);
+    border-radius: 0.5em;
+    padding: 5px;
+}
+
 @keyframes barFill {
     0% {
         width: 1em;
