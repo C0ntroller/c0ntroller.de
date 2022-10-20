@@ -1,0 +1,14 @@
+{
+    "cards": [
+        {
+            "title": "Web Technologies",
+            "skillBars": [
+                {
+                    "name": "JavaScript/TypeScript",
+                    "icons": ["FileJs", "FileTs"],
+                    "pct": 100
+                }
+            ]
+        }
+    ]    
+}

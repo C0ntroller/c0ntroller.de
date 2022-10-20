@@ -1,10 +1,53 @@
 import type { NextPage } from "next";
 import Layout from "../components/Blog/Layout";
+import * as phosphorIcons from "phosphor-react";
 
 import styles from "../styles/Blog/AboutMe.module.scss";
+import skills from "../data/skills.json";
 
-const SkillBar: NextPage<{ skill: string, color: string, pct: number }> = ({skill, color, pct}) => {
-    return <></>;
+interface Skill {
+    name: string;
+    icons: string[];
+    pct: number;
+}
+
+interface AdditionalSkills {
+    name: string;
+    icon: string;
+}
+
+interface SkillCard {
+    title: string;
+    skillBars: Skill[];
+    additional?: AdditionalSkills[];
+}
+
+
+interface SkillSet {
+    cards: SkillCard[];
+    additional: AdditionalSkills[];
+}
+
+const getIcon = (iconName: string, key?: number) => {
+    const Icon = phosphorIcons[iconName as keyof typeof phosphorIcons] as any;
+    if (!Icon) return null;
+    else return <Icon key={key} />;
+};
+
+const SkillBar: NextPage<{ skill: Skill }> = ({ skill }) => {
+    return <div className={styles.bar}>
+        <div className={styles.barName}>{skill.name}{skill.icons.map(getIcon)}</div>
+        <div className={styles.barPct}>{skill.pct}%</div>
+    </div>;
+};
+
+const SkillCard: NextPage<{ card: SkillCard }> = ({ card }) => {
+    return <div className={styles.card}>
+    <h3>{card.title}</h3>
+    {card.skillBars.map((skill, i) =>
+        <SkillBar key={i} skill={skill} />
+    )}
+</div>;
 };
 
 const AboutMe: NextPage = () => {
@@ -19,6 +62,7 @@ const AboutMe: NextPage = () => {
             I&apos;m currently studying <strong>Information Systems Engineering</strong> at the <strong>TU Dresden</strong><br/>
             Currently I&apos;m {age} years old.
         </p>
+        {skills.cards.map((card, i) => <SkillCard key={i} card={card} />)}
     </Layout>;
 
 };
