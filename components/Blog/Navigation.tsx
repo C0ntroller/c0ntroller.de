@@ -23,17 +23,17 @@ const Navigation: NextPage<{}> = () => {
         <div className={styles.navLink}>
             <Link href={"/"}><a className="nostyle">
             <span className={styles.linkText}>Projects</span>
-            <span className={styles.linkIcon}><Icon path={mdiHome} size={"2em"} /></span>
+            <span className={styles.linkIcon}><Icon path={mdiHome} size={"2em"} title={"Home and Projects"} /></span>
             </a></Link>
         </div>
         <div className={styles.navLink}>
             <Link href={"/me"}><a className="nostyle">
-                <span className={styles.linkText}>About me</span>
-                <span className={styles.linkIcon}><Icon path={mdiAccount} size={"2em"} /></span>
+                <span className={styles.linkText}>About Me</span>
+                <span className={styles.linkIcon}><Icon path={mdiAccount} size={"2em"} title={"About Me"} /></span>
             </a></Link>
         </div>
         <div className={styles.spacer}></div>
-        <div className={styles.navIcon}><a className="nostyle" href={"/terminal"}><Icon path={mdiConsole} size={"2em"} /></a></div>
+        <div className={styles.navIcon}><a className="nostyle" href={"/terminal"}><Icon path={mdiConsole} size={"2em"} title={"Terminal"} /></a></div>
         <ThemeSwitch />
     </nav>;
 };

@@ -44,8 +44,8 @@ const ThemeSwitch: NextPage<{ size?: string }> = ({ size }) => {
     const moonClasses = fadeProps.moon || (theme === "light" ? styles.selected : undefined);
 
     return <div className={styles.switch}>
-        <div className={sunClasses} onClick={() => switchTheme("light")}><Icon path={mdiWhiteBalanceSunny} size={size || "1.5em"} /></div>
-        <div className={moonClasses} onClick={() => switchTheme("dark")}><Icon path={mdiWeatherNight} size={size || "1.5em"} /></div>
+        <div className={sunClasses} onClick={() => switchTheme("light")}><Icon path={mdiWhiteBalanceSunny} size={size || "1.5em"} title={"Light theme"} /></div>
+        <div className={moonClasses} onClick={() => switchTheme("dark")}><Icon path={mdiWeatherNight} size={size || "1.5em"} title={"Dark theme"} /></div>
     </div>;
 
 };
