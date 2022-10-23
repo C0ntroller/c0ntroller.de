@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { useEffect } from "react";
+import Color from "color";
 import Layout from "../components/Blog/Layout";
 
 import styles from "../styles/Blog/AboutMe.module.scss";
@@ -9,30 +10,42 @@ import achievements from "../data/achievements";
 
 const Badge: NextPage<{ additional: AdditionalSkill }> = ({ additional }) => {
     return <div className={styles.badge}>
-        {additional.icon || null} {additional.name}
+        <span>{additional.icon || null}</span><span>{additional.name}</span>
     </div>;
 };
 
 const SkillBar: NextPage<{ skill: Skill }> = ({ skill }) => {
     return <div className={styles.skillBar}>
-        <div className={styles.barName}>{skill.name}{skill.icon || null}</div>
+        <div className={styles.barName}>{skill.icon || null}</div>
         <div className={styles.percentBar} style={{"--barPct": skill.pct + "%"} as React.CSSProperties}>
             <div className={`${styles.front} vpAnimated`}></div>
         </div>
+        <div>{skill.name}</div>
     </div>;
 };
 
 const SkillCard: NextPage<{ card: SkillCard }> = ({ card }) => {
-    return <div className={styles.card}>
+    const cardStyle = {
+        background: card.colors?.background,
+        "--ch-color": card.colors?.heading,
+        "--bar-color": card.colors?.bars,
+        color: undefined,
+    } as React.CSSProperties;
+
+    try {
+        cardStyle.color = Color(cardStyle.background).isDark() ? "#ddd" : "#222";
+    } catch {}
+
+    return <div className={styles.skillCard} style={cardStyle}>
     <h3>{card.title}</h3>
     <div className={styles.skillBarsSet}>
     {card.skillBars.sort((bar1, bar2) => bar2.pct - bar1.pct).map((skill, i) =>
         <SkillBar key={i} skill={skill} />
     )}
-    </div><br />
-    <div className={styles.badgeSet}>
-        {card.additional?.map((skill, i) => <Badge additional={skill} key={i} />)}
     </div>
+    {card.additional && card.additional.length > 0 ? <div className={styles.badgeSet}>
+        {card.additional?.map((skill, i) => <Badge additional={skill} key={i} />)}
+    </div> : null}
 </div>;
 };
 
