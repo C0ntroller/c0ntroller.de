@@ -43,8 +43,8 @@ const PageSelectorBar: NextPage<IContentNavBar> = ({ pages, name, title, pageSel
         await router.push(link);
     };
 
-    const prev = <span className={styles.leftSelectSpace}>{prevLink ? <Link href={prevLink}><a className={styles.barLink}>&lt; {pageSelected - 1 === 0 ? `${title} (Main Page)` : pages[pageSelected - 2]}</a></Link> : null}</span>;
-    const next = <span className={styles.rightSelectSpace}>{nextLink ? <Link href={nextLink}><a className={styles.barLink}>{pages[pageSelected]} &gt;</a></Link> : null}</span>;
+    const prev = <span className={styles.leftSelectSpace}>{prevLink ? <Link href={prevLink}><a>&lt;<span className={styles.longLink}> {pageSelected - 1 === 0 ? "Main Page" : pages[pageSelected - 2]}</span><span className={styles.shortLink}>&lt;</span></a></Link> : null}</span>;
+    const next = <span className={styles.rightSelectSpace}>{nextLink ? <Link href={nextLink}><a><span className={styles.longLink}>{pages[pageSelected]} </span><span className={styles.shortLink}>&gt;</span>&gt;</a></Link> : null}</span>;
 
     const select = (
         <select onChange={onSelection} value={pageSelected}>
@@ -77,12 +77,12 @@ const PageSelector: NextPage<IContentNav> = (content) => {
         <div className={styles.nav}>
             <PageSelectorBar pages={entries} name={content.name} title={content.title} pageSelected={content.pageSelected} mobile />
             
-            <div className={`${styles.sideNav} ${styles.desktop}`}>
+            <aside className={`${styles.sideNav} ${styles.desktop}`}>
                 <Link href={`/blog/diary/${content.name}`}><a><h4 className={content.pageSelected === 0 ? styles.thisPage : undefined}>{content.title}</h4></a></Link>
                 <ol>
                     {entries.map((e, idx) => <li key={idx} className={content.pageSelected - 1 === idx ? styles.thisPage : undefined}><Link href={`/blog/diary/${content.name}/${idx + 1}`}><a>{e}</a></Link></li>)}
                 </ol>
-            </div>
+            </aside>
         </div>
     );
 };
