@@ -29,12 +29,10 @@ const SkillCard: NextPage<{ card: SkillCard }> = ({ card }) => {
         background: card.colors?.background,
         "--ch-color": card.colors?.heading,
         "--bar-color": card.colors?.bars,
-        color: undefined,
+        color: card.colors?.useDarkColor === undefined ? undefined : (card.colors?.useDarkColor ? "#222" : "#ddd"),
+        "--badge-bg": card.colors?.badges?.background,
+        "--badge-color": card.colors?.badges?.useDarkColor === undefined ? undefined : (card.colors?.badges?.useDarkColor ? "#222" : "#ddd"),
     } as React.CSSProperties;
-
-    try {
-        cardStyle.color = Color(cardStyle.background).isDark() ? "#ddd" : "#222";
-    } catch {}
 
     return <div className={styles.skillCard} style={cardStyle}>
     <h3>{card.title}</h3>

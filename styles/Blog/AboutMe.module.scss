@@ -44,6 +44,8 @@
     border: 1px solid var(--blog_content-border);
     border-radius: 0.5em;
     padding: 5px;
+    background: var(--badge-bg, transparent);
+    color: var(--badge-color, inherit);
 
     & > span {
         align-self: center;

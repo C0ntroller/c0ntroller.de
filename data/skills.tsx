@@ -17,6 +17,11 @@ export interface CardColors {
     background: string;
     bars: string;
     heading: string;
+    useDarkColor: boolean;
+    badges?: {
+        background: string;
+        useDarkColor: boolean;
+    }
 }
 
 export interface SkillCard {
@@ -113,11 +118,16 @@ export const skills = (sizeCardIcons?: string, sizeBadgeIcons?: string): SkillSe
                 name: "Spring Boot",
                 icon: <Springboot size={sizeBadgeIcons} />
             }],
-            /*colors: {
-                background: "#2196f3",
-                bars: "#217fff",
-                heading: "#2043ff"
-            }*/
+            colors: {
+                background: "#A4C7EA",
+                bars: "#706EB8",
+                heading: "#2A2885",
+                useDarkColor: true,
+                badges: {
+                    background: "#2A2885",
+                    useDarkColor: false,
+                }
+            }
         }, {
             title: "Embedded Programming",
             skillBars: [{
@@ -132,11 +142,16 @@ export const skills = (sizeCardIcons?: string, sizeBadgeIcons?: string): SkillSe
                 name: "ESP",
                 icon: <Espressif size={sizeBadgeIcons} />
             }],
-            /*colors: {
+            colors: {
                 background: "#EA8585",
                 bars: "#E53E3E",
-                heading: "#661C1C"
-            }*/
+                heading: "#661C1C",
+                useDarkColor: true,
+                badges: {
+                    background: "#661C1C",
+                    useDarkColor: false,
+                }
+            }
         }, {
             title: "Operating Systems",
             skillBars: [],
