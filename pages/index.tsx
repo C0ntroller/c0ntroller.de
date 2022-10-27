@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import gen from "random-seed";
 import Layout from "../components/Blog/Layout";
 import type { ContentList, Project, Diary } from "../lib/content/types";
 import ProjectCard from "../components/Blog/Card";
@@ -6,14 +7,6 @@ import { getContentList } from "../lib/content/generateBackend";
 
 import styles from "../styles/Blog/Front.module.scss";
 
-// https://stackoverflow.com/a/6274381
-function shuffle(a: any[]) {
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-}
 
 const Blog: NextPage<{ content: ContentList }> = ({content}) => {
     const clearDescription = (description: string) => {
@@ -23,9 +16,23 @@ const Blog: NextPage<{ content: ContentList }> = ({content}) => {
         return description.replace(linkRegex, "$1").replace(cmdRegex, "\"$1\"");
     };
 
+    const shuffleArray = (arr: any[]) => {
+        // We want shuffle but only between days
+        const date = new Date();
+        const generator = gen.create(`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`);
+
+        // https://stackoverflow.com/a/6274381
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = generator.intBetween(0, i);
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        generator.done();
+        return arr;
+    };
+
     const generateCards = (type: string) => {
         return <div className={styles.contentList}>{
-            (shuffle(content.filter(p => p.type === type)) as (Project|Diary)[])
+            (shuffleArray(content.filter(p => p.type === type)) as (Project|Diary)[])
             .map(p => 
             <ProjectCard key={p.name} title={p.title} description={clearDescription(p.desc.join(" "))} type={p.type} name={p.name} />
             )}
