@@ -22,12 +22,9 @@
     .imgContainer {
         align-self: flex-start;
         margin-top: -10px;
-        position: absolute;
+        position: relative;
         cursor: pointer;
         display: none;
-    }
-
-    .logo {
         height: calc(1em + 40px - 20px);
         width: calc((501 / 204) * (1em + 40px - 20px));
     }
@@ -70,7 +67,7 @@
             display: block;
         }
         .navLink:nth-of-type(1) {
-            margin-left: calc((501 / 204) * (1em + 40px - 20px) + 15px);
+            margin-left: 15px; /*calc((501 / 204) * (1em + 40px - 20px) + 15px);*/
         }
     }
 
