@@ -45,39 +45,39 @@ export const skills = (sizeCardIcons?: string, sizeBadgeIcons?: string): SkillSe
             title: "Programming Languages",
             skillBars: [{
                 name: "TypeScript",
-                icon: <Icon path={mdiLanguageTypescript} size={sizeCardIcons} />,
+                icon: <Icon path={mdiLanguageTypescript} size={sizeCardIcons} id={"mdi_skills_prog_ts"} />,
                 pct: 100
             }, {
                 name: "JavaScript",
-                icon: <Icon path={mdiLanguageJavascript} size={sizeCardIcons} />,
+                icon: <Icon path={mdiLanguageJavascript} size={sizeCardIcons} id={"mdi_skills_prog_js"} />,
                 pct: 100
             }, {
                 name: "Java",
-                icon: <Icon path={mdiLanguageJava} size={sizeCardIcons} />,
+                icon: <Icon path={mdiLanguageJava} size={sizeCardIcons} id={"mdi_skills_prog_java"} />,
                 pct: 80
             }, {
                 name: "Python 3",
-                icon: <Icon path={mdiLanguagePython} size={sizeCardIcons} />,
+                icon: <Icon path={mdiLanguagePython} size={sizeCardIcons} id={"mdi_skills_prog_python"} />,
                 pct: 95
             }, {
                 name: "PHP",
-                icon: <Icon path={mdiLanguagePhp} size={sizeCardIcons} />,
+                icon: <Icon path={mdiLanguagePhp} size={sizeCardIcons} id={"mdi_skills_prog_php"} />,
                 pct: 50
             }, {
                 name: "Bash",
-                icon: <Icon path={mdiBash} size={sizeCardIcons} />,
+                icon: <Icon path={mdiBash} size={sizeCardIcons} id={"mdi_skills_prog_bash"} />,
                 pct: 60
             }, {
                 name: "C/C++",
-                icon: <Icon path={mdiLanguageCpp} size={sizeCardIcons} />,
+                icon: <Icon path={mdiLanguageCpp} size={sizeCardIcons} id={"mdi_skills_prog_c"} />,
                 pct: 60
             }, {
                 name: "Rust",
-                icon: <Icon path={mdiLanguageRust} size={sizeCardIcons} />,
+                icon: <Icon path={mdiLanguageRust} size={sizeCardIcons} id={"mdi_skills_prog_rust"} />,
                 pct: 80
             }, {
                 name: "C#",
-                icon: <Icon path={mdiLanguageCsharp} size={sizeCardIcons} />,
+                icon: <Icon path={mdiLanguageCsharp} size={sizeCardIcons} id={"mdi_skills_prog_cs"} />,
                 pct: 40
             }],
             colors: {
@@ -94,23 +94,23 @@ export const skills = (sizeCardIcons?: string, sizeBadgeIcons?: string): SkillSe
             title: "Web Technologies",
             skillBars: [{
                 name: "TypeScript",
-                icon: <Icon path={mdiLanguageTypescript} size={sizeCardIcons} />,
+                icon: <Icon path={mdiLanguageTypescript} size={sizeCardIcons} id={"mdi_skills_web_ts"} />,
                 pct: 100
             }, {
                 name: "JavaScript",
-                icon: <Icon path={mdiLanguageJavascript} size={sizeCardIcons} />,
+                icon: <Icon path={mdiLanguageJavascript} size={sizeCardIcons} id={"mdi_skills_web_js"} />,
                 pct: 100
             }, {
                 name: "React",
-                icon: <Icon path={mdiReact} size={sizeCardIcons} />,
+                icon: <Icon path={mdiReact} size={sizeCardIcons} id={"mdi_skills_web_react"} />,
                 pct: 80
             }, {
                 name: "HTML5",
-                icon: <Html5 size={sizeCardIcons} />,
+                icon: <Html5 size={sizeCardIcons} id={"mdi_skills_web_html"} />,
                 pct: 80
             }, {
                 name: "CSS3",
-                icon: <CssThree size={sizeCardIcons} />,
+                icon: <CssThree size={sizeCardIcons} id={"mdi_skills_web_css"} />,
                 pct: 90
             }],
             additional: [{
@@ -137,7 +137,7 @@ export const skills = (sizeCardIcons?: string, sizeBadgeIcons?: string): SkillSe
             title: "Embedded Programming",
             skillBars: [{
                 name: "C/C++",
-                icon: <Icon path={mdiLanguageCpp} size={sizeCardIcons} />,
+                icon: <Icon path={mdiLanguageCpp} size={sizeCardIcons} id={"mdi_skills_embedded_c"} />,
                 pct: 60
             }],
             additional: [{
@@ -184,15 +184,15 @@ export const skills = (sizeCardIcons?: string, sizeBadgeIcons?: string): SkillSe
             title: "Languages",
             skillBars: [{
                 name: "German (native)",
-                icon: <Icon path={mdiTranslateVariant} size={sizeCardIcons} />,
+                icon: <Icon path={mdiTranslateVariant} size={sizeCardIcons} id={"mdi_skills_lang_de"} />,
                 pct: 100
             }, {
                 name: "English (C1)",
-                icon: <Icon path={mdiTranslateVariant} size={sizeCardIcons} />,
+                icon: <Icon path={mdiTranslateVariant} size={sizeCardIcons} id={"mdi_skills_lang_en"} />,
                 pct: 90
             }, {
                 name: "Russian (basics)",
-                icon: <Icon path={mdiTranslateVariant} size={sizeCardIcons} />,
+                icon: <Icon path={mdiTranslateVariant} size={sizeCardIcons} id={"mdi_skills_lang_ru"} />,
                 pct: 30
             }],
             colors: {

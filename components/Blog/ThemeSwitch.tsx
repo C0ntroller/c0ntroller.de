@@ -36,7 +36,7 @@ const ThemeSwitch: NextPage<{ size?: string }> = ({ size }) => {
 
     if (!mounted) {
         return <div className={styles.switch} title="Theme switching needs JS to be enabled.">
-            <Icon path={mdiLanguageJavascript} size={size || "1.5em"} className={styles.placeHolder} />
+            <Icon path={mdiLanguageJavascript} size={size || "1.5em"} className={styles.placeHolder} id={"mdi_themeswitch_noscript"} />
         </div>;
     }
 
@@ -44,8 +44,8 @@ const ThemeSwitch: NextPage<{ size?: string }> = ({ size }) => {
     const moonClasses = fadeProps.moon || (theme === "light" ? styles.selected : undefined);
 
     return <div className={styles.switch}>
-        <div className={sunClasses} onClick={() => switchTheme("light")}><Icon path={mdiWhiteBalanceSunny} size={size || "1.5em"} title={"Light theme"} /></div>
-        <div className={moonClasses} onClick={() => switchTheme("dark")}><Icon path={mdiWeatherNight} size={size || "1.5em"} title={"Dark theme"} /></div>
+        <div className={sunClasses} onClick={() => switchTheme("light")}><Icon path={mdiWhiteBalanceSunny} size={size || "1.5em"} title={"Light theme"} id={"mdi_themeswitch_light"} /></div>
+        <div className={moonClasses} onClick={() => switchTheme("dark")}><Icon path={mdiWeatherNight} size={size || "1.5em"} title={"Dark theme"} id={"mdi_themeswitch_dark"} /></div>
     </div>;
 
 };
