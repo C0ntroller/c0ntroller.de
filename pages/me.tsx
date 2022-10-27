@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import { useEffect } from "react";
-import Color from "color";
 import Layout from "../components/Blog/Layout";
 
 import styles from "../styles/Blog/AboutMe.module.scss";

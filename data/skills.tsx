@@ -80,11 +80,16 @@ export const skills = (sizeCardIcons?: string, sizeBadgeIcons?: string): SkillSe
                 icon: <Icon path={mdiLanguageCsharp} size={sizeCardIcons} />,
                 pct: 40
             }],
-            /*colors: {
-                background: "#690000",
-                bars: "#fff",
-                heading: "#fff"
-            }*/
+            colors: {
+                background: "#C3A3F7",
+                bars: "#8771AB",
+                heading: "#55476B",
+                useDarkColor: true,
+                badges: {
+                    background: "#55476B",
+                    useDarkColor: false,
+                }
+            }
         }, {
             title: "Web Technologies",
             skillBars: [{
@@ -164,7 +169,17 @@ export const skills = (sizeCardIcons?: string, sizeBadgeIcons?: string): SkillSe
             }, {
                 name: "Android",
                 icon: <Android size={sizeBadgeIcons} />
-            }]
+            }],
+            colors: {
+                background: "#4DEB8C",
+                bars: "#38AB66",
+                heading: "#236B40",
+                useDarkColor: true,
+                badges: {
+                    background: "#236B40",
+                    useDarkColor: false
+                }
+            }
         }, {
             title: "Languages",
             skillBars: [{
@@ -180,7 +195,16 @@ export const skills = (sizeCardIcons?: string, sizeBadgeIcons?: string): SkillSe
                 icon: <Icon path={mdiTranslateVariant} size={sizeCardIcons} />,
                 pct: 30
             }],
-            additional: []
+            colors: {
+                background: "#EB783F",
+                bars: "#AB582E",
+                heading: "#6B371D",
+                useDarkColor: true,
+                badges: {
+                    background: "#6B371D",
+                    useDarkColor: false,
+                }
+            }
         }]
     };
 };

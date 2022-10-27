@@ -46,6 +46,11 @@
     padding: 5px;
     background: var(--badge-bg, transparent);
     color: var(--badge-color, inherit);
+    margin-right: 10px;
+
+    &:last-of-type {
+        margin-right: 0;
+    }
 
     & > span {
         align-self: center;
@@ -69,6 +74,7 @@
     padding: 10px;
     border: 1px solid var(--blog_content-border);
     border-radius: 0.5em;
+    box-shadow: 2px 2px 5px 0px var(--blog_color);
 
     margin-bottom: 20px;
 
@@ -107,7 +113,7 @@
 
     & > div:nth-of-type(3) {
         text-align: center;
-        margin-top: -5px;
+        margin-top: -2px;
         font-size: small;
     }
 
