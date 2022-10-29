@@ -1,11 +1,15 @@
 import type { NextPage } from "next";
+import Link from "next/link";
 import { useEffect } from "react";
+import { Discord, Github, Instagram, Steam, Linkedin } from "@icons-pack/react-simple-icons";
 import Layout from "../components/Blog/Layout";
 
 import styles from "../styles/Blog/AboutMe.module.scss";
+import pic from "../public/img/me.png";
 
 import skills, { AdditionalSkill, Skill, SkillCard } from "../data/skills";
 import achievements from "../data/achievements";
+import Image from "next/image";
 
 const Badge: NextPage<{ additional: AdditionalSkill }> = ({ additional }) => {
     return <div className={styles.badge}>
@@ -70,12 +74,45 @@ const Me: NextPage = () => {
 
     return <Layout>
         <h1>This is me.</h1>
-        <p className={styles.preText}>
-            Hi! My name is <strong>Daniel</strong> and I&apos;m an automation engineer from Germany.
-        </p>
-        <p>
-            I&apos;m currently {age} years old and studying <strong>Information Systems Engineering</strong> at the <strong>TU Dresden</strong>.
-        </p>
+        <div className={styles.photo}>
+            <Image src={pic} alt="Me" layout={"responsive"} />
+        </div>
+        <div className={styles.personal}>
+            <p className={styles.preText}>
+                My name is <strong>Daniel</strong> and I&apos;m an prospective <strong>automation engineer</strong>, <strong>hardware enthusiast</strong>, and <strong>software developer</strong> from Germany.<br/>
+                I&apos;m currently {age} years old and studying <strong>Information Systems Engineering</strong> at the <strong>TU Dresden</strong>.
+            </p>
+            <p>
+                To be hones, I don&apos;t really know what to write here.
+                What could you - some visitor of my website - possibly want to know about me?
+            </p><p>
+                Maybe you are an employer and want to know what I can do for you?
+                Then see below - I tried to list all my skills and achievements.
+                If your company is doing anything related to software development (even low level one like on embedded controllers), I&apos;m probably suited for it.
+            </p><p>
+                But maybe you are just another guy on the internet browsing through my website?
+                Well then have fun!
+                I hope you find what you are looking for.
+                If you haven&apos;t seen it already, you should check out the <Link href="/terminal"><a className="nocolor">command line</a></Link> I made.
+                Otherwise have fun poking around in my <Link href="/"><a className="nocolor">projects</a></Link>.
+            </p><p>
+                Do you want to know more about my personal life?
+                Well I like to play video games, watch anime, I love cats and <a href="https://www.reddit.com/r/blahaj" target="_blank" rel="noreferrer" className="nocolor">sharks</a>.
+                So just your ordinary nerdy student.<br/>
+                If you want to be even more invested in my personal life, check out my socials below.
+            </p><p>
+                Any questions I did not cover, but you are interested in?
+                Just contect me <a className="nocolor" href="mailto:admin-website@c0ntroller.de" rel="noreferrer">via email</a> or any of the socials below!
+            </p>
+        </div>
+        <h2>Social Media</h2>
+        <div className={styles.socials}>
+            <a href="https://github.com/C0ntroller" target="_blank" rel="noreferrer" className="nocolor"><Github size="2em" title="Github" /></a>
+            <a href="https://www.linkedin.com/in/c0ntroller/" target="_blank" rel="noreferrer" className="nocolor"><Linkedin size="2em" title="Linked" /></a>
+            <a href="https://www.instagram.com/c0ntroller/" target="_blank" rel="noreferrer" className="nocolor"><Instagram size="2em" title="Instagram" /></a>
+            <a href="https://steamcommunity.com/id/c0ntroller/" target="_blank" rel="noreferrer" className="nocolor"><Steam size="2em" title="Steam" /></a>
+            <a href="https://discordapp.com/users/224208617820127233" target="_blank" rel="noreferrer" className="nocolor"><Discord size="2em" title="Discord" /></a>
+        </div>
         <h2>Achievements</h2>
         {achievements().map((achievement, i) => <div key={i} className={styles.achievement}>
             <span>{achievement.icon}</span><span>{achievement.description}</span>

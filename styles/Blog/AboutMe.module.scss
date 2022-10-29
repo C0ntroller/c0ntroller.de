@@ -1,6 +1,12 @@
-.preText {
-    font-size: 1.2em;
-}
+.personal {
+    p {
+        line-height: 1.5;
+    }
+
+    p:first-of-type {
+        font-size: 1.2em;
+    }
+} 
 
 .percentBar {
     position: relative;
@@ -31,6 +37,7 @@
     grid-template-columns: 2em auto;
     column-gap: 10px;
     padding: 5px;
+    padding-left: 0;
 
     & > span:first-of-type {
         height: 2em;
@@ -119,5 +126,42 @@
 
     &:last-of-type {
         margin-bottom: 0;
+    }
+}
+
+.socials {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    & > * {
+        margin-right: 30px;
+    }
+
+    & > *:last-of-type {
+        margin-right: 0;
+    }
+}
+
+.photo {
+    float: right;
+    position: relative;
+    height: max-content;
+    width: 100%;
+    max-width: 250px;
+    border-radius: 1em;
+    margin-left: 30px;
+
+    & * {
+        border-radius: 1em;
+    }
+
+    @media screen and (max-width: 500px) {
+        & {
+            float: none;
+            margin: 0 auto;
+            max-width: 100%;
+            border-radius: 1em;
+        }
     }
 }

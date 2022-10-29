@@ -53,5 +53,8 @@ body {
 
 a.nostyle {
   text-decoration: inherit;
+}
+
+a.nocolor, a.nostyle {
   color: inherit;
 }
