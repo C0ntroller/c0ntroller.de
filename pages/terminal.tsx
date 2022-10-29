@@ -65,7 +65,7 @@ const Terminal: NextPage<{ buildTime: string }> = ({ buildTime }) => {
                 <span className={styles.divider}>|</span>
                 <a href="https://github.com/C0ntroller/c0ntroller.de/issues/new" target="_blank" rel="noreferrer">Bug?</a>
                 <span className={styles.divider}>|</span>
-                <a href="mailto:admin-website@c0ntroller.de" rel="noreferrer" className={styles.iconLink}><Icon path={mdiEmail} color="var(--repl_color)" size={"1.5em"} id={"mdi_terminal_nav_email"} title="Email" /></a>
+                <a href="mailto:admin-website@c0ntroller.de" rel="noreferrer" className={styles.iconLink}><Icon path={mdiEmail} color="var(--repl_color)" size="1.5em" id="mdi_terminal_nav_email" title="Email" /></a>
                 <span className={styles.divider}>|</span>
                 <a href="https://github.com/C0ntroller" target="_blank" rel="noreferrer" className={styles.iconLink}><Github color="var(--repl_color)" size={iconSize} title="Github" /></a>
                 <span className={styles.divider}>|</span>

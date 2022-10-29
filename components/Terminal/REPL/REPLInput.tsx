@@ -160,7 +160,7 @@ const REPLInput: NextPage<REPLInputParams> = ({historyCallback, historyClear, in
     return <div className={styles.wrapperwrapper}>
         <span className={styles.inputstart}>$&nbsp;</span>
         <div className={styles.wrapper}>
-            <input ref={inputRef as MutableRefObject<HTMLInputElement>} className={styles.in} type={"text"} onChange={replinOnChange} onKeyDown={keyEvent} spellCheck={"false"} autoComplete={"off"} autoFocus maxLength={20} />
+            <input ref={inputRef as MutableRefObject<HTMLInputElement>} className={styles.in} type="text" onChange={replinOnChange} onKeyDown={keyEvent} spellCheck="false" autoComplete="off" autoFocus maxLength={20} />
             <span className={styles.completionWrapper}><span ref={typed} className={styles.typed}></span><span ref={completion} className={styles.completion}></span></span>
         </div>
     </div>;

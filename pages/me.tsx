@@ -75,7 +75,7 @@ const Me: NextPage = () => {
     return <Layout>
         <h1>This is me.</h1>
         <div className={styles.photo}>
-            <Image src={pic} alt="Me" layout={"responsive"} />
+            <Image src={pic} alt="Me" layout="responsive" />
         </div>
         <div className={styles.personal}>
             <p className={styles.preText}>

@@ -14,13 +14,13 @@ const Layout: NextPage<ILayoutProps> = ({ title, children }) => {
             <title>{title ?? "c0ntroller.de"}</title>
         </Head>
         <div id={styles.blogBody}>
-            <header id={"top"}>
+            <header id="top">
                 <Navigation />
             </header>
             <main>
                 { children }
             </main>
-            <footer id={"bottom"}>
+            <footer id="bottom">
                 Copyright und so nen Stuff
             </footer>
         </div>

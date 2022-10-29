@@ -12,8 +12,8 @@ const ContentPage: NextPage<{ content: ProjectRender | DiaryRender }> = ({ conte
     return (<>
         {content.type === "diary" ? <DiaryPageSelector title={content.title} pageSelected={content.pageSelected} name={content.name} pages={content.entries} /> : null}
         <div className={styles.more}>
-            {content.more ? <a href={content.more} className={"nostyle"}><Icon path={mdiWeb} size={"2em"} title="More" id={`mdi_content_more_link_${content.name}`} /></a> : null}
-            {content.repo ? <a href={content.repo} className={"nostyle"}><Git size={"2em"} title={"Repository"} id={`mdi_content_repo_link_${content.name}`}  /></a> : null}
+            {content.more ? <a href={content.more} className="nostyle"><Icon path={mdiWeb} size="2em" title="More" id={`mdi_content_more_link_${content.name}`} /></a> : null}
+            {content.repo ? <a href={content.repo} className="nostyle"><Git size="2em" title="Repository" id={`mdi_content_repo_link_${content.name}`}  /></a> : null}
         </div>
         <div className={styles.asciidoc} dangerouslySetInnerHTML={{ __html: content.html }}>
         </div>
