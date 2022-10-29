@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Head>
       <meta charSet="utf-8" />
       <meta name="description" content="This is the homepage of C0ntroller." />
-      <meta name="keyword" content="private, homepage, cli, hacker, terminal, javascript, js, nextjs, react, responsive" />
+      <meta name="keyword" content="private, homepage, software, portfolio, development, cli, hacker, terminal, javascript, js, typescript, ts, nextjs, react, responsive" />
       <meta name="author" content="C0ntroller" />
       <meta name="copyright" content="C0ntroller" />
       <meta name="robots" content="index,nofollow" />
