@@ -79,30 +79,30 @@ const Me: NextPage = () => {
         </div>
         <div className={styles.personal}>
             <p className={styles.preText}>
-                My name is <strong>Daniel</strong> and I&apos;m an prospective <strong>automation engineer</strong>, <strong>hardware enthusiast</strong>, and <strong>software developer</strong> from Germany.<br/>
-                I&apos;m currently {age} years old and studying <strong>Information Systems Engineering</strong> at the <strong>TU Dresden</strong>.
+                My name is <strong>Daniel</strong> and I&apos;m a prospective <strong>automation engineer</strong>, <strong>hardware enthusiast</strong>, and <strong>software developer</strong> from Germany.<br/>
+                I&apos;m {age} years old and studying <strong>Information Systems Engineering</strong> at <strong>TU Dresden</strong>.
             </p>
             <p>
-                To be hones, I don&apos;t really know what to write here.
+                To be honest, I don&apos;t really know what to write here.
                 What could you - some visitor of my website - possibly want to know about me?
             </p><p>
                 Maybe you are an employer and want to know what I can do for you?
                 Then see below - I tried to list all my skills and achievements.
-                If your company is doing anything related to software development (even low level one like on embedded controllers), I&apos;m probably suited for it.
+                If your company is doing anything related to software development (even low-level ones like embedded controllers), I&apos;m probably suited for it.
             </p><p>
                 But maybe you are just another guy on the internet browsing through my website?
                 Well then have fun!
                 I hope you find what you are looking for.
                 If you haven&apos;t seen it already, you should check out the <Link href="/terminal"><a className="nocolor">command line</a></Link> I made.
-                Otherwise have fun poking around in my <Link href="/"><a className="nocolor">projects</a></Link>.
+                Otherwise, have fun poking around in my <Link href="/"><a className="nocolor">projects</a></Link>.
             </p><p>
                 Do you want to know more about my personal life?
-                Well I like to play video games, watch anime, I love cats and <a href="https://www.reddit.com/r/blahaj" target="_blank" rel="noreferrer" className="nocolor">sharks</a>.
+                Well, I like to play video games, and watch anime, I love cats and <a href="https://www.reddit.com/r/blahaj" target="_blank" rel="noreferrer" className="nocolor">sharks</a>.
                 So just your ordinary nerdy student.<br/>
                 If you want to be even more invested in my personal life, check out my socials below.
             </p><p>
                 Any questions I did not cover, but you are interested in?
-                Just contect me <a className="nocolor" href="mailto:admin-website@c0ntroller.de" rel="noreferrer">via email</a> or any of the socials below!
+                Just contact me <a className="nocolor" href="mailto:admin-website@c0ntroller.de" rel="noreferrer">via email</a> or any of the socials below!
             </p>
         </div>
         <h2>Social Media</h2>
