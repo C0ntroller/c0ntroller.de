@@ -103,7 +103,7 @@ const Me: NextPage = () => {
                 If you want to be even more invested in my personal life, check out my socials below.
             </p><p>
                 Any questions I did not cover, but you are interested in?
-                Just contact me <a className="nocolor" href="mailto:admin-website@c0ntroller.de" rel="noreferrer">via email</a> or any of the socials below!
+                Just contact me <a className="nocolor" href="mailto:admin-website@c0ntroller.de" rel="noreferrer" target="_blank">via email</a> or any of the socials below!
             </p>
         </div>
         <h2>Social Media</h2>
