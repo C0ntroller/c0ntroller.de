@@ -14,7 +14,7 @@ interface FadeProperties {
 const ThemeSwitch: NextPage<{ size?: string }> = ({ size }) => {
     const [mounted, setMounted] = useState(false);
     const [fadeProps, setFadeProps] = useState<FadeProperties>({});
-    const { theme, setTheme } = useTheme();
+    const { resolvedTheme, setTheme } = useTheme();
 
     // Will be run when the component is rendered.
     useEffect(() => {
@@ -40,8 +40,8 @@ const ThemeSwitch: NextPage<{ size?: string }> = ({ size }) => {
         </div>;
     }
 
-    const sunClasses = fadeProps.sun || (theme !== "light" ? styles.selected : undefined);
-    const moonClasses = fadeProps.moon || (theme === "light" ? styles.selected : undefined);
+    const sunClasses = fadeProps.sun || (resolvedTheme === "dark" ? styles.selected : undefined);
+    const moonClasses = fadeProps.moon || (resolvedTheme === "light" ? styles.selected : undefined);
 
     return <div className={styles.switch}>
         <div className={sunClasses} onClick={() => switchTheme("light")}><Icon path={mdiWhiteBalanceSunny} size={size || "1.5em"} title="Light theme" id="mdi_themeswitch_light" /></div>
