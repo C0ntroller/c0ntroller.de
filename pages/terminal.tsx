@@ -8,10 +8,13 @@ import { useCommands } from "../lib/commands/ContextProvider";
 import { useModalFunctions } from "../components/Terminal/contexts/ModalFunctions";
 import ProjectModal from "../components/Terminal/ProjectModal";
 import REPL from "../components/Terminal/REPL";
-import styles from "../styles/Terminal/Terminal.module.css";
 import type { ContentList } from "../lib/content/types";
 import { useRouter } from "next/router";
 import Rainbow from "../lib/colors";
+
+import styles from "../styles/Terminal/Terminal.module.css";
+
+import socials from "../data/socials";
 
 const Terminal: NextPage<{ buildTime: string }> = ({ buildTime }) => {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -67,22 +70,10 @@ const Terminal: NextPage<{ buildTime: string }> = ({ buildTime }) => {
                 <span className={styles.divider}>|</span>
                 <a href="mailto:admin-website@c0ntroller.de" rel="noreferrer" className={styles.iconLink}><Icon path={mdiEmail} color="var(--repl_color)" size="1.5em" id="mdi_terminal_nav_email" title="Email" /></a>
                 <span className={styles.divider}>|</span>
-                <a href="https://github.com/C0ntroller" target="_blank" rel="noreferrer" className={styles.iconLink}><Github color="var(--repl_color)" size={iconSize} title="Github" /></a>
-                <span className={styles.divider}>|</span>
-                <a href="https://www.linkedin.com/in/c0ntroller/" target="_blank" rel="noreferrer" className={styles.iconLink}><Linkedin color="var(--repl_color)" size={iconSize} title="LinkedIn" /></a>
-                <span className={styles.divider}>|</span>
-                <a href="https://www.instagram.com/c0ntroller/" target="_blank" rel="noreferrer" className={styles.iconLink}><Instagram color="var(--repl_color)" size={iconSize} title="Instagram" /></a>
-                <span className={styles.divider}>|</span>
-                <a href="https://steamcommunity.com/id/c0ntroller/" target="_blank" rel="noreferrer" className={styles.iconLink}><Steam color="var(--repl_color)" size={iconSize} title="Steam" /></a>
-                <span className={styles.divider}>|</span>
-                <a href="https://discordapp.com/users/224208617820127233" target="_blank" rel="noreferrer" className={styles.iconLink}>
-                    <span className={styles.tooltip} style={{ cursor: "pointer" }}>
-                        <Discord color="var(--repl_color)" size={iconSize} title="Discord" />
-                        <span className={styles.tooltiptext}>
-                            C0ntroller_Z#3883
-                        </span>
-                    </span>
-                </a>
+                {socials(iconSize, "var(--repl_color)").map((social, i) => <>
+                    {i !== 0 ? <span className={styles.divider} key={`d${i}`}>|</span> : null}
+                    <a key={i} href={social.url} target="_blank" rel="noreferrer" className={styles.iconLink}>{social.icon}</a>
+                </>)}
                 <span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
             </div>
             <REPL inputRef={inputRef} buildTime={buildTime} />

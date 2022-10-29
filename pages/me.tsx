@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect } from "react";
 import { Discord, Github, Instagram, Steam, Linkedin } from "@icons-pack/react-simple-icons";
 import Layout from "../components/Blog/Layout";
@@ -9,7 +10,7 @@ import pic from "../public/img/me.png";
 
 import skills, { AdditionalSkill, Skill, SkillCard } from "../data/skills";
 import achievements from "../data/achievements";
-import Image from "next/image";
+import socials from "../data/socials";
 
 const Badge: NextPage<{ additional: AdditionalSkill }> = ({ additional }) => {
     return <div className={styles.badge}>
@@ -107,11 +108,11 @@ const Me: NextPage = () => {
         </div>
         <h2>Social Media</h2>
         <div className={styles.socials}>
-            <a href="https://github.com/C0ntroller" target="_blank" rel="noreferrer" className="nocolor"><Github size="2em" title="Github" /></a>
-            <a href="https://www.linkedin.com/in/c0ntroller/" target="_blank" rel="noreferrer" className="nocolor"><Linkedin size="2em" title="Linked" /></a>
-            <a href="https://www.instagram.com/c0ntroller/" target="_blank" rel="noreferrer" className="nocolor"><Instagram size="2em" title="Instagram" /></a>
-            <a href="https://steamcommunity.com/id/c0ntroller/" target="_blank" rel="noreferrer" className="nocolor"><Steam size="2em" title="Steam" /></a>
-            <a href="https://discordapp.com/users/224208617820127233" target="_blank" rel="noreferrer" className="nocolor"><Discord size="2em" title="Discord" /></a>
+            {socials("2em").map((social, i) => 
+                <a key={i} href={social.url} target="_blank" rel="noreferrer" className="nocolor">
+                    {social.icon}
+                </a>
+            )}
         </div>
         <h2>Achievements</h2>
         {achievements().map((achievement, i) => <div key={i} className={styles.achievement}>
