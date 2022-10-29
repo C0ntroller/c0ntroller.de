@@ -35,6 +35,34 @@
         padding: 20px;
         border-bottom-left-radius: 1em;
         border-bottom-right-radius: 1em;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        font-size: 1.1em;
+
+        
+        .spacer {
+            flex-grow: 1;
+        }
+
+        .footerContent {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+
+            .divider {
+                margin: 0 10px;
+            }
+
+            .socialIcon {
+                color: inherit;
+                text-decoration: none;
+                height: 1em;
+            }
+        }
     }
 
     h1 {
