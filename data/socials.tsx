@@ -8,8 +8,7 @@ interface Social {
 
 export const socials = (iconSize?: string, color?: string): Social[] => {
     iconSize = iconSize || "1em";
-    console.log(iconSize);
-
+    
     return [
         {
             name: "GitHub",
