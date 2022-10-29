@@ -1,8 +1,8 @@
 import type { NextPage, GetStaticProps } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import Icon from "@mdi/react";
 import { mdiEmail } from "@mdi/js";
-import { Discord, Github, Instagram, Steam, Linkedin } from "@icons-pack/react-simple-icons";
 import { useEffect, useRef,useCallback } from "react";
 import { useCommands } from "../lib/commands/ContextProvider";
 import { useModalFunctions } from "../components/Terminal/contexts/ModalFunctions";
@@ -64,6 +64,8 @@ const Terminal: NextPage<{ buildTime: string }> = ({ buildTime }) => {
         <div className={styles.container}>
             <div className={styles.header}>
                 <span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
+                <Link href="/"><a>Main page</a></Link>
+                <span className={styles.divider}>|</span>
                 <a href="https://github.com/C0ntroller/c0ntroller.de" target="_blank" rel="noreferrer">Source</a>
                 <span className={styles.divider}>|</span>
                 <a href="https://github.com/C0ntroller/c0ntroller.de/issues/new" target="_blank" rel="noreferrer">Bug?</a>

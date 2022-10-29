@@ -225,12 +225,9 @@ const exitCmd: Command = {
             window.opener = null;
             window.open("", "_self");
             window.close();
+            window.history.back();
         }
-        return [
-            "If you can read this, closing the window did not work.",
-            "This is most likely because of a restriction in JavaScript.",
-            "#{Read more here|https://developer.mozilla.org/en-US/docs/Web/API/Window/close}."
-        ];
+        return [];
     }
 };
 
