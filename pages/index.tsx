@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Link from "next/link";
 import gen from "random-seed";
 import Layout from "../components/Blog/Layout";
 import type { ContentList, Project, Diary } from "../lib/content/types";
@@ -41,7 +42,13 @@ const Blog: NextPage<{ content: ContentList }> = ({content}) => {
 
     return <Layout>
         <h1>Hello there!</h1>
-        <p>Miaumiau Lorem ipsum</p>
+        <p className={styles.frontText}>
+            Welcome to my website!<br/>
+            You can find here blog entries about some projects I did and some diaries where I document progress.<br/>
+            Interested in me? Visit the <Link href="/me"><a className="nocolor">About Me page</a></Link>, and you will find out more about me.<br/>
+            On the right of the navigation, you will find what used to be my website - a CLI you can play around with.<br/><br/>
+            Have fun!
+        </p>
         <h2>Projects</h2>
         { generateCards("project") }
         <h2>Diaries</h2>
