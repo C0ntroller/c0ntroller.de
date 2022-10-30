@@ -11,6 +11,8 @@ interface ILayoutProps {
 }
 
 const Layout: NextPage<ILayoutProps> = ({ title, children }) => {
+    const socialLinks = socials("1.1em").map((social, i) => <a key={i} href={social.url} target="_blank" rel="noreferrer" className={styles.socialIcon}>{social.icon}</a>); 
+
     return <>
         <Head>
             <title>{title ?? "c0ntroller.de"}</title>
@@ -29,10 +31,7 @@ const Layout: NextPage<ILayoutProps> = ({ title, children }) => {
                 <span className={styles.footerContent}>
                     <span>© 2022 Daniel Kluge</span>
                     <span className={styles.divider}>|</span>
-                    {socials("1.1em").map((social, i) => <>
-                        {i !== 0 ? <span className={styles.divider} key={`d${i}`}>|</span> : null}
-                        <a key={i} href={social.url} target="_blank" rel="noreferrer" className={styles.socialIcon}>{social.icon}</a>
-                    </>)}
+                    {socialLinks.flatMap((social, i) => i !== 0 ? [<span className={styles.divider} key={`d${i}`}>|</span>, social] : [social])}
                     <span className={styles.divider}>|</span>
                     <a className="nostyle" target="_blank" href="mailto:admin-website@c0ntroller.de" rel="noreferrer">Contact</a>
                 </span>

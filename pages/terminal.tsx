@@ -56,6 +56,8 @@ const Terminal: NextPage<{ buildTime: string }> = ({ buildTime }) => {
 
     const iconSize = "1.3em";
 
+    const socialLinks = socials(iconSize, "var(--repl_color)").map((social, i) => <a key={i} href={social.url} target="_blank" rel="noreferrer" className={styles.iconLink}>{social.icon}</a>); 
+
     return (<main onKeyDown={hideModalOnEsc} tabIndex={-1}>
         <Head>
             <title>c0ntroller.de</title>
@@ -72,10 +74,7 @@ const Terminal: NextPage<{ buildTime: string }> = ({ buildTime }) => {
                 <span className={styles.divider}>|</span>
                 <a href="mailto:admin-website@c0ntroller.de" rel="noreferrer" target="_blank" className={styles.iconLink}><Icon path={mdiEmail} color="var(--repl_color)" size="1.5em" id="mdi_terminal_nav_email" title="Email" /></a>
                 <span className={styles.divider}>|</span>
-                {socials(iconSize, "var(--repl_color)").map((social, i) => <>
-                    {i !== 0 ? <span className={styles.divider} key={`d${i}`}>|</span> : null}
-                    <a key={i} href={social.url} target="_blank" rel="noreferrer" className={styles.iconLink}>{social.icon}</a>
-                </>)}
+                {socialLinks.flatMap((social, i) => i !== 0 ? [<span className={styles.divider} key={`d${i}`}>|</span>, social] : [social])}
                 <span className={styles.spacer} onClick={focusInput}>&nbsp;</span>
             </div>
             <REPL inputRef={inputRef} buildTime={buildTime} />
