@@ -18,7 +18,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     if (!contentEntry) return { notFound: true };
 
-    const contentHtml = await generateContent(contentEntry);
+    const contentHtml = await generateContent(contentEntry) as string;
     const contentPrepared = prepareDOM(contentHtml);
 
     return {
