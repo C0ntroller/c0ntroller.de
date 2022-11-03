@@ -5,6 +5,7 @@ import Navigation from "./Navigation";
 import styles from "../../styles/Blog/Blog.module.scss";
 
 import socials from "../../data/socials";
+import Link from "next/link";
 
 interface ILayoutProps {
     title?: string;
@@ -29,11 +30,11 @@ const Layout: NextPage<ILayoutProps> = ({ title, children }) => {
                 <span style={{visibility: "hidden"}}>▲</span>
                 <span className={styles.spacer}></span>
                 <span className={styles.footerContent}>
-                    <span>© 2022 Daniel Kluge</span>
+                    <span><Link href="/copyright"><a className="nocolor">Copyright</a></Link></span>
                     <span className={styles.divider}>|</span>
                     {socialLinks.flatMap((social, i) => i !== 0 ? [<span className={styles.divider} key={`d${i}`}>|</span>, social] : [social])}
                     <span className={styles.divider}>|</span>
-                    <a className="nostyle" target="_blank" href="mailto:admin-website@c0ntroller.de" rel="noreferrer">Contact</a>
+                    <a className="nocolor" target="_blank" href="mailto:admin-website@c0ntroller.de" rel="noreferrer">Contact</a>
                 </span>
                 <span className={styles.spacer}></span>
                 <a className="nostyle" href="#top" title="Back to top">▲</a>
