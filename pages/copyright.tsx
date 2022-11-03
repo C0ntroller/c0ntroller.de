@@ -1,13 +1,6 @@
 import type { NextPage } from "next";
 import Layout from "../components/Blog/Layout";
 
-/*
-- MIT License
-- MDI (Material Design Icons) by Google, Apache License 2.0
-- Simple Icons by Simple Icons Contributors, CC0 1.0 Universal
-- SASS Logo by Sass team, CC BY-NC-SA 3.0
-*/
-
 const Copyright: NextPage = () => {
     return <Layout>
         <h1>Copyright</h1>
