@@ -71,7 +71,7 @@ const Me: NextPage = () => {
         window.addEventListener("scroll", handleScrollAnimation);
     }, []);
 
-    const age = new Date().getFullYear() - 1998 - (new Date().getMonth() < 10 ? 1 : 0);
+    const age = new Date().getFullYear() - 1998 - (new Date().getMonth() <= 10 ? 1 : 0);
 
     return <Layout>
         <h1>This is me.</h1>
