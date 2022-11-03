@@ -1,5 +1,5 @@
 import Icon from "@mdi/react";
-import { mdiBash, mdiLanguageCpp, mdiLanguageCsharp, mdiLanguageJava, mdiLanguageJavascript, mdiLanguagePhp, mdiLanguagePython, mdiLanguageRust, mdiLanguageTypescript, mdiReact, mdiTranslateVariant } from "@mdi/js";
+import { mdiBash, mdiLanguageCpp, mdiLanguageCsharp, mdiLanguageJava, mdiLanguageJavascript, mdiLanguagePhp, mdiLanguagePython, mdiLanguageRust, mdiLanguageTypescript, mdiReact, mdiTranslateVariant, mdiDatabaseSearch } from "@mdi/js";
 import { Android, Arduino, CssThree, Espressif, Express, Html5, Linux, Sass, Springboot, Windows } from "@icons-pack/react-simple-icons";
 
 export interface Skill {
@@ -79,6 +79,10 @@ export const skills = (sizeCardIcons?: string, sizeBadgeIcons?: string): SkillSe
                 name: "C#",
                 icon: <Icon path={mdiLanguageCsharp} size={sizeCardIcons} id="mdi_skills_prog_cs" />,
                 pct: 40
+            }],
+            additional: [{
+                name: "SQL Languages",
+                icon: <Icon path={mdiDatabaseSearch} size={sizeBadgeIcons} id="mdi_skills_prog_sql" />
             }],
             colors: {
                 background: "#C3A3F7",
