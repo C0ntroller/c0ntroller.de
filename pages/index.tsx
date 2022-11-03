@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import gen from "random-seed";
 import Layout from "../components/Blog/Layout";
@@ -57,8 +57,10 @@ const Blog: NextPage<{ content: ContentList }> = ({content}) => {
 
 };
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+    res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=600");
+
     return { props: { content: await getContentList() } };
-}
+};
 
 export default Blog;

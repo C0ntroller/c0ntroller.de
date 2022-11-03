@@ -21,6 +21,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const contentHtml = await generateContent(contentEntry, Number.parseInt(page)) as string;
     const contentPrepared = prepareDOM(contentHtml);
 
+    context.res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=600");
+
     return {
         props: {
             content: {
