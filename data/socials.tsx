@@ -1,4 +1,6 @@
 import { Github, Linkedin, Instagram, Discord, Steam } from "@icons-pack/react-simple-icons";
+import Icon from "@mdi/react";
+import { mdiEmailLock } from "@mdi/js";
 
 interface Social {
     name: string;
@@ -30,6 +32,10 @@ export const socials = (iconSize?: string, color?: string): Social[] => {
             name: "Discord",
             url: "https://discordapp.com/users/224208617820127233",
             icon: <Discord size={iconSize} title="Discord" color={color} />
+        }, {
+            name: "PGP Key",
+            url: "/files/pubkey.pgp",
+            icon: <Icon path={mdiEmailLock} size={iconSize} title="PGP Key" color={color} />
         }
     ];
 };
