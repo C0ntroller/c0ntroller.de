@@ -108,7 +108,7 @@ const Me: NextPage = () => {
         </div>
         <h2>Social Media</h2>
         <div className={styles.socials}>
-            {socials("2em").map((social, i) => 
+            {socials("2em").filter((social) => social.name !== "PGP Key").map((social, i) => 
                 <a key={i} href={social.url} target="_blank" rel="noreferrer" className="nocolor">
                     {social.icon}
                 </a>

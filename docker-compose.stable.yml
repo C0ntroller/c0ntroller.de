@@ -13,15 +13,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
-      - "traefik.http.routers.website-stable.entrypoints=web"
-      - "traefik.http.routers.website-stable.rule=Host(`c0ntroller.de`) || Host(`www.c0ntroller.de`)"
-      - "traefik.http.routers.website-stable.middlewares=http-to-https@file"
-      - "traefik.http.routers.website-stable-secure.entrypoints=websecure"
-      - "traefik.http.routers.website-stable-secure.rule=Host(`c0ntroller.de`) || Host(www.c0ntroller.de`)"
-      - "traefik.http.routers.website-stable-secure.middlewares=secHeaders@file"
-      - "traefik.http.routers.website-stable-secure.tls=true"
-      - "traefik.http.routers.website-stable-secure.tls.certresolver=le"
-      - "traefik.http.routers.website-stable-secure.service=website-stable"
+      - "traefik.http.routers.website-stable.entrypoints=websecure"
+      - "traefik.http.routers.website-stable.rule=Host(`c0ntroller.de`) || Host(www.c0ntroller.de`)"
+      - "traefik.http.routers.website-stable.middlewares=secHeaders@file"
+      - "traefik.http.routers.website-stable.tls=true"
+      - "traefik.http.routers.website-stable.tls.certresolver=le"
+      - "traefik.http.routers.website-stable.service=website-stable"
       - "traefik.http.services.website-stable.loadbalancer.server.port=3000"
     environment:
       - IS_DEV_ENV=true

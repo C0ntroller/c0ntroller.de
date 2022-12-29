@@ -1,6 +1,6 @@
 # Frontpage
 
-[![Read the blog entry at c0ntroller.de](https://c0ntroller.de/img/read-blog.svg)](https://c0ntroller.de/#/project/homepage)
+[![Read the blog entry at c0ntroller.de](https://c0ntroller.de/img/read-blog.svg)](https://c0ntroller.de/blog/project/terminal)
 
 | Stable | Dev
 | ------ | ---

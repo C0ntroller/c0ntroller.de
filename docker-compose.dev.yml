@@ -13,15 +13,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
-      - "traefik.http.routers.website-dev.entrypoints=web"
+      - "traefik.http.routers.website-dev.entrypoints=websecure"
       - "traefik.http.routers.website-dev.rule=Host(`dev.c0ntroller.de`)"
-      - "traefik.http.routers.website-dev.middlewares=http-to-https@file"
-      - "traefik.http.routers.website-dev-secure.entrypoints=websecure"
-      - "traefik.http.routers.website-dev-secure.rule=Host(`dev.c0ntroller.de`)"
-      - "traefik.http.routers.website-dev-secure.middlewares=secHeaders@file"
-      - "traefik.http.routers.website-dev-secure.tls=true"
-      - "traefik.http.routers.website-dev-secure.tls.certresolver=le"
-      - "traefik.http.routers.website-dev-secure.service=website-dev"
+      - "traefik.http.routers.website-dev.middlewares=secHeaders@file"
+      - "traefik.http.routers.website-dev.tls=true"
+      - "traefik.http.routers.website-dev.tls.certresolver=le"
+      - "traefik.http.routers.website-dev.service=website-dev"
       - "traefik.http.services.website-dev.loadbalancer.server.port=3000"
     environment:
       - IS_DEV_ENV=true
