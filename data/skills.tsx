@@ -78,7 +78,7 @@ export const skills = (sizeCardIcons?: string, sizeBadgeIcons?: string): SkillSe
             }, {
                 name: "C#",
                 icon: <Icon path={mdiLanguageCsharp} size={sizeCardIcons} id="mdi_skills_prog_cs" />,
-                pct: 40
+                pct: 70
             }],
             additional: [{
                 name: "SQL Languages",
