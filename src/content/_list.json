@@ -1,0 +1,104 @@
+[
+    {
+        "type": "project",
+        "name": "terminal",
+        "short_desc": "The terminal on my website.",
+        "desc": [
+            "This is part of my homepage.",
+            "What you see on the page resembles an CLI. You just type in commands and some output is shown or it does something on the website.",
+            "To find out which commands are available, you can just type %{help}.",
+            "",
+            "Everything is always in development. So if you come back in a few days/weeks/months/years something could have been changed!",
+            "You can also check out the #%{dev version|https://dev.c0ntroller.de} if you haven't already.",
+            "",
+            "Have fun!"
+        ],
+        "repo": "https://git.c0ntroller.de/c0ntroller/frontpage",
+        "title": "Terminal"
+    },
+    {
+        "type": "project",
+        "name": "infoscreen",
+        "short_desc": "Screen that shows various information.",
+        "desc": [
+            "I had a screen left over and hooked a Raspberry Pi to it.",
+            "Then I created a webpage that fetches and shows various information.",
+            "Currently it includes time, weather, calendar, departures and more."
+        ],
+        "repo": "https://git.c0ntroller.de/c0ntroller/infoscreen",
+        "title": "Infoscreen"
+    },
+    {
+        "type": "diary",
+        "name": "rust",
+        "short_desc": "Me learning Rust (German).",
+        "desc": [
+            "I documented my progress to learn the Rust programming language.",
+            "It follows the #%{Rust book|https://doc.rust-lang.org/book/} with my own annotations.",
+            "Everything is in German as these notes are mostly meant for me."
+        ],
+        "entries": [
+            { "title": "Hello World", "filename": "00 - Hello World"},
+            { "title": "Cargo", "filename": "01 - Cargo"},
+            { "title": "Higher-Lower-Game", "filename": "02 - Higher-Lower-Spiel"},
+            { "title": "Basics", "filename": "03 - Concepts"},
+            { "title": "Ownership", "filename": "04 - Ownership"},
+            { "title": "Structs", "filename": "05 - Structs"},
+            { "title": "Enums", "filename": "06 - Enums"},
+            { "title": "Crates & Modules", "filename": "07 - Management"},
+            { "title": "Collections", "filename": "08 - Collections"},
+            { "title": "Errors und panic!", "filename": "09 - Errors und panic"}
+        ],
+        "title": "Rust Diary"
+    },
+    {
+        "type": "project",
+        "name": "tufast",
+        "short_desc": "TUfast is a browser extension that is used by multiple thousand users of the TU Dresden.",
+        "desc": [
+            "TUfast is a browser extension that is used by multiple thousand users of the TU Dresden.",
+            "It provides autologin to the most used portals, shortcuts, redirects, and more.",
+            "I'm one of the developers."
+        ],
+        "repo": "https://github.com/TUfast-TUD/TUfast_TUD",
+        "more": "https://tu-fast.de/",
+        "title": "TUfast TUD"
+    },
+    {
+        "type": "project",
+        "name": "ol-git",
+        "short_desc": "I created a script that pushes Overleaf projects to a git remote.",
+        "desc": [
+            "Overleaf is a LaTeX editor for the web and honestly great to use.",
+            "But there is no way to back up your project to a cloud drive or git without paying them money.",
+            "Even the self-hosted community version has no such functionality.",
+            "I decided that's BS and made my own script to sync a project to git."
+        ],
+        "repo": "https://git.c0ntroller.de/c0ntroller/overleaf-git-sync",
+        "title": "Overleaf Git Sync"
+    },
+    {
+        "type": "project",
+        "name": "simple-cb",
+        "short_desc": "A simple callback server for OAuth2 applications.",
+        "desc": [
+            "Most times when using OAuth2 on an API like Google or Spotify I just need the refresh token on setup.",
+            "To get the initial tokens and the refresh token it is necessary to have a server that prints the POST body.",
+            "This application does this."
+        ],
+        "repo": "https://git.c0ntroller.de/c0ntroller/simple-callback-server",
+        "title": "Simple Callback Server"
+    },
+    {
+        "type": "project",
+        "name": "photo-sync",
+        "short_desc": "A script that syncs a Google Photos album to your drive.",
+        "desc": [
+            "Giving random apps access to your Google Photos can be bad.",
+            "To still use an album as screensaver etc. I wrote this script.",
+            "It syncs all your photos to your drive while giving you maximum privacy."
+        ],
+        "repo": "https://git.c0ntroller.de/c0ntroller/simple-callback-server",
+        "title": "Photo Sync"
+    }
+]

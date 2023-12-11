@@ -1,0 +1,104 @@
+---
+title: Infoscreen
+description: "I had a screen left over and hooked a Raspberry Pi to it. Then I created a webpage that fetches and shows various information. Currently it includes time, weather, calendar, departures and more."
+descriptionShort: Screen that shows various information.
+repository: "https://git.c0ntroller.de/c0ntroller/infoscreen"
+published: 2022-06-13T13:07:27.205Z
+---
+import { Image } from "astro:assets";
+import screenshot from "./data_infoscreen/screenshot.jpg";
+
+# Infoscreen
+
+This document is about a screen that shows information.
+Shocking, I know.
+
+## Screenshot
+
+<Image src={screenshot} alt="Screenshot of the Infoscreen" />
+
+I obfuscated a few things to protect my personal information.
+
+## How it Started
+
+A few years ago I bought a new monitor for my PC.
+That left me with a monitor I could use for anything I want.
+
+So I decided to hook a Raspberry Pi to it and show some useful information like weather, calendar, and news.
+The monitor then was placed in the kitchen.
+
+## History
+### The First Implementation
+
+The first implementation for this was using vanilla JS (and of course HTML and CSS).
+Even though I had not had too much experience in JS, I tried to use "good" software development practices, like class inheritance and [ES-Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).<br/>
+I hosted it, using the default [PHP HTTP-Server](https://www.php.net/manual/en/features.commandline.webserver.php) locally and opened a Chromium browser on localhost.
+
+If you are interested in the code, [here](https://github.com/C0ntroller/infoscreen-old) is the repository of the second version, which uses most of the code from version one.
+
+### Phase Two
+
+The second version of this project basically took all the code from the first version and bundle it as an Electron App.
+I hoped that the performance would be increased by not using _the whole_ Chromium bloat.
+It (well, who would have guessed) didn't.<br/>
+The old code is still up, so if you're interested you can find it [in this repository](https://github.com/C0ntroller/infoscreen-old).
+
+### Phase Three
+
+When I started to learn React more, I realized that what I tried to achieve in the prior versions are just React components.
+I rewrote what I had using React.
+But I also had already learned about frameworks for React that provide static site generation like [Next.JS](https://nextjs.org/) and [Gatsby](https://www.gatsbyjs.com/).<br/>
+Gatsby looked like a good choice so I just went for it.
+
+It gets hosted in a Docker container on my own home server and the Pi just opens up a Chromium again.
+
+This marks the end of the development history.
+
+## So what's on the Screen?
+
+Currently, the following info is shown:
+
+- Time
+- Weather and weather map
+- two RSS news feeds
+- a Google calendar
+- departures on the nearest tram station
+- Spotify or info from my plant sensors
+
+Also, the background image is cycled through 20-ish images.
+
+When it's getting late, a dark mode gets activated and the weather map is replaced by I cute gif of a sleeping Pikachu.
+
+### Weather
+
+For the weather, I used the [DarkSky API](https://darksky.net/).
+Because Apple bought it and (of course) shut down the public API I had to switch to [Pirate Weather](https://pirateweather.net/). +
+Sadly the data from Pirate Weather seems to not be accurate most times.
+In the future, I probably want to switch to another API.
+
+### RSS News
+
+For news, I use the RSS feed of the [Tagesschau](https://www.tagesschau.de/), one of the earliest and biggest news channels in Germany.
+I also put in a few topics from [Der Postillon](https://www.der-postillon.com/) a German satire news page. 
+It's available in [English too](https://www.the-postillon.com/).
+
+### Google Calendar
+
+It uses the [Google Calendar API](https://developers.google.com/calendar) and orders the event by a day.
+
+### Departures
+
+My local public transport company has an API available to fetch data for the stations.
+It's quite simple to use actually!
+
+### Spotify
+
+This part shows which song is currently playing in the kitchen.
+How it works is a project in itself.
+A write-up will follow later.
+
+If nothing is playing, information about a few plant sensors is shown.
+
+### Plants
+
+This just fetches and shows the current status of the plant sensors from my [Home Assistant](https://www.home-assistant.io/).

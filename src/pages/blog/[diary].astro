@@ -1,0 +1,36 @@
+---
+import MarkdownLayout from "../../layouts/MarkdownLayout.astro";
+import { getCollection, getEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import DiaryNavBar from "../../components/DiaryNav/DiaryNavBar.astro";
+
+export async function getStaticPaths() {
+  const collectionData = await getCollection("diaryMainPages");
+  return collectionData.map((entry) => ({
+    params: { diary: entry.slug },
+  }));
+}
+
+interface Props {
+    diary: CollectionEntry<"diaryMainPages">["slug"];
+}
+
+const { diary} = Astro.params;
+const diaryMain = await getEntry("diaryMainPages", diary);
+const collectionBasePath = `/blog/${diary}`;
+
+const diaryPages = (await getCollection(diary)).sort((a, b) => a.data.sorting - b.data.sorting);
+
+const { Content } = await diaryMain.render();
+---
+
+<MarkdownLayout title={diaryMain.data.title}>
+    <Content />
+
+    <h2>Pages</h2>
+    <ol>
+      { diaryPages.map((page) => <li><a href={collectionBasePath + "/" + page.slug}>{page.data.title}</a></li>) }
+    </ol>
+
+    <DiaryNavBar collectionName={diary} slot="footer-nav" />
+</MarkdownLayout>

@@ -1,0 +1,149 @@
+---
+import Layout from "./Layout.astro";
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<Layout title={title} showAfterMain={Astro.slots.has("footer-nav")}>
+    {Astro.slots.has("main-nav") ? 
+      <slot name="main-nav" /> :
+    null}
+    <slot />
+    {Astro.slots.has("footer-nav") ? 
+      <slot name="footer-nav" slot="after-main" /> : 
+    null}
+</Layout>
+
+<style lang="scss" is:global>
+    main {
+      /*h1 {
+        color: var(--blog_color-accent);
+        font-size: 2em;
+      }
+  
+      h2 {
+        font-size: 1.5em;
+      }
+      h3 {
+        font-size: 1.2em;
+      }
+      h4 {
+        font-size: 1.1em;
+      }
+  
+      h2,
+      h3 {
+        font-weight: bold;
+        text-decoration: underline;
+      }
+  
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        color: var(--blog_color-accent-dark);
+      }*/
+  
+      h1 + p:first-of-type {
+        font-style: italic;
+        font-size: 120%;
+      }
+  
+      tbody > tr:nth-of-type(odd) {
+        background-color: var(--blog_background-main);
+      }
+  
+      tbody > tr:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+  
+      pre {
+        background-color: #282c34;
+        border: 1px solid var(--blog_content-border);
+        padding: 1em;
+        color: #abb2bf;
+        clear: right;
+      }
+  
+      :not(pre) > code,
+      kbd {
+        background-color: var(--blog_background-main);
+        color: inherit;
+  
+        [data-theme="light"] & {
+          background-color: #d49a9a;
+        }
+      }
+  
+      kbd {
+        border-radius: 3px;
+        border: 1px solid #b4b4b4;
+        box-shadow:
+          0 1px 1px rgba(0, 0, 0, 0.2),
+          0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
+        display: inline-block;
+        font-size: 0.85em;
+        font-weight: 700;
+        line-height: 1;
+        padding: 2px 4px;
+        white-space: nowrap;
+      }
+  
+      a:link,
+      a:visited,
+      a:active {
+        color: var(--blog_color-accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+  
+      img {
+        width: 80%;
+        height: auto;
+      }
+  
+      /* A custom indicator that this code is in fact faulty */
+      .notCompiling code {
+        display: block;
+        position: relative;
+        /*
+              .content {
+                  position: absolute;
+              }*/
+  
+        &::before {
+          content: "!";
+          color: white;
+          background-color: #a30e0e;
+          border-radius: 50%;
+          position: absolute;
+          top: 1em;
+          right: 1em;
+          display: inline-block;
+          width: 1.3em;
+          height: 1.3em;
+          text-align: center;
+          font-weight: bolder;
+          padding: 1px 1px 1px 1px;
+          font-family: sans-serif;
+          font-size: 1rem;
+        }
+  
+        &:hover::after {
+          content: "Code is faulty!";
+          font-weight: bold;
+          color: #a30e0e;
+          position: absolute;
+          right: 1em;
+          bottom: 1em;
+        }
+      }
+    }
+  </style>

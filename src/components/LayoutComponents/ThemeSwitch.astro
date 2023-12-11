@@ -1,0 +1,101 @@
+---
+import { Icon } from "astro-icon";
+---
+
+<div class="switch">
+    <Icon name="mdi:language-javascript" class="placeHolder" title="Theme switching needs JS to be enabled."/>
+    <Icon name="mdi:white-balance-sunny" class="sun" title="Switch to dark theme" />
+    <Icon name="mdi:weather-night" class="moon" title="Switch to light theme" />
+</div>
+
+<script lang="ts">
+    // Get and delete placeholder (JS is enabled)
+    const placeHolder = document.querySelector(".placeHolder");
+    placeHolder.remove();
+
+    const moon = document.querySelector(".moon");
+    const sun = document.querySelector(".sun");
+
+    const current = document.documentElement.attributes.getNamedItem('data-theme')?.value ?? "dark";
+
+    if (current === "dark") {
+        moon.classList.add("selected");
+    } else {
+        sun.classList.add("selected");
+    }
+
+    const switchThemeDark = () => {
+        document.dispatchEvent(new CustomEvent('set-theme', { detail: 'dark' }));
+        moon.classList.remove("fadeOut");
+        moon.classList.add("fadeIn");
+        sun.classList.remove("fadeIn");
+        sun.classList.add("fadeOut");
+    }
+
+    const switchThemeLight = () => {
+        document.dispatchEvent(new CustomEvent('set-theme', { detail: 'light' }));
+        moon.classList.remove("fadeIn");
+        moon.classList.add("fadeOut");
+        sun.classList.remove("fadeOut");
+        sun.classList.add("fadeIn");
+    }
+
+    moon.addEventListener("click", switchThemeLight);
+    sun.addEventListener("click", switchThemeDark);
+</script>
+<style lang="scss">
+    .switch {
+    position: relative;
+    width: 1.5em;
+    height: 1.5em;
+    cursor: pointer;
+
+    & > * {
+        position: absolute;
+        opacity: 0;
+        transform: translate(0, 100%);
+    }
+
+    & > .selected {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+
+    .fadeOut {
+        animation: fadeOut 0.2s ease-in-out;
+        animation-fill-mode: forwards;
+    }
+
+    .fadeIn {
+        animation: fadeIn 0.2s ease-in-out;
+        animation-fill-mode: forwards;
+    }
+
+    .placeHolder {
+        opacity: 1 !important;
+        transform: translate(0, 0) !important;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(0, -100%);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(0, 100%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+</style>

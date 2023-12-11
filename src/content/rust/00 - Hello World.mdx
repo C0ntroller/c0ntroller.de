@@ -1,0 +1,52 @@
+---
+title: Hello world!
+published: 2022-08-10T17:04:53+02:00
+sorting: 0
+slug: hello-world
+---
+
+# Hello world!
+
+_[Link zum Buch](https://doc.rust-lang.org/book/ch01-02-hello-world.html)_ 
+
+## How to `println!`
+
+Hello world ist relativ einfach. `println!` ist ein Makro (eine
+spezielle Art Funktion?), die einfach auf stdout printed.
+
+
+```rust
+println!("Hello world!");
+```
+
+Output: 
+```
+Hello world!
+```
+
+## Komplettes Programm
+
+Rust hat ähnlich wie C eine `main`-Funktion, die zum Start ausgeführt
+wird.  
+Ein komplettes Programm zum Kompilieren hätte also den folgenden Inhalt:
+
+
+```rust
+fn main() {
+    println!("Hello world!");
+}
+```
+
+Kompiliert und ausgeführt wird es dann über folgende Befehle:
+
+```bash
+$ rustc main.rs
+$ ./main
+Hello world!
+```
+
+## Weitere Details
+
+* `fn` -> Funktionsdeklaration
+* 4 Leerzeichen zum Einrücken, kein Tab
+* `;` am Ende der Zeile

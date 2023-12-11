@@ -1,0 +1,166 @@
+:experimental:
+:docdatetime: 2022-10-18T17:56:26+02:00
+
+= How to: Projektmanagement
+
+https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-crates-and-modules.html[Link zum Buch]
+
+== Packages, Crates, Modules, was?
+
+Rust hat ein sehr hierarchisches Konzept, was die Strukturierung von Projekten angeht.
+
+Fangen wir mal von oben an:
+
+=== Packages
+
+Packages bestehen aus Crates.
+Sie fassen diese also quasi zusammen und in `Cargo.toml` wird definiert, wie die Crates zu bauen sind.
+
+Jedes Package, das wir bis jetzt erstellt haben, hatte standardmäßig eine "binary create" (dazu gleich mehr) im generierten Projekt.
+
+Die Crates können (soweit wie ich das verstanden habe) in beliebigen Ordnern existieren, falls die Crate so heißen soll wie das Package, ist der Standardpfad `src/main.rs` (für binary) bzw. `src/lib.rs` (für library).
+
+==== Warum mehrere Crates in einem Projekt?
+
+Einfaches Beispiel: Man hat eine library crate, die Funktionen für einen Webserver bereitstellt.
+Man kann dann einfach eine binary crate hinzufügen, die eine Referenz-Nutzung abbildet, also direkt ein Beispiel ist.
+Dies hilft Nutzern direkt und gleichzeitig testet es direkt auch (wobei richtige Tests natürlich anders zu implementieren sind).
+
+=== Crates
+
+Creates sind die eigentlichen "Module".
+Es gibt zwei Arten: binary und library.
+
+==== Binary Crates
+
+Diese Crates können zu einer ausführbaren Datei kompiliert werden.
+Jedes der bisherigen Beispiele, z.B. auch das link:#/diary/rust/3[Higher-Lower-Spiel] sind eine solche binary crate.
+
+Ihr Merkmal ist vor allem, dass eine `main`-Funktion existiert, die der Einstiegspunkt ist.
+
+==== Library Crate
+
+Wie der Name schon sagt, stellt diese Art Crate nur Funktionen zur Verfügung wie eine Bibliothek.
+
+=== Modules
+
+Innerhalb einer Crate können Module existieren.
+Und hier ist auch schon wieder von OOP abgeschaut.
+Es können nämlich Rusts `private` und `public` hier genutzt werden.
+
+Im Hauptprogramm kann mit `mod modulname;` das Modul eingebunden werden. Gesucht wird das Modul dann in `./modulname.rs` oder in `./modulname/mod.rs`, wobei letzteres aber aussieht, als wäre es die veraltete Version.
+
+Zusätzlich kann auch direkt inline ein Modul erstellt werden.
+Ein Beispiel:
+
+[source.notCompiling, rust]
+----
+mod testmodul {
+    mod nested_modul {
+        fn funktion() {
+            funktion2();
+        }
+        fn funktion2() {
+            println!("Hello World");
+        }
+    }
+
+    mod zweites_modul {
+        fn funktion() {}
+    }
+}
+
+fn main() {
+    // Hello world! Geht nicht...
+    crate::testmodul::nested_modul::funktion();
+}
+----
+
+Das funktioniert noch *nicht*.
+Denn standardmäßig ist alles private, was nicht explizit public ist.
+Damit wir den obigen Aufruf machen können, muss der Code so aussehen:
+
+[source, rust]
+----
+mod testmodul {
+    pub mod nested_modul {
+        pub fn funktion() {
+            funktion2();
+        }
+        fn funktion2() {
+            println!("Hello World");
+        }
+    }
+
+    mod zweites_modul {
+        fn funktion() {}
+    }
+}
+
+fn main() {
+    // Hello world!
+    crate::testmodul::nested_modul::funktion();
+}
+----
+
+Nur so kann auf Submodule und Funktionen dieser Module zugegriffen werden.
+Wie im "normalen" OOP, können aus diesen öffentlichen Funktionen aber dann auch private aufgerufen werden.
+
+==== Von unten nach oben
+
+Um aus einem inneren Modul auf das äußere zuzugreifen, kann übrigens `super::...` verwendet werden.
+
+==== Structs und Enums
+
+In Modulen können natürlich auch Structs und Enums verwendet werden.
+
+Bei Structs ist die Besonderheit, dass die einzelnen Attribute auch wieder private oder public sein können.
+So kann man folgendes machen:
+
+[source, rust]
+----
+mod testmodul {
+    pub struct Teststruct {
+        pub oeffentlich: String,
+        privat: String,
+    }
+
+    impl Teststruct {
+        pub fn generator(wert: &str) -> Teststruct {
+            Teststruct {
+                oeffentlich: String::from(wert),
+                privat: String::from("Sehr geheimer Wert"),
+            }
+        }
+    }
+}
+
+fn main() {
+    let a = crate::testmodul::Teststruct::generator("Irgendein Wert");
+    // Geht
+    println!("Öffentlich: {}", a.oeffentlich);
+    // Geht nicht!
+    // println!("Privat: {}", a.privat);
+}
+----
+
+Dagegen gilt für Enums: Wenn der Enum public ist, sind auch alle Varianten public.
+
+==== Abkürzungen mit `use`
+
+Angenommen, wir haben eine Mediathek mit Filmen, Serien, Spielen, etc. und brauchen immer lange Zugriffspfade (also z.B. `crate::medien::spiele::liste::add()`), obwohl wir nur Spiele brauchen, kann `use` benutzt werden.
+
+Wenn wir also `use crate::medien::spiele;` in unseren Code einfügen, können alle diese Befehle verkürzt werden auf eben z.B. `spiele::liste::add()`.
+Theoretisch können wir das bis hin zu einzelnen Funktionsnamen machen, `se crate::medien::spiele::liste:add;`, würde `add()` im Scope verfügbar machen.
+
+Dabei gibt es zwei Hinweise:
+
+1. Es funktioniert nur, wenn sich zwei Namespaces nicht überschneiden. Ein Zufügen von `use andere::mod::add;` geht also nicht!
+2. Das ganze gilt nur in genau diesem Scope. Falls wir jetzt ein weiteres Modul definieren, können wir darin nicht die Pfade kürzen.
+
+Und für beides gibt es Umwege:
+
+1. Man kann `use andere::mod::add as modAdd;` benutzen.
+2. Sollten wir `pub use ...` benutzen, kann tatsächlich diese Abkürzung benutzt werden.
+
+`pub use` kann auch benutzt werden, alle möglichen Module in seiner Crate miteinander reden zu lassen, aber nach außen nur bestimmte Schnittstellen freizugeben.

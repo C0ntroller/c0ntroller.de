@@ -1,0 +1,291 @@
+:experimental:
+:docdatetime: 2022-10-18T17:56:26+02:00
+
+= Konzepte
+
+https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html[Link zum Buch]
+
+
+== Variablen
+=== Mutability
+
+Standardmäßig sind Variablen nicht mutable, also nicht veränderbar.
+In anderen Sprachen ist das häufig `const` - in Rust gibt es aber auch `const`!
+
+Das Folgende funktioniert also nicht:
+
+[source.notCompiling, Rust]
+----
+fn main() {
+    let x = "Hello world!";
+    // Das folgende funktioniert nicht, weil x nicht mutable ist!
+    x = "Hello Rust!";
+}
+----
+
+Damit Variablen mutable sind, muss `mut` genutzt werden:
+
+[source, rust]
+----
+fn main() {
+    let mut x = "Hello world!";
+    // Hier funktioniert es.
+    x = "Hello Rust!";
+}
+----
+
+=== Constants
+
+Neben unveränderlichen Variablen gibt es auch noch Konstanten. 
+Diese sind sehr ähnlich zu ersteren, haben aber zwei relevante Unterschiede:
+
+- Der Typ *muss* angegeben werden. Type inference funktioniert hier nicht.
+- Konstanten können nur auf zu Compilezeit konstante Ausdrücke gesetzt werden, keine zu Runtime veränderlichen.
+
+Die Konvention für Konstanten ist snake case all caps.
+
+Ein Beispiel dafür ist folgendes:
+
+[source, rust]
+----
+const MINUTES_IN_A_DAY: u32 = 24 * 60;
+----
+
+=== Shadowing
+
+Shadowing wurde beim Higher-Lower-Game schon einmal erwähnt.
+Anfangs habe ich es falsch verstanden: Ich dachte Shadowing wäre, dass eine Variable unter dem selben Namen in unterschiedlichen Datentypen vorhanden wäre.
+
+Allerdings ist es mehr ein "Reuse" eines alten Namens. 
+Ein Beispiel:
+
+[source, rust]
+----
+fn main() {
+    let x = 5;
+    let x = x + 5;
+
+    println!("{}", x);
+}
+----
+
+Die Ausgabe des Programms ist dabei der letztere Wert, hier also 10.
+Es ist also mehr eine neue Variable unter dem selben Namen wie die alte.
+Sogar der Datentyp kann sich dabei ändern, man muss sich also nicht ständig neue Namen für Variablen ausdenken, nur weil man sie casted (Juchuu!).
+
+Da Variablen immer Block-Scope-basiert (?) sind, kann dies natürlich auch in einem eingebetteten Block genutzt werden.
+
+Der Unterschied zu mutable Variablen ist ganz einfach: neben einigen Unterschieden unter der Haube (oder?), haben mutable Variablen einen festen Datentyp, der nicht einfach geändert werden kann.
+
+== Datentypen
+
+=== Data Inference
+Jede Variable hat einen festen Datentyp. 
+Der Compiler kann häufig selber herausfinden, was für einer das ist, das ist die "Type Inference".
+Wenn das nicht geht, muss manuell ein Typ festgelegt werden.
+
+Ein Beispiel:
+
+[source, rust]
+----
+let guess: u32 = "42".parse().expect("Not a number!");
+----
+
+`"42"` ist offensichtlich ein String. 
+`parse()` kann verschiedene Ergebnisse-Datentypen erzeugen.
+Das Ergebnis kann also verschiedene Typen haben, wir wollen ja aber wissen, was `guess` ist.
+Hier muss also `guess: u32` angegeben werden, sonst gibt es einen Fehler vom Compiler.
+
+=== Scalar Types
+Skalar heißt: ein einziges Value.
+Also eine Zahl (integer/float), Boolean oder ein einzelner Character.
+
+==== Integer
+Es signed und unsigned Integer und verschiedener Länge - 8, 16, 32, 64 und 128 Bit und "size".
+"size" ist dabei architektur-abhängig, also zumeist 32 oder 64 Bit.
+
+- signed sind im Zweierkomplement
+- man kann den Datentyp direkt an eine Zahl anhängen (`5u32`)
+- man kann in Dezimalschreibweise beliebig `_` einfügen für Lesbarkeit (z.B. `1_000`)
+- außerdem schreibbar in hex (`0x...`), oct (`0o...`), bin (`0b...`) oder als Byte (`b'A'`)
+- Division zweier Integer erzeugt einen Integer (abgerundet)
+
+Overflows sind interessant: Wenn zu Debug compiled wird, gibt es ein panic und das Programm beendet mit einem Fehler (nicht auffangbar).
+In Release ist es dann die "normale" Variante mit einem Wrap-around. +
+Interessant ist, dass es zusätzliche Methoden für alles gibt (nicht nur `add`): 
+
+- `wrapping_add` ersetzt das normale Addieren und wrapt
+- `checked_add` wirft einen abfangbaren Fehler bei Overflow
+- `overflowing_add` gibt einen Boolean, ob ein Overflow auftritt
+- `saturating_add` bleibt beim Maximum oder Minimum des verfügbaren Bereiches
+
+[source, rust]
+----
+let number: u8 = 254;
+println!("{}", number.wrapping_add(2));
+----
+
+Die Ausgabe des Programms ist 0.
+
+==== Floats
+Sind normale IEEE-754 floats mit 32 oder 64 Bit.
+
+==== Boolean
+Auch nichts besonders, `true` oder `false` halt.
+
+==== Chars
+Sind besonders.
+Einzelne Character in Rust sind nicht einfach wie in C ein u8 unter anderem Namen, sondern wirklich ein Zeichen.
+Jeder Unicode-Character ist ein Char, also auch `'🐧'`.
+Chars werden mit single-quotes geschrieben (Strings mit doppelten quotes).
+
+Allerdings scheint es noch ein wenig komplizierter zu sein, das kommt aber erst später.
+
+=== Compound Types
+Gruppierung von mehreren Werten in einem Typ.
+
+==== Tupel
+Tupel sind weird. 
+Sie haben eine feste Länge (wie C-Arrays), können aber verschiedene Datentypen beinhalten, also wie in Python.
+Sie sind aber schreibbar, wenn `mut` zur Initialisierung genutzt wird, also nicht wie in Python.
+
+Ein paar Beispiele als Code:
+
+[source, rust]
+----
+let x: (f32, char, u8) = (1.0, '🐧', 3);
+//_x.0 = 2.0; // geht nicht, da x nicht mut ist.
+
+let mut x: (f32, char, u8) = x;
+
+println!("{}", x.0); // x.0 == x[0] -> 1.0
+
+// Dekonstruktur. Wie in JS wird einfach zugewiesen.
+let (_a, b, _c) = x; // a = x.0 = 1.0, b = x.1 = 🐧, c = x.2 = 3
+println!("{}", b); // b is 🐧
+
+x.2 = 4; // x.2 ist schreibbar, wenn x mut ist.
+println!("{}", x.2);
+
+//x.2 = 1.0; // Das geht nicht, da x.2 ein u8 ist.
+----
+
+Falls eine Funktion in Rust nichts zurückgibt, gibt sie in leeres Tupel `()`, auch `unit type` genannt, zurück.
+
+==== Arrays
+Arrays sind wie C-Arrays, haben also eine feste Länge und nur einen Datentyp.
+Für "Arrays" mit veränderbarer Länge gibt es Vektoren.
+
+Wieder etwas Code:
+
+[source, rust]
+----
+let x: [i32; 5] = [1, 2, 3, 4, 5];
+//         ^ so sieht der Datentyp aus 
+
+println!("{}", x[0]); // 1, so wie immer
+
+let mut x = [15; 3]; // -> [15, 15, 15]
+x[0] = 16; // x = [16, 15, 15]
+----
+
+Im Gegensatz zu C-Arrays wird allerdings vor dem Zugriff auf das Array ein Check durchgeführt.
+Während C also auch außerhalb des Arrays Speicher lesen kann (mindestens theoretisch), kommt es in Rust dann zu einem Compilerfehler oder einer Runtime-Panic.
+
+== Funktionen
+
+Sind wie normale Funktionen in C auch. Keyword ist `fn`.
+
+Beispiel:
+
+[source, rust]
+----
+fn calculate_sum(a: i32, b: i32) -> i64 {
+    // Statements können natürlich normal genutzt werden
+    let c: i64 = a + b
+    
+    // Wenn das letzte Statement kein ";" am Ende hat, ist es die Rückgabe
+    // Quasi "return c;"
+    // "let ...." returnt aber nichts
+    // Könnte aber auch einfach nur "a + b" sein.
+    c
+}
+----
+
+== Kommentare
+
+Schon häufiger in den Beispielen - einfach `//`.
+Es gibt auch noch spezielle Docstrings, aber das kommt später.
+
+== Kontrollfluss
+=== `if`
+
+- ohne runde Klammern um die Bedingung
+- _immer_ geschweifte Klammern, zumindest kein Beispiel ohne
+- Geht auch als short-if bei `let x = if condition { 5 } else { 6 }`
+- Bedingung *muss* ein bool sein!
+
+=== `loop`
+
+- Basically ein `while (true)`
+- `break` und `continue`
+- Können labels haben. Dann kann `break 'label` genutzt werden
+
+Beispiel für labels: 
+
+[source, rust]
+----
+fn main() {
+    'outer: loop {
+        let mut a = 1;
+        loop {
+            a += 1;
+            if a == 10 {
+                break 'outer;
+            }
+        }
+    }
+}
+----
+
+==== Ergebnis aus der Loop
+
+`break` mit Wert ist Rückgabe.
+Einfaches Beispiel:
+
+[source, rust]
+----
+fn main() {
+    let mut counter = 0;
+
+    let result = loop {
+        counter += 1;
+
+        if counter == 10 {
+            break counter * 2;
+        }
+    };
+
+    println!("{}", result); // 20
+}
+----
+
+=== `while`
+
+- nutzt auch keine runden Klammern
+- sonst normal
+
+=== `for`
+
+Looped durch eine Collection (wie in Python).
+
+[source, rust]
+----
+fn main() {
+    let a = [10, 20, 30, 40, 50];
+
+    for element in a {
+        println!("{}", element);
+    }
+}
+----

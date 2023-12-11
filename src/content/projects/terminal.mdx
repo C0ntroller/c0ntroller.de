@@ -1,0 +1,91 @@
+---
+title: Terminal
+description: "This is part of my homepage. What you see on the page resembles an CLI. You just type in commands and some output is shown or it does something on the website. To find out which commands are available, you can just type help. Everything is always in development. So if you come back in a few days/weeks/months/years something could have been changed! You can also check out the dev version if you haven't already. Have fun!"
+descriptionShort: "The terminal on my website."
+repository: https://git.c0ntroller.de/c0ntroller/frontpage
+published: 2022-10-18T17:56:27+02:00
+---
+
+# Terminal
+
+Hello and welcome to my website. This documentation is for the [cli on my website](https://c0ntroller.de/terminal) so check it out if you haven't!
+
+## Why did I do this?
+Mainly because of boredom and because I like to code.
+Also, a website is a fantastic way to show someone what you are capable of in programming skills.
+
+Now I have my own space to try things out, present what I did and link all my socials.
+
+## How did I do this?
+### Frameworks
+This website is entirely built in [Next.js](https://nextjs.org/), which is a JavaScript framework.
+So the entire backend is in [Node.js](https://nodejs.org/).
+The project files are written in ~~[AsciiDoc](https://projects.eclipse.org/projects/asciidoc.asciidoc-lang)~~ [MDX](https://mdxjs.com/).
+
+Hosting the webserver is done in a [Docker](https://www.docker.com/) container on my personal server.
+
+### The Process
+#### Thinking About a Website
+I always wanted my own website. One day, I thought about how cool a website would be, this is basically a console. +
+It seemed not too hard to make, as it consists of an input field and a log/history. 
+
+But I wanted more. I wanted the code to be as modular as possible, so it's easy in the future to add commands, project logs, and components. Also, I wanted some appealing features like tab completion and shortcuts.
+
+But as it is hard to show a CLI to friends who don't know computer science or an employer, I decided a "normal" frontend should be added.
+
+#### Implementing all the Stuff
+As you can imagine, it was not easy to implement all the features I had imagined. But I'm pretty confident I'm on the right track now. +
+The commands are all contained in one file, and one can easily add or remove them, add flags and other attributes and change the function called when the command is requested. +
+The project files are contained in a separate repository and folder on my server, which is just used as a Docker volume. This means they can be updated without rebuilding the entire project. 
+
+After the CLI website was done, it was my main homepage for a few months.
+Then that I created the "normal" part which basically is a blog and my portfolio.
+
+#### Autodeployment
+I like automatization, so I use a CI/CD pipeline.
+I use [Drone](https://www.drone.io/) for this job which is self-hosted too.
+The Docker container is pushed and pulled in a self-hosted registry, so it should be safe if I ever want to include secrets and private data into the project.
+
+The project files are first built with [Asciidoctor](https://asciidoctor.org/) to check their validity.
+Then a script pulls them on the server.
+As the projects git directory on the server is mounted in the docker container only a quick reload is necessary so the files are available on the server.
+
+== The Future
+What future features do I want to implement? +
+I don't know.
+
+It will probably be like the rest of this website: 
+One day I have a good thought (At least I _think_ it's good...) and add an issue or implement it immediately.
+
+~~Probably I should start by adding a [JSON schema](https://json-schema.org/) for the project list.~~ Thats done!
+
+## CLI Shortcuts
+I talked about shortcuts before, but here's a list of which shortcuts are possible: 
+
+| Key | Effect |
+|-----|--------|
+| <kbd>Tab</kbd> | Inserts the current suggestions from autocompletion. |
+| <kbd>&#9650;</kbd> / <kbd>&#9660;</kbd> | Scroll through last commands. |
+| <kbd>Ctrl</kbd>+<kbd>L</kbd> | Clears the history. Similar to `clear`. |
+| <kbd>Ctrl</kbd>+<kbd>D</kbd> | Exits the page. If that doesn't work ([JavaScript restriction](https://developer.mozilla.org/en-US/docs/Web/API/Window/close)) it goes back in page history. Similar to `exit`. |
+| <kbd>Ctrl</kbd>+<kbd>U</kbd>/<kbd>Ctrl</kbd>+<kbd>C</kbd> | Removes the current input. |
+| <kbd>Esc</kbd> | Close the dialog modal. |
+
+## Some Stuff I'm Proud of
+- Every line in the cli history window is parsed in a custom format.
+  * `%{command}` is parsed to a clickable command
+  * `#{link text|url}` is parsed to a link
+- Project logs are loaded dynamically. They can be updated at any time.
+  * But they are rendered in the backend. For the main site no JS is necessary!
+- There are lots of eastereggs. Some are for specific people, some for me and some for fun.
+- I made some custom annotations for code blocks show faulty code (wrong syntax/will not compile/etc.).
+
+<div class="notCompiling">
+```rust
+// This is how a faulty code block looks like
+fn main() {
+  let x = 5;
+  x = 6;
+}
+```
+</div>

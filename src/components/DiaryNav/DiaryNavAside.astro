@@ -1,0 +1,106 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+    collectionName: CollectionEntry<"diaryMainPages">["slug"];
+}
+
+const { collectionName } = Astro.props;
+const collectionTitle = (await getEntry("diaryMainPages", collectionName)).data
+    .title;
+
+const collection = (await getCollection(collectionName)).sort(
+    (a, b) => a.data.sorting - b.data.sorting,
+);
+const collectionBasePath = `/blog/${collectionName}`;
+
+const pageSelectedClass = (slug?: string) =>
+    `${collectionBasePath}${slug ? "/" + slug : ""}` === Astro.url.pathname
+        ? "pageSelected"
+        : "";
+---
+
+<aside class="desktopOnly">
+    <a href={collectionBasePath}>
+        <h4 class={pageSelectedClass()}>
+            {collectionTitle}
+        </h4>
+    </a>
+    <ol>
+        {
+            collection.map((entry) => (
+                <li class={pageSelectedClass(entry.slug)}>
+                    <a href={`${collectionBasePath}/${entry.slug}`}>
+                        {entry.data.title}
+                    </a>
+                </li>
+            ))
+        }
+    </ol>
+</aside>
+
+<style lang="scss">
+    aside {
+        float: right;
+        background: transparent;
+        display: block;
+        /* 50px padding in main */
+        margin: -50px -50px 10px 10px;
+        padding: 20px;
+        border-bottom-left-radius: 1em;
+        border-top-right-radius: 1em;
+        border: none;
+        border-left: 1px solid var(--blog_content-border);
+        border-bottom: 1px solid var(--blog_content-border);
+
+        @media screen and (max-width: 900px) {
+        & {
+            display: none;
+        }
+    }
+    }
+
+    h4 {
+        margin: 0 0 10px 0;
+    }
+
+    ol {
+        list-style-type: "\1405\0020\0020";
+        list-style-position: inside;
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        margin: 0;
+        padding: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 200px;
+
+        &:hover {
+            &::marker {
+            font-weight: bold;
+            }
+        }
+    }
+
+    a:link,
+    a:visited,
+    a:hover,
+    a:active {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    li.pageSelected {
+        font-weight: bold;
+    }
+
+    h4.pageSelected,
+    h4:hover {
+        text-decoration: underline;
+    }
+</style>

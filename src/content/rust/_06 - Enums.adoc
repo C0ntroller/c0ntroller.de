@@ -1,0 +1,152 @@
+:experimental:
+:docdatetime: 2022-10-18T17:56:26+02:00
+
+= Enums und Pattern Matching
+
+https://doc.rust-lang.org/book/ch06-00-enums.html[Link zum Buch]
+
+== Enums
+
+Enumarations gibt's in vielen Programmiersprachen, in Rust scheinen sie aber eine große Rolle einzunehmen. 
+"Enumeration" stimmt eigentlich gar nicht, Enums haben hier nämlich nicht zwangsläufig was mit Zahlen zu tun.
+Grundsätzlich ist ein "Enum" in Rust näher am "Union" würde ich denken.
+
+Ein einfaches Beispiel für ist der Typ `Option<T>` (vergleichbar mit Python oder Java `Optional`).
+Dieser ist entweder `None` oder `Some(value: T)` - es kann also ein Wert zusätzlich zur "Definition" beinhalten.
+
+[source, rust]
+----
+enum Farbcode {
+    Hex,
+    Rgb,
+}
+
+let hexcolor = Farbcode::Hex;
+----
+
+`Farbcode` ist also ein im Code benutzbarer Datentyp, genauso wie `Farbcode::Hex`.
+Wenn eine Funktion nun eine Variable mit Typ `Farbcode` erwartet, kann diese Variable sowohl `Hex` oder `Rgb` sein.
+Die Funktion kann dann je nach Typ verschieden funktionieren.
+
+Wie schon erwähnt, kann so ein Enum-Wert auch Werte beinhalten, um das zu machen, schreiben wir den Code einfach um:
+
+[source, rust]
+----
+enum Farbcode {
+    Hex(String),
+    Rgb(u8, u8, u8),
+}
+
+// Alternativ:
+struct Hex(String);
+struct Rgb(u8, u8, u8);
+
+enum Farbcode {
+    Hex,
+    Rgb
+}
+
+let hexcode = Farbcode::Hex(String::from("00affe"));
+let rgbcode = Farbcode::Rgb(125, 255, 255);
+----
+
+Natürlich können die Structs jeder Art sein.
+Enums sind aber auch selber eine Art Struct.
+Also können wir für Enums auch Methoden definieren wie für Structs.
+
+[source, rust]
+----
+impl Farbcode {
+    fn to_css_string(&self) {
+        // Methode, die für Hex und Rgb angewendet werden kann
+    }
+}
+
+let rgbcode = Farbcode::Rgb(125, 255, 255);
+rgbcode.to_css_string();
+----
+
+Tatsächlich ist damit so etwas wie Vererbung implementierbar. 
+Es gibt zwar keine Attribute, aber da ja auch die internen Structs Methoden haben können, ist eine gewisse Hierarchie erstellbar.
+
+=== `Option<T>`
+
+Options hab ich oben schonmal kurz beschrieben.
+In Rust ist dieser Datentyp sehr wichtig.
+Die Dokumentation dazu ist https://doc.rust-lang.org/std/option/enum.Option.html[hier zu finden] und enthält sehr viel Wichtiges und Interessantes.
+
+== `match`
+
+`match` ist quasi das `switch` von Rust.
+Nur kann es auch prüfen, ob eine Variable einem Enum-Typen angehört.
+So wie Rust bis jetzt klang, kann wahrscheinlich jedem Datentypen ein "match-Trait" gegeben werden, der dann eine "Zugehörigkeit" (Gleichheit stimmt ja irgendwie nicht) prüfen kann.
+
+Aber ganz einfach: Angenommen wir wollen die Methode `to_css_string` von oben implementieren.
+Diese Methode muss ja, je nach Typ, völlig unterschiedlich funktionieren.
+
+[source, rust]
+----
+enum Farbcode {
+    Hex(String),
+    Rgb(u8, u8, u8),
+}
+
+impl Farbcode {
+    fn to_css_string(&self) -> String {
+        match self {
+            // format! ist offensichtlich ein Pragma, dass Strings erstellt auf die selbe Weise wie println!
+            Farbcode::Hex(hex) => format!("#{}", hex),
+            Farbcode::Rgb(r, g, b) => format!("rgb({}, {}, {})", r, g, b),
+        }
+    }
+}
+
+fn main() {
+    let hexcode = Farbcode::Hex(String::from("affe00"));
+    let rgbcode = Farbcode::Rgb(125, 255, 255);
+
+    println!("{}", hexcode.to_css_string());
+    println!("{}", rgbcode.to_css_string());
+}
+----
+
+Hier sieht man auch ganz gut, wie im Match dem "Inhalt" des Enums direkt Namen gegeben werden und Tuples auch dekonstruiert.
+Im Beispiel ist auch deutlich, dass `match` einen Rückgabewert hat, nämlich das, was im Statement(-Block) des jeweiligen Matches zurückgegeben wird.
+
+=== Vollständigkeit
+
+Entweder muss ein `match` eines Enums jede mögliche Variante abgrasen oder es gibt zwei Alternativen.
+
+`other` ist quasi das `default` von Rust. 
+Aber auch `\_` matched alles.
+Der Unterschied ist, dass bei `other` noch der Inhalt genutzt werden kann, bei `_` wird er direkt ignoriert und ist nicht nutzbar.
+
+=== `if let`
+
+Dieses if-Konstrukt nutzt man am besten, wenn man nur auf eine einzelne Variante eines Enums prüfen möchte.
+Letztendlich ist es ganz simpel:
+
+[source, rust]
+----
+#[derive(Debug)]
+enum Muenzwurf {
+    Kopf,
+    Zahl,
+    Seite
+}
+
+fn print_wurf(ergebnis: Muenzwurf) {
+    if let Muenzwurf::Seite = ergebnis {
+        println!("Das glaub ich nicht! Seite?!");
+    } else {
+        println!("Du hast {:?} geworfen.", ergebnis);
+    }
+}
+
+fn main() {
+    let ergebnis = Muenzwurf::Zahl;
+    print_wurf(ergebnis); // Du hast Zahl geworfen.
+    let ergebnis = Muenzwurf::Seite;
+    print_wurf(ergebnis); // Das glaub ich nicht! Seite?!
+}
+----

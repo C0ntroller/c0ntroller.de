@@ -1,0 +1,151 @@
+:experimental:
+:docdatetime: 2022-10-18T17:56:26+02:00
+
+= Ownership
+
+https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html[Link zum Buch]
+
+== Was ist das?
+
+Jeder Wert hat eine Variable, die ihn "besitzt".
+Jeder Wert kann zu einem Zeitpunkt nur von _einer_ Variable besessen werden.
+Sollte die Variable aus dem Scope verschwinden, wird der Wert ungültig und aus dem Speicher entfernt.
+
+== Warum?
+
+Wenn ein Wert eine feste Länge hat, kann man sie ganz einfach auf den Stack packen.
+Falls die Länge aber variabel ist, muss zu Laufzeit Speicher allokiert werden.
+In C ist das dann der Aufruf `malloc`, der einen Pointer zu dem entsprechenden Bereich gibt. 
+Später muss dann `free` aufgerufen werden, um den Speicher wieder freizugeben, weil C keinen Garbage Collector hat, der sich alleine darum kümmert.
+
+Es ist wenig verwunderlich, dass beim manuellen Aufruf von `malloc` und `free` allerhand schiefgehen kann.
+Entweder kann Speicher zu früh (eventuell falsche Werte) oder zu spät (höherer Speicherverbrauch) freigegeben werden, oder auch zum Beispiel doppelt.
+
+Rust nutzt deshalb (wenn man das nicht aktiv anders macht) einen anderen Ansatz, bei dem der Compiler selber `drop` (was in etwa `free` entspricht) einfügt, wenn eine Variable aus dem Scope verschwindet.
+
+== Was das für den Code bedeutet
+
+=== String Datentyp
+
+Fangen wir mal mit einem Datentypen an, den das betrifft.
+
+Neben String literals gibt es auch noch einen anderen String-Typen, Rust scheint da sich ein wenig an OOP zu orientieren.
+Im Higher-Lower-Game wurde der auch schon benutzt, und User-Input mit `String::from(x)` in eine Variable gelegt.
+Dieser String-Typ hat den Vorteil, dass er eine dynamische Länge hat und damit verändert werden kann.
+
+Ein Beispiel:
+
+[source, rust]
+----
+let mut x = String::from("Hello"); // Legt "dynamischen" String an
+x.push_str(" world!"); // Konkatiniert an den String
+
+println!("{}", x); // "Hello world!"
+----
+
+Das geht mit den normalen String-Literalen (`let mut x = "Hello";`) nicht, da diese eine immer eine feste Länge haben.
+Theoretisch kann `x` natürlich dann überschrieben werden, mit einem String anderer Länge, aber anscheinend wird das von Rust überdeckt und wahrscheinlich ähnlich wie Shadowing gehandhabt.
+
+=== Move
+
+[source, rust]
+----
+let x = 5; // Int -> feste Größe und auf Stack
+let y = x;
+
+let s1 = String::from("Hello world"); // Dynamischer String auf Heap
+let s2 = s1;
+----
+
+Hier trifft ähnliches zu, wie zum Beispiel in Python: primitive Datentypen, wie `int` oder `float`, werden einfach kopiert, wenn sie einer anderen Variable zugewiesen werden.
+Bei Objekten auf dem Heap dagegen, wird auch kopiert, allerdings nur was wirklich in `s1` steht: die Referenz auf den Speicher (also ein Pointer), die Länge und andere "Metadaten".
+
+In Sprachen mit Garbage Collector also Java oder Python haben `s1` und `s2` jetzt zu jeder Zeit den gleichen Wert.
+Sollte eines verändert werden, wird das zweite auch verändert.
+Sehr tückisch manchmal.
+
+Rust löst es anders: Damit nicht zum Beispiel ein doppeltes `free` auftritt, wird hier `s1` invalidiert, nachdem es in eine andere Variable gegeben wurde.
+Wie oben beschrieben: Der Wert von `s1` kann nur einen Besitzer haben und der wird mit der letzten Zeile gewechselt.
+Sollte man nach dem Snipped ein print nutzen, gäbe es einen Compile-Fehler.
+
+Natürlich gibt es auch Wege für ein "deep copy", allerdings ist das nie der Standard.
+Die Methode dafür (muss natürlich implementiert sein) heißt `clone`.
+
+Wir könnten also auch schreiben `let s2 = s1.clone()` und beide Variablen wären unabhängig voneinander und gültig. 
+Das kann aber sehr teuer für die Laufzeit sein!
+
+=== Copy und Drop Annotation
+
+Im Buch wird jetzt noch kurz angeschnitten, dass diese primitiven Datentypen kopiert werden, weil sie das `Copy` "trait" implementiert hätten.
+An dem Punkt habe ich noch keine Ahnung, was das ist, aber ich denke es wird so ähnlich sein, wie Java Interfaces?
+
+Wenn ein Datentyp den `Copy` trait hat, wird es auf jeden Fall einfach kopiert, statt gemoved.
+
+Es gibt auch ein `Drop` trait, mit dem noch irgendwas ausgeführt werden kann, wenn ein Wert dieses Types gedropped wird. Dieser trait ist exklusiv zu `Copy`.
+
+== In Funktionen
+
+Sollte eine Funktion eine Variable übergeben bekommen, wird auch das Ownership der Variable dahin übergeben. 
+Nach Ausführen der Funktion ist die Variable ungültig. 
+Der Wert wird aber möglicherweise wieder zurückgegeben.
+Das gilt natürlich nicht für die `Copy`-Datentypen.
+
+Wie vorher schon erfahren, kann man auch Referenzen und mutable Referenzen übergeben, wodurch die Variable nur "geborgt" wird.
+
+In C/C++ gibt es ja beim Aufruf von zum Beispiel Funktionen eines Structs oder Objekt, den Pfeil (`x->fun()`) der quasi auch nur ein hübsches `(*x).fun()` ist.
+
+In Rust sag ich der Funktion, dass ein Argument eine Referenz auf einen Datentypen ist, und ich kann mit der Variable arbeiten, als wäre sie da.
+Wenn ich den Wert der Referenz haben will, muss ich sie natürlich immer noch dereferenzieren.
+
+Solange die Referenz nicht mutable ist, können davon unendlich viele existieren.
+
+Mutable References werden noch wieder kritisch behandelt - es kann zu einem Zeitpunkt immer nur eine mutable Referenz geben (ähnlich Ownership also). 
+Noch krasser: Eine mutable Referenz kann nicht erstellt werden, solange eine immutable existiert.
+"Existieren" bedeutet hier natürlich: Wenn die immutable Referenz nach Erstellen der mutable Referenz noch einmal genutzt wird.
+Sonst kümmert sich der Compiler drum.
+
+Das heißt natürlich auch, dass alle immutable Referenzen invalid werden, sobald eine mutable Referenz erstellt wird.
+
+Damit werden (unter anderem) Race Conditions schon beim Compilen verhindert.
+
+=== Dangling references
+
+[source.notCompiling, rust]
+----
+fn dangle() -> &String {
+    let s = String::from("hello");
+    &s // Referenz auf s returned
+} // Hier fliegt s aus dem Scope
+----
+
+Hier ist eine Funktion gebaut, die nur eine Referenz zurückgibt.
+Allerdings wird `s` ja (da nach Funktion out of scope) nach der Funktion gedropped.
+Der Compiler gibt uns dafür auch einen Fehler.
+
+Das Tutorial sagt an diesem Punkt, dass man am besten keine Referenzen zurückgibt, die Fehlermeldung redet aber auch noch von "lifetimes" und dass `&'static String` ein möglicher Rückgabetyp wäre.
+Das kommt wohl aber erst später...
+
+== Der Slice-Datentyp
+
+Wenn wir auf Arrays arbeiten, wäre es ja cool, an verschiedenen Stellen gleichzeitig zu arbeiten.
+Nur so kann multithreading etc. funktionieren.
+
+Dafür hat Rust den Slice-Datentyp.
+Der funktioniert ähnlich wie Array-Ranges in Python.
+
+[source, rust]
+----
+let s = String::from("hello world");
+
+let hello = &s[0..5];
+let world = &s[6..11];
+----
+
+Rust kümmert sich dabei darum, dass wir jetzt keinen Unsinn mehr mit `s` machen.
+Sollte man versuchen `s` zu mutaten und danach die Slice zu nutzen, gibt es einen Fehler, denn Slices sind genauso Referenzen.
+
+Fun fact: String Literale sind auch Slices und damit Referenzen von Strings.
+Noch mehr fun fact: Da dynamische String und String Literale damit quasi den selben Typ beschreiben, haben sie auch den gemeinsamen Typ `&str`.
+Für Leseoperationen kann also im Allgemeinen dieser benutzt werden.
+
+Slices können auch mutable sein, dafür muss aber das ursprüngliche Array mutable sein und es kann immer nur ein mutable Slice gleichzeitig existieren (also genauso wie beim Ownership).

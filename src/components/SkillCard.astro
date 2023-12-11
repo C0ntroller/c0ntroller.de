@@ -1,0 +1,219 @@
+---
+import { Icon } from "astro-icon";
+import Skills from "../data/skills.json";
+
+type Skill = (typeof Skills.cards)[number];
+
+interface Props {
+    card: Skill;
+}
+
+const { card } = Astro.props;
+
+const cardStyle = {
+    background: card.colors?.background,
+    "--ch-color": card.colors?.heading,
+    "--bar-color": card.colors?.bars,
+    color:
+        card.colors?.useDarkColor === undefined
+            ? undefined
+            : card.colors?.useDarkColor
+            ? "#222"
+            : "#ddd",
+    "--badge-bg": card.colors?.badges?.background,
+    "--badge-color":
+        card.colors?.badges?.useDarkColor === undefined
+            ? undefined
+            : card.colors?.badges?.useDarkColor
+            ? "#222"
+            : "#ddd",
+};
+---
+
+<div class="skillCard" style={cardStyle}>
+    <h3>{card.title}</h3>
+
+    <div class="skillBarsSet">
+        {
+            card.skillBars
+                .sort((bar1, bar2) => bar2.pct - bar1.pct)
+                .map((skill, i) => (
+                    <div class="skillBar">
+                        <div class="barName">
+                            <Icon name={skill.icon} />
+                        </div>
+                        <div
+                            class="percentBar"
+                            style={{ "--barPct": skill.pct + "%" }}
+                        >
+                            <div class="front vpAnimated" />
+                        </div>
+                        <div>{skill.name}</div>
+                    </div>
+                ))
+        }
+    </div>
+
+    {
+        card.additional && card.additional.length > 0 ? (
+            <div class="badgeSet">
+                {card.additional?.map((additional, i) => (
+                    <>
+                        <div class="badge">
+                            <span>
+                                <Icon name={additional.icon} />
+                            </span>
+                            <span>{additional.name}</span>
+                        </div>
+                    </>
+                ))}
+            </div>
+        ) : null
+    }
+</div>
+
+<script>
+    const handleScrollAnimation = () => {
+        document.querySelectorAll(".vpAnimated").forEach((element) => {
+            const rect = element.getBoundingClientRect();
+            const inVp =
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <=
+                    (window.innerHeight ||
+                        document.documentElement.clientHeight) &&
+                rect.right <=
+                    (window.innerWidth || document.documentElement.clientWidth);
+            if (inVp)
+                (element as HTMLElement).style.animationPlayState = "running";
+            else (element as HTMLElement).style.animationPlayState = "paused";
+        });
+    };
+
+    handleScrollAnimation(); // First time so we don't _need_ scrolling
+    window.addEventListener("scroll", handleScrollAnimation);
+</script>
+
+<style lang="scss">
+    .percentBar {
+        position: relative;
+        height: 1em;
+        width: 100%;
+        border-radius: 0.5em;
+        border: 1px solid var(--blog_content-border);
+        background: transparent;
+
+        .front {
+            border-radius: 0.5em;
+            height: 100%;
+            position: absolute;
+            background: var(--bar-color, var(--blog_color-accent));
+            animation: barFill 2s ease-in-out;
+            animation-fill-mode: forwards;
+        }
+    }
+
+    .badgeSet {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .achievement {
+        display: grid;
+        grid-template-columns: 2em auto;
+        column-gap: 10px;
+        padding: 5px;
+        padding-left: 0;
+
+        & > span:first-of-type {
+            height: 2em;
+        }
+    }
+
+    .badge {
+        display: grid;
+        grid-template-columns: 1em auto;
+        column-gap: 5px;
+        border: 1px solid var(--blog_content-border);
+        border-radius: 0.5em;
+        padding: 5px;
+        background: var(--badge-bg, transparent);
+        color: var(--badge-color, inherit);
+        margin-right: 10px;
+        margin-top: 10px;
+
+        &:last-of-type {
+            margin-right: 0;
+        }
+
+        & > span {
+            align-self: center;
+        }
+
+        & > span:first-of-type {
+            height: 1em;
+        }
+    }
+
+    @keyframes barFill {
+        0% {
+            width: 1em;
+        }
+        100% {
+            width: var(--barPct);
+        }
+    }
+
+    .skillCard {
+        padding: 10px;
+        border: 1px solid var(--blog_content-border);
+        border-radius: 0.5em;
+        box-shadow: 2px 2px 5px 0px var(--blog_color);
+
+        margin-bottom: 20px;
+
+        h3 {
+            margin: 0;
+            color: var(--ch-color) !important;
+        }
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+
+        &.useDarkColor {
+            color: #222;
+        }
+        &.useLightColor {
+            color: #ddd;
+        }
+    }
+
+    .skillBar {
+        display: grid;
+        grid-template-columns: 2em auto;
+        column-gap: 10px;
+        padding: 10px;
+        margin: 10px 0;
+
+        & > div {
+            align-self: center;
+        }
+
+        & > div:first-of-type {
+            height: 2em;
+            grid-row: 1/3;
+        }
+
+        & > div:nth-of-type(3) {
+            text-align: center;
+            margin-top: -2px;
+            font-size: small;
+        }
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+</style>

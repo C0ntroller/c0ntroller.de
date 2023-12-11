@@ -1,0 +1,147 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon";
+import ThemeSwitch from "./ThemeSwitch.astro";
+import logo from "./logo.png";
+---
+
+<nav class="navigation">
+    <a href="/" class="nostyle imgContainer">
+        <Image src={logo} alt="Logo" class="logoImg" />
+    </a>
+    <div class="navLink">
+        <a href="/" class="nostyle">
+            <span class="linkText">Projects</span>
+            <span class="linkIcon"
+                ><Icon
+                    name="mdi:home"
+                    size="2em"
+                    title="Home and Projects"
+                    id="mdi_nav_home"
+                /></span
+            >
+        </a>
+    </div>
+    <div class="navLink">
+        <a href="/me" class="nostyle">
+            <span class="linkText">About Me</span>
+            <span class="linkIcon"
+                ><Icon
+                    name="mdi:account"
+                    size="2em"
+                    title="About Me"
+                    id="mdi_nav_aboutme"
+                /></span
+            >
+        </a>
+    </div>
+    <div class="spacer"></div>
+    <div class="navIcon">
+        <a href="/terminal" class="nostyle">
+            <Icon
+                name="mdi:console"
+                size="2em"
+                title="Terminal"
+                id="mdi_nav_terminal"
+            />
+        </a>
+    </div>
+    <ThemeSwitch />
+</nav>
+
+<style lang="scss">
+    .navigation {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        max-width: 1000px;
+        /*min-width: 300px;*/
+        position: relative;
+        height: calc(1em + 40px);
+
+        margin: 0 auto;
+        padding: 20px;
+
+        font-size: 120%;
+        /* height / 2 */
+        border-radius: calc((1em + 40px) / 2);
+        border: 1px solid var(--blog_nav-border);
+        background: var(--blog_nav-background);
+        backdrop-filter: blur(var(--blog_content-blur));
+        box-shadow: 0px 2px 5px gray;
+
+        .imgContainer {
+            align-self: flex-start;
+            margin-top: -10px;
+            position: relative;
+            cursor: pointer;
+            display: none;
+            height: calc(1em + 40px - 20px);
+            width: calc((501 / 204) * (1em + 40px - 20px));
+        }
+
+        .logoImg {
+            height: 100%;
+            width: 100%;
+        }
+
+        .navLink {
+            transition: text-decoration 0.3s ease-in-out;
+            display: block;
+            margin-right: 10px;
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .navIcon {
+            margin-right: 15px;
+            height: 1.8em;
+            display: block;
+        }
+
+        .navLink .linkIcon {
+            cursor: pointer;
+            height: 1.8em;
+            display: block;
+        }
+
+        .navLink {
+            .linkText {
+                display: none;
+            }
+
+            .linkIcon {
+                display: block;
+            }
+        }
+
+        @media screen and (min-width: 450px) {
+            .imgContainer {
+                display: block;
+            }
+            .navLink:nth-of-type(1) {
+                margin-left: 15px; /*calc((501 / 204) * (1em + 40px - 20px) + 15px);*/
+            }
+        }
+
+        @media screen and (min-width: 350px) {
+            .navLink {
+                .linkText {
+                    display: inline;
+                }
+
+                .linkIcon {
+                    display: none;
+                }
+            }
+        }
+
+        .spacer {
+            flex-grow: 2;
+        }
+    }
+</style>

@@ -1,0 +1,158 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon";
+import Layout from "../layouts/Layout.astro";
+import SkillCard from "../components/SkillCard.astro";
+
+import pic from "../data/me.png";
+import socials from "../data/socials.json";
+import skills from "../data/skills.json";
+import achievements from "../data/achievements.json";
+
+const age = new Date().getFullYear() - 1998 - (new Date().getMonth() <= 10 ? 1 : 0);
+---
+
+<Layout title="About me">
+<h1>This is me.</h1>
+<div class="photo">
+    <Image src={pic} alt="Me" />
+</div>
+<div class="personal">
+    <p class="preText">
+        My name is <strong>Daniel</strong> and I&apos;m a prospective <strong>automation engineer</strong>, <strong>hardware enthusiast</strong>, and <strong>software developer</strong> from Germany.<br />
+        I&apos;m {age} years old and studying <strong>Information Systems Engineering</strong> at <strong>TU Dresden</strong>.
+    </p>
+    <p>
+        To be honest, I don&apos;t really know what to write here. What could
+        you - some visitor of my website - possibly want to know about me?
+    </p><p>
+        Maybe you are an employer and want to know what I can do for you? Then
+        see below - I tried to list all my skills and achievements. If your
+        company is doing anything related to software development (even
+        low-level ones like embedded controllers), I&apos;m probably suited for
+        it.
+    </p><p>
+        But maybe you are just another guy on the internet browsing through my
+        website? Well then have fun! I hope you find what you are looking for.
+        If you haven&apos;t seen it already, you should check out the <a class="nocolor" href="/terminal">command line</a>
+        I made. Otherwise, have fun poking around in my <a class="nocolor" href="/">projects</a>.
+    </p><p>
+        Do you want to know more about my personal life? Well, I like to play
+        video games, and watch anime, I love cats and <a
+            href="https://www.reddit.com/r/blahaj"
+            target="_blank"
+            rel="noreferrer"
+            class="nocolor">sharks</a
+        >. So just your ordinary nerdy student.<br />
+         If you want to be even more invested in my personal life, check out my
+        socials below.
+    </p><p>
+        Any questions I did not cover, but you are interested in? Just contact
+        me <a
+            class="nocolor"
+            href="mailto:admin-website@c0ntroller.de"
+            rel="noreferrer"
+            target="_blank">via email</a
+        > or any of the socials below!
+    </p>
+</div>
+<h2>Social Media</h2>
+<div class="socials">
+    {
+        socials
+            .filter((social) => social.name !== "PGP Key")
+            .map((social) => (
+                <a
+                    href={social.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="nocolor"
+                    style={{ width: "2em" }}
+                >
+                    <Icon name={social.icon} />
+                </a>
+            ))
+    }
+</div>
+<h2>Achievements</h2>
+{achievements.map((achievement) => <div class="achievement">
+    <Icon name={achievement.icon} /><span>{achievement.description}</span>
+</div>)}
+<h2>Skills</h2>
+{skills.cards.map((card) => <SkillCard card={card} />)}
+
+
+<style lang="scss">
+    .personal {
+        p {
+            line-height: 1.5;
+        }
+
+        p:first-of-type {
+            font-size: 1.2em;
+        }
+    }
+
+    .achievement {
+        display: grid;
+        grid-template-columns: 2em auto;
+        column-gap: 10px;
+        padding: 5px;
+        padding-left: 0;
+
+        &:first-child {
+            height: 2em;
+        }
+    }
+
+    @keyframes barFill {
+        0% {
+            width: 1em;
+        }
+        100% {
+            width: var(--barPct);
+        }
+    }
+
+    .socials {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+
+        & > * {
+            margin-right: 30px;
+        }
+
+        & > *:last-of-type {
+            margin-right: 0;
+        }
+    }
+
+    .photo {
+        float: right;
+        position: relative;
+        height: max-content;
+        width: 100%;
+        max-width: 250px;
+        border-radius: 1em;
+        margin-left: 20px;
+        margin-bottom: 20px;
+
+        & * {
+            border-radius: 1em;
+            width: 100%;
+            height: auto;
+        }
+
+        @media screen and (max-width: 500px) {
+            & {
+                float: none;
+                margin: 0 auto;
+                max-width: 100%;
+                border-radius: 1em;
+                margin-left: 0;
+            }
+        }
+    }
+</style>

@@ -1,0 +1,104 @@
+:experimental:
+:docdatetime: 2022-08-22T17:04:01+02:00
+
+= Errors und `panic!`
+
+https://doc.rust-lang.org/book/ch09-00-error-handling.html[Link zum Buch]
+
+== `panic!`
+
+Dieses Makro it furchtbar simpel: Es macht Panik und das Programm stirbt mit einem Fehler.
+Diesen Fehler kann man auch nicht catchen.
+
+Wenn `RUST_BACKTRACE` als Umgebungsvariable gesetzt ist, wird auch noch ein langer Traceback angezeigt, allerdings nur, solange Debug-Symbole aktiviert sind (also bei `cargo run` oder `cargo build` ohne `--release`).
+
+Will man gar kein Traceback und kein "unwinding" (das "hochgehen" durch den Funktionsstack und Aufräumen), kann man auch noch folgendes zu seiner `Cargo.toml` hinzufügen:
+
+[source, toml]
+----
+[profile.release]
+panic = 'abort'
+----
+
+== `Result<T, E>`
+
+Der Result-Datentyp ist deutlich besser für mögliche Fehler geeignet, die das Programm abfangen und bearbeiten kann.
+Falls zum Beispiel eine Datei auf dem Dateisystem nicht existiert, ist es ja manchmal gewünscht, dass diese Datei dann einfach angelegt wird.
+
+Der `Result`-Typ ist ein Enum von `Ok<T>` und `Error<E>`.
+Also kann dann mit `match` geprüft werden, was genau wir gerade bekommen haben.
+Alternativ können auch Funktionen wie `unwrap_or_else(|error| {...})` genutzt werden.
+
+`Ok<T>` verhält sich wie `Some<T>` und sollte zurückgegeben werden, wenn alles glatt läuft.
+
+`Error<E>` beinhaltet einen Fehler.
+Der genaue Fehler kann mit `error.kind()` erfahren werden; ein weiteres `match` ist dann eine "genauere" Fehlerbehandlung.
+
+Ein volles Beispiel mit ganz viel `match`:
+
+[source, rust]
+----
+use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+
+    let greeting_file = match greeting_file_result {
+        Ok(file) => file,
+        Err(error) => match error.kind() {
+            ErrorKind::NotFound => match File::create("hello.txt") {
+                Ok(fc) => fc,
+                Err(e) => panic!("Problem creating the file: {:?}", e),
+            },
+            other_error => {
+                panic!("Problem opening the file: {:?}", other_error);
+            }
+        },
+    };
+}
+----
+
+=== `unwrap()` und `expect()`
+
+Machen aus einem `Result<T, E>` entweder ein `T` oder eine `panic!`.
+Bei `expect()` kann man noch die Fehlermeldung festlegen.
+
+Warum man jemals `unwrap()` nehmen sollte, erschließt sich mir nicht ganz.
+
+=== `?`
+
+Oft schreibt man Funktionen so, dass Fehler weiter "hochgegeben" werden, falls man welche bekommt.
+`?` macht genau das bei einem Result.
+Codemäßig erklärt:
+
+[source, rust]
+----
+let a = match result {
+    Ok(nummer) => nummer,
+    Err(e) => return Err(e),
+};
+
+// Ergibt das selbe wie
+
+let a = result?;
+----
+
+Das `?` kann auch für zum Beispiel `Option` verwendet werden, dann returned es natürlich `None`.
+
+=== Rückgaben von `main()`
+
+Bis jetzt hat `main()` immer nichts, also implizit `()` zurückgegeben.
+Manchmal wollen wir ja aber auch was anderes als "0" als return code haben.
+Wir können Tatsächlich auch ein Result zurückgeben. Und zwar ein `Result<(), Box<dyn Error>>`.
+Der zweite Typ dort, kann wohl als "irgendein Fehler" gelesen werden und wird später noch erklärt.
+
+Allgemein kann aber jedes Objekt, dass `std::process::Termination`-Trait implementiert von main als Rückgabe genutzt werden.
+
+== Wann `Result<T, E>`, wann `panic!`?
+
+Der Artikel ist sehr sehr sehr lang, aber eigentlich sagt er:
+"Panic nur wenn es eben nicht gerettet werden kann."
+Und obviously in Tests.
+
+Und man kann natürlich auch tolle eigene Fehlertypen für Result bauen.

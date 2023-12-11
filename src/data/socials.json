@@ -1,0 +1,27 @@
+[
+    {
+        "name": "GitHub",
+        "url": "https://github.com/C0ntroller",
+        "icon": "simple-icons:github"
+    }, {
+        "name": "LinkedIn",
+        "url": "https://www.linkedin.com/in/c0ntroller/",
+        "icon": "simple-icons:linkedin"
+    }, {
+        "name": "Instagram",
+        "url": "https://www.instagram.com/c0ntroller/",
+        "icon": "simple-icons:instagram"
+    }, {
+        "name": "Steam",
+        "url": "https://steamcommunity.com/id/c0ntroller/",
+        "icon": "simple-icons:steam"
+    }, {
+        "name": "Discord",
+        "url": "https://discordapp.com/users/224208617820127233",
+        "icon": "simple-icons:discord"
+    }, {
+        "name": "PGP Key",
+        "url": "/files/pubkey.pgp",
+        "icon": "mdi:email-lock"
+    }
+]

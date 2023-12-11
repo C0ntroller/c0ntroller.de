@@ -1,0 +1,79 @@
+---
+title: Overleaf Git Sync
+description: "Overleaf is a LaTeX editor for the web and honestly great to use. But there is no way to back up your project to a cloud drive or git without paying them money. Even the self-hosted community version has no such functionality. I decided that's BS and made my own script to sync a project to git."
+descriptionShort: "I created a script that pushes Overleaf projects to a git remote."
+repository: "https://git.c0ntroller.de/c0ntroller/overleaf-git-sync"
+published: 2022-10-18T17:56:27+02:00
+---
+
+# Overleaf Sync with Git
+
+## The Problem
+
+When I was writing some important stuff for uni I wanted as many backups as possible. 
+Because what would I do if a hard drive breaks?
+Or what if I lose my laptop?
+
+I wanted to use LaTeX for writing and I decided, the best way to have it in a central location where I have access from all my devices would be a self-hosted instance of [Overleaf](https://overleaf.com/).
+Because it is only an editor for the web and uses project directories and files means there should be an easy way to back it up, right?
+
+Wrong!
+Not only is there no way to sync your projects to any cloud storage or git in the self-hosted community version.
+But there _is_ a way for it in the central version hosted by them.
+But **only if you pay them**.
+
+And it's not like it's just a cheap little SaaS.
+Even for students, it's 70€/year!
+This is just major BS.
+
+There has to be a way to do this myself.
+
+## Where is my data?
+
+After setting up the container stack for Overleaf I just created a small default project.
+
+And now the files are somewhere stored on the disk so I can just copy them from there and work with them, right?
+
+Wrong again.
+Some files get stored on disk - but only images.
+I would suspect they just pipe all the TeX stuff into the MongoDB the service uses.
+
+Well, that didn't work.
+
+Do they have an API?
+If they do, it's not documented at all.
+But using the browser Dev-Tools it seems like they indeed have some API routes.
+Also [their repo includes a `router.js`](https://github.com/overleaf/overleaf/blob/main/services/web/app/src/router.js).
+But how to use them?
+
+## Access granted
+
+I noticed the front end uses session IDs for user authentication.
+You get an ID, you POST valid credentials (and a CSRF token) to `/login` and your session ID get's "verified".
+
+Using their repository, it was easy to find other routes that are useable.
+But I only needed one: downloading the whole project.
+
+That was easy because after login you can use the same route the browser uses: `/project/{id}/download/zip`
+
+Using a simple Python script I was able to make these calls with no problems.
+
+## What to do with the zip?
+
+Because I think it's unintuitive to run git commands in the Python `subprocess` library, I just wrote a bash script.
+Not only one but two.
+
+The first script prepares the git folder.
+It clones the repository where we want to put our stuff and switches to the branch we want to use.
+Then the zip file we downloaded earlier is unpacked in this folder.
+
+The second bash script creates a git commit and pushes the changes to remote. 
+
+## Improvements for the Future
+
+Everything was put together in a really short time, so I guess it's fairly flawed.
+A few flaws I will maybe fix someday:
+
+- Use environment variables or a `.env` file instead of a Python dictionary for settings
+- Include other sync methods, like just extracting the zip in any directory so you can put it in your Drive/Dropbox/whatever
+- (Probably never implemented) Implement login using OAuth

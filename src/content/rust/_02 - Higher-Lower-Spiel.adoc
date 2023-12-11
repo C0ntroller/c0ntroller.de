@@ -1,0 +1,313 @@
+:experimental:
+:docdatetime: 2022-10-18T17:56:26+02:00
+
+= Erstes Spiel
+
+_https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html[Link zum Buch]_ | _Diese Seite ist aus einem https://jupyter.org/[Jupyter Notebook] exportiert_.
+
+== Projekt erstellen
+
+Das Projekt wird wie in Notebook 01 beschrieben erstellt.
+
+== Einen Input aufnehmen
+
+
+~*In[2]:*~
+[source, rust]
+----
+:dep evcxr_input
+// Das ^ ist für Jupyter
+// Das v würde man wirklich benutzen
+// use std::io;
+
+println!("Guess the number!");
+
+println!("Please input your guess.");
+
+let mut guess = evcxr_input::get_string("Number? ");
+// Das ^ ist für Jupyter
+// Das v würde man wirklich benutzen
+//let mut guess = String::new();
+
+//io::stdin().read_line(&mut guess)
+//    .expect("Failed to read line");
+
+println!("You guessed: {}", guess);
+----
+
+
+~*Out[2]:*~
+----
+Guess the number!
+Please input your guess.
+Number? 42
+You guessed: 42
+----
+
+== Was haben wir gemacht?
+
+* `use std::io;` bindet die Standard-IO Bibliothek ein
+* `let mut guess` legt eine Variable `guess` an
+** `mut` bedeutet, dass sie ``mutable'' also veränderbar ist
+* `String::new()` erstellt eine neue Instanz der `String`-Klasse
+* `io::stdin()` legt ein `Stdin`-Objekt an - ein Handler für die
+CLI-Eingabe
+** ohne die ``use'' Anweisung oben, müsste es `std::io::stdin()` sein
+* `.read_line(&mut guess)` ließt eine Zeile und speichert sie in guess
+** `&` erstellt dabei eine Referenz (wie in C)
+** Referenzen sind standardmäßig immutable - deshalb `&mut`
+** `read_line()` gibt ein `Result`-Objekt zurück, dieser kann `Ok` oder
+`Err` enthalten
+* `.expect("Fehlermeldung")` entpackt das `Result`-Objekt
+** Theoretisch ist das unnötig, sonst gibt es aber eine Warnung
+** Sollte ein `Err` im Result sein, wird durch `expect()` eine Exception
+auftreten
+* `println!("Eingabe: {}", guess)` ist ein formatiertes print
+
+== Eine random Zahl erstellen
+
+Für eine random Zahl brauchen wir die erste Dependency. +
+Also `Cargo.toml` bearbeiten:
+
+[source, toml]
+----
+[dependencies]
+rand = "0.3.14"
+----
+
+(In Jupyter müssen wir das anders lösen.)
+
+Dependencies findet man auch auf https://crates.io[crates.io].
+
+Die crate `rand` kann jetzt im Code verwendet werden.
+
+
+~*In[3]:*~
+[source, rust]
+----
+:dep rand = "0.3.15"
+// Das ^ ist von Jupyter
+
+extern crate rand;
+use rand::Rng;
+
+let secret_number: u32 = rand::thread_rng().gen_range(1, 101);
+
+println!("{}", secret_number);
+----
+
+
+~*Out[3]:*~
+----
+37
+----
+
+== Höher oder tiefer?
+
+Vergleichen wir doch einfach mal… +
+Ein Fehler?
+
+
+~*In[4]:*~
+[source.notCompiling, rust]
+----
+use std::cmp::Ordering;
+
+match guess.cmp(&secret_number) {
+    Ordering::Less => println!("Too small!"),
+    Ordering::Greater => println!("Too big!"),
+    Ordering::Equal => println!("You win!"),
+}
+----
+
+
+~*Out[4]:*~
+----
+
+    match guess.cmp(&secret_number) {
+
+                    ^^^^^^^^^^^^^^ expected struct `String`, found `u32`
+
+    mismatched types
+
+----
+
+Unser `guess` ist ja ein `String`! Den kann man nicht einfach mit einem
+`int` vergleichen (anscheinend). +
+Wir müssen unser guess also umwandeln:
+
+
+~*In[5]:*~
+[source, rust]
+----
+let guess: u32 = guess.trim().parse().expect("Please type a number!");
+----
+
+`.strip()` entfernt Whitespace von beiden Seiten und `parse()` macht
+eine Zahl draus.
+
+`guess` als Variable ist schon vorhanden? Kein Problem! Rust erlaubt
+``Shadowing'', damit man nicht mehrere Variablen unterschiedlicher
+Datentypen für den selben Wert anlegen muss.
+
+Jetzt sollte das Vergleichen auch klappen!
+
+
+~*In[6]:*~
+[source, rust]
+----
+use std::cmp::Ordering;
+
+match guess.cmp(&secret_number) {
+    Ordering::Less => println!("Too small!"),
+    Ordering::Greater => println!("Too big!"),
+    Ordering::Equal => println!("You win!"),
+}
+----
+
+
+~*Out[6]:*~
+----
+Too big!
+()
+----
+
+== Nicht nur ein Versuch
+
+Damit wir mehrmals raten können, brauchen wir eine Schleife.
+
+
+~*In[7]:*~
+[source, rust]
+----
+let secret_number: u32 = rand::thread_rng().gen_range(1, 101);
+loop {
+    let mut guess = evcxr_input::get_string("Number? ");
+    let guess: u32 = guess.trim().parse().expect("Please type a number!");
+    
+    match guess.cmp(&secret_number) {
+        Ordering::Less => println!("Too small!"),
+        Ordering::Greater => println!("Too big!"),
+        Ordering::Equal => println!("You win!"),
+    }
+}
+----
+
+
+~*Out[7]:*~
+----
+Number? 100
+Too big!
+Number? 50
+Too big!
+Number? 25
+Too small!
+Number? 30
+Too small!
+Number? 40
+Too small!
+Number? 42
+Too small!
+Number? 45
+You win!
+Number? 45
+You win!
+Number? 100
+Too big!
+Number? 45
+You win!
+Number? 
+...
+----
+
+Funktioniert, aber selbst nach dem Erraten passiert nichts und wir
+sollen weiter raten. +
+Offensichtlich müssen wir die Schleife dann abbrechen.
+
+
+~*In[8]:*~
+[source, rust]
+----
+let secret_number: u32 = rand::thread_rng().gen_range(1, 101);
+loop {
+    let mut guess = evcxr_input::get_string("Number? ");
+    let guess: u32 = guess.trim().parse().expect("Please type a number!");
+    
+    match guess.cmp(&secret_number) {
+        Ordering::Less => println!("Too small!"),
+        Ordering::Greater => println!("Too big!"),
+        Ordering::Equal => {
+            println!("You win!");
+            break;
+        },
+    }
+}
+----
+
+
+~*Out[8]:*~
+----
+Number? 100
+Too big!
+Number? 50
+Too big!
+Number? 25
+Too small!
+Number? 42
+Too big!
+Number? 39
+Too big!
+Number? 37
+Too big!
+Number? 36
+Too big!
+Number? 33
+Too big!
+Number? 30
+Too big!
+Number? 29
+You win!
+()
+----
+
+== Error handling
+
+Derzeit stirbt das Programm einfach mit einem Fehler, wenn man keine
+Zahl eingibt. Das können wir auch relativ einfach fixen:
+
+
+~*In[9]:*~
+[source, rust]
+----
+loop {
+    let mut guess = evcxr_input::get_string("Number? ");
+    let guess: u32 = match guess.trim().parse() {
+        Ok(num) => num,
+        Err(_) => continue,
+    };
+    // Wenn wir hier her kommen, haben wir eine gültige Zahl und beenden einfach.
+    break;
+}
+----
+
+
+~*Out[9]:*~
+----
+Number? a
+Number? b
+Number? 🦀
+Number? 5
+()
+----
+
+Statt einem `expect()` haben wir nun eine `match`-Expression. Die Syntax
+ist relativ einfach zu verstehen. Man kann auch mehrere `Ok(value)`
+nutzen, wobei dann das richtige aufgerufen wird. `Err(_)` nutzt den
+Unterstrich, um alle Fehler zu catchen, nicht nur einen speziellen.
+
+Das `num` nach dem Pfeil ist ein implizites Return. Wenn eine Variable
+am Ende eines Blocks steht, wird sie zurückgegeben.
+
+== Fertig
+
+Wir haben nun alle Elemente für das ``Higher-Lower-Game''.

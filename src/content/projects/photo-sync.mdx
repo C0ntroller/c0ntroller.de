@@ -1,0 +1,42 @@
+---
+title: Photo Sync
+description: "Giving random apps access to your Google Photos can be bad. To still use an album as screensaver etc. I wrote this script. It syncs all your photos to your drive while giving you maximum privacy."
+descriptionShort: "A script that syncs a Google Photos album to your drive."
+repository: https://git.c0ntroller.de/c0ntroller/google-photo-album-sync
+published: 2022-08-08T12:19:20+02:00
+---
+
+# Google Photo Sync
+
+Why give up privacy for a screensaver?
+
+## Storytime
+
+I recently got a new NVidia Shield with Android TV and after setting everything up I wanted to add a screen saver.
+There are tons of them and some of them even can take a Google Photo album and make your TV a digital picture frame.
+
+I thought it would be great because I already use Google Photos for sharing albums with other people.
+
+So I tried to log in. 
+
+And I didn't do it.
+
+The screensaver app did not only need access to my photos.
+It also wanted my personal details, email address, contact list, and other details.
+This was unacceptable.
+
+Then I thought about it: These apps normally can use images stored on the device or a connected drive.
+My NAS is already connected to the Shield so...
+
+## The Solution
+
+I already had some experience with the Google API from projects like the [Infoscreen](/blog/projects/infoscreen) and the [Simple Callback Server](/blog/projects/simple-cb).
+
+I decided to make it easier for users who are not familiar with the API, so I created a CLI to set everything up.
+
+I think the `README` is pretty good so no need to explain the setup process.
+
+## What's left
+
+My detection for images with similar names is bad (but it works and I can only think of one edge case where it doesn't).
+I could use MD5s to make it better.

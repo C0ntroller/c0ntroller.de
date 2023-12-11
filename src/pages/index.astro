@@ -1,0 +1,47 @@
+---
+import ContentCard from "../components/ContentCard.astro";
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("projects")).sort((a, b) => a.data.published.getTime() - b.data.published.getTime());
+const diaries = (await getCollection("diaryMainPages")).sort((a, b) => a.data.lastUpdated.getTime() - b.data.lastUpdated.getTime());;
+---
+
+<Layout title="c0ntroller.de">
+	<h1>Hello there!</h1>
+	<p class="frontText">
+		Welcome to my website!<br />
+		 You can find here blog entries about some projects I did and some
+		diaries where I document progress.<br />
+		 Interested in me? Visit the <a href="/me" class="nocolor"
+			>About Me page</a
+		>, and you will find out more about me.<br />
+		 On the right of the navigation, you will find what used to be my
+		website - a CLI you can play around with.<br /><br />
+		 Have fun!
+	</p>
+	<h2>Projects</h2>
+	<div class="contentList">
+		{ projects.map(p => <ContentCard title={p.data.title} description={p.data.description} path={`/blog/${p.slug}`} />) }
+	</div>
+	<h2>Diaries</h2>
+	<div class="contentList">
+		{ diaries.map(p => <ContentCard title={p.data.title} description={p.data.description} path={`/blog/${p.slug}`} />) }
+	</div>
+</Layout>
+
+<style>
+	.contentList {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		justify-content: space-evenly;
+		padding: 0;
+	}
+
+	.frontText {
+		font-size: 1.1em;
+		line-height: 1.5;
+	}
+</style>
+

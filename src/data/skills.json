@@ -1,0 +1,171 @@
+{
+    "cards": [{
+        "title": "Programming Languages",
+        "skillBars": [{
+            "name": "TypeScript",
+            "icon": "mdi:language-typescript",
+            "pct": 100
+        }, {
+            "name": "JavaScript",
+            "icon": "mdi:language-javascript",
+            "pct": 100
+        }, {
+            "name": "Java",
+            "icon": "mdi:language-java",
+            "pct": 80
+        }, {
+            "name": "Python 3",
+            "icon": "mdi:language-python",
+            "pct": 95
+        }, {
+            "name": "PHP",
+            "icon": "mdi:language-php",
+            "pct": 50
+        }, {
+            "name": "Bash",
+            "icon": "mdi:bash",
+            "pct": 60
+        }, {
+            "name": "C/C++",
+            "icon": "mdi:language-cpp",
+            "pct": 60
+        }, {
+            "name": "Rust",
+            "icon": "mdi:language-rust",
+            "pct": 70
+        }, {
+            "name": "C#",
+            "icon": "mdi:language-csharp",
+            "pct": 90
+        }],
+        "additional": [{
+            "name": "SQL Languages",
+            "icon": "mdi:database-search"
+        }],
+        "colors": {
+            "background": "#C3A3F7",
+            "bars": "#8771AB",
+            "heading": "#55476B",
+            "useDarkColor": true,
+            "badges": {
+                "background": "#55476B",
+                "useDarkColor": false
+            }
+        }
+    }, {
+        "title": "Web Technologies",
+        "skillBars": [{
+            "name": "TypeScript",
+            "icon": "mdi:language-typescript",
+            "pct": 100
+        }, {
+            "name": "JavaScript",
+            "icon": "mdi:language-javascript",
+            "pct": 100
+        }, {
+            "name": "React",
+            "icon": "mdi:react",
+            "pct": 80
+        }, {
+            "name": "HTML5",
+            "icon": "simple-icons:html5",
+            "pct": 100
+        }, {
+            "name": "CSS3",
+            "icon": "simple-icons:css3",
+            "pct": 90
+        }],
+        "additional": [{
+            "name": "Express",
+            "icon": "simple-icons:express"
+        }, {
+            "name": "Sass",
+            "icon": "simple-icons:sass"
+        }, {
+            "name": "Spring Boot",
+            "icon": "simple-icons:springboot"
+        }],
+        "colors": {
+            "background": "#A4C7EA",
+            "bars": "#706EB8",
+            "heading": "#2A2885",
+            "useDarkColor": true,
+            "badges": {
+                "background": "#2A2885",
+                "useDarkColor": false
+            }
+        }
+    }, {
+        "title": "Embedded Programming",
+        "skillBars": [{
+            "name": "C/C++",
+            "icon": "mdi:language-cpp",
+            "pct": 60
+        }],
+        "additional": [{
+            "name": "Arduino",
+            "icon": "simple-icons:arduino"
+        }, {
+            "name": "ESP",
+            "icon": "simple-icons:espressif"
+        }],
+        "colors": {
+            "background": "#EA8585",
+            "bars": "#E53E3E",
+            "heading": "#661C1C",
+            "useDarkColor": true,
+            "badges": {
+                "background": "#661C1C",
+                "useDarkColor": false
+            }
+        }
+    }, {
+        "title": "Operating Systems",
+        "skillBars": [],
+        "additional": [{
+            "name": "Windows",
+            "icon": "simple-icons:windows"
+        }, {
+            "name": "Linux",
+            "icon": "simple-icons:linux"
+        }, {
+            "name": "Android",
+            "icon": "simple-icons:android"
+        }],
+        "colors": {
+            "background": "#4DEB8C",
+            "bars": "#38AB66",
+            "heading": "#236B40",
+            "useDarkColor": true,
+            "badges": {
+                "background": "#236B40",
+                "useDarkColor": false
+            }
+        }
+    }, {
+        "title": "Languages",
+        "skillBars": [{
+            "name": "German (native)",
+            "icon": "mdi:language",
+            "pct": 100
+        }, {
+            "name": "English (C1)",
+            "icon": "mdi:language",
+            "pct": 90
+        }, {
+            "name": "Russian (basics)",
+            "icon": "mdi:language",
+            "pct": 30
+        }],
+        "colors": {
+            "background": "#EB783F",
+            "bars": "#AB582E",
+            "heading": "#6B371D",
+            "useDarkColor": true,
+            "badges": {
+                "background": "#6B371D",
+                "useDarkColor": false
+            }
+        }
+    }]
+}

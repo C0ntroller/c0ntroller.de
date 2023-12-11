@@ -1,0 +1,74 @@
+---
+title: Cargo
+published: 2022-10-18T17:56:26+02:00
+sorting: 1
+slug: cargo
+---
+
+# Cargo
+
+_[Link zum Buch](https://doc.rust-lang.org/book/ch01-03-hello-cargo.html)_
+
+## Was ist Cargo?
+
+Cargo ist Rusts package manager.<br/>
+Um ein neues Cargo-Projekt zu erstellen, braucht es das folgende
+Command:
+
+```bash
+$ cargo new projektname --bin
+```
+
+`--bin` sagt, dass wir ein neues Binary erstellen und keine
+Bibliothek.<br/>
+Es wird auch gleich `main.rs`, ein `.git`-Ordner (inkl. `.gitignore`)
+und `Cargo.toml` erstellt.
+
+## Angelegte Dateien
+
+### Cargo.toml
+
+Unangetastet sieht die Datei so aus:
+
+```toml
+[package]
+name = "projektname"
+version = "0.1.0"
+authors = ["Your Name <you@example.com>"]
+
+[dependencies]
+```
+
+Hier können also Meta-Infos wie Name und Dependencies gespeichert
+werden.
+So wie eine `package.json` in JavaScript.
+
+### main.rs
+
+Die Main-Datei ist mit ``Hello World'' gefüllt.
+
+## Commands
+
+### cargo build
+
+```bash
+$ cargo build
+$ ./target/debug/projektname
+```
+
+Standardmäßig wird ein Debug-Build erzeugt. `cargo build --release`
+erzeugt einen Release-Build.
+
+### cargo run
+
+Macht einen build und führt die Datei dann aus.
+
+### cargo check
+
+Checkt alles einmal durch.
+
+### cargo update
+
+Updatet alle Dependencies. Allerdings nur auf die letzte Subversion der
+angegebenen Version. Will man eine neue Version, muss man das manuell
+angeben.

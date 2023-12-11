@@ -1,0 +1,239 @@
+:experimental:
+:docdatetime: 2022-10-18T17:56:27+02:00
+
+= Standard Collections
+
+https://doc.rust-lang.org/book/ch08-00-common-collections.html[Link zum Buch]
+
+== `Vec<T>` - Vektoren
+
+Vektoren kennt man ja aus C++ als dynamische Alternative zu Arrays.
+Es ist quasi eine Linked List, die beliebig erweiterbar bzw. manipulierbar ist.
+Wie in der Überschrift zu sehen, sind sie typspezifisch, man kann also nur Daten eines einzigen Typs in diese Liste speichern.
+
+Wie benutze ich jetzt so einen Vector?
+Hier einfach mal eine Übersicht:
+
+[source, rust]
+----
+// -- Erstellen --
+// Mit dem vec!-Pragma
+let v = vec![1, 2, 3];
+let v = vec![0; 5]; // 5 Nullen
+// Mit new() (mit mut, damit wir gleich etwas zufügen können)
+let mut v: Vec<i32> = Vec::new();
+
+// -- Updaten --
+// Push
+v.push(1);
+v.push(2);
+v.push(3);
+v.push(4);
+v.push(5);
+// -> [1,2,3,4,5]
+// Pop, returnt ein Optional<T>
+v.pop(3);
+v.pop(4);
+// -> [1,2,3]
+// Insert
+v.insert(1, 9); // -> [1,9,2,3]
+// Remove
+v.remove(1); // -> [1,2,3]
+
+// -- Lesen --
+// Über Index
+let second: &i32 = &v[1];
+// Mit get() (gibt ein Option<&T>)
+// Hat den Vorteil, dass es nicht einfach paniced.
+match v.get(2) {
+    Some(value) => {...}
+    None => (),
+}
+
+// -- Drüber iterieren --
+// mut natürlich nur, wenn wir es verändern wollen
+// Wir brauchen hier aber * zum Dereferenzieren!
+for i in &mut v {
+    *i += 50;
+}
+----
+
+=== Achtung, Scope
+
+Wenn ein Vector aus dem Scope fällt, wird er zusammen mit seinem Inhalt gedropped.
+Blöd, wenn man Referenzen auf Elemente aus dem Vector hat.
+
+=== Ownership
+
+Wenn `push()` ausgeführt wird, findet ein mutable borrow statt und das kommt mit allen Eigenheiten wie vorher.
+Alle Referenzen, die vorher über Index oder `get()` genommen wurden, sind dann ungültig.
+Das liegt daran, dass es by `push()` passieren kann, dass neue Speicher reserviert und genutzt werden muss, falls die Elemente nicht mehr nebeneinander passen.
+
+=== Lifehack: Enum für verschiedene Datentypen
+
+Ein Vector kann nur einen Datentypen aufnehmen?
+Der Datentyp kann aber auch ein Enum sein!
+
+Also wenn mal ein String neben Zahlen gespeichert werden soll: Einfach einen Enum mit beiden Varianten anlegen.
+
+=== Weiteres
+
+Es gibt auch hier Slices und noch eine Menge Tricks.
+Die https://doc.rust-lang.org/std/vec/struct.Vec.html[Dokumentation zum Vector] ist da wahrscheinlich sehr hilfreich.
+
+== Strings
+
+Strings eine Collection?
+Klar, wie in C ja auch.
+
+Es gibt im Core eigentlich nur `str`, also ein Slice.
+Der `String`-Typ kommt aus der Standard-Lib und ist einfacher zu nutzen.
+
+In den meisten Programmiersprachen kennt man ja `toString()`, hier ist es natürlich `to_string()` und für alle Typen definiert, die den Trait `Display` implementiert haben.
+Das gilt zum Beispiel auch für String-Literale, man kann also `str` ganz einfach in einen `String` umwandeln, indem man `"text".to_string()` aufruft.
+Natürlich funktioniert auch `String::from("text")`.
+
+String sind UTF-8 encoded, also egal mit was man sie bewirft, es sollte klappen.
+Allerdings ist das Handling deshalb etwas kompliziert.
+Rust fasst das ganz gut am Ende der Seite zusammen mit 
+[quote]
+To summarize, strings are complicated.
+
+Hier wieder eine Übersicht zur Nutzung:
+
+[source, rust]
+----
+// -- Erstellen --
+// String::from()
+// "Hello ".to_string() macht das selbe
+let mut s = String::from("Hello ");
+
+// -- Manipulieren --
+// push_str()
+// Hier wird kein Ownership übergeben! 
+// Sollte "world" in einer Variable stehen, ist sie danach weiter nutzbar.
+s.push_str("world");
+// -> Hello World
+// push(), für einen einzelnen Character
+s.push('!');
+// +
+// Ist etwas tricky. Der Methodenkopf sieht so aus:
+// fn add(self, s: &str) -> String
+// Also wird Ownership von s1 übergeben und s2 offensichtlich magisch von &String zu &str.
+// Somit ist danach auch s1 nicht mehr gültig.
+let s1 = String::from("Hello ");
+let s2 = String::from("world!");
+let s3 = s1 + &s2;
+// Es geht auch mit noch mehr Elementen!
+// Damit das aber nicht zu unübersichtlich wird, gibt es format!
+let s1 = String::from("Schere");
+let s2 = String::from("Stein");
+let s3 = String::from("Papier");
+let s4 = format!("{}, {}, {}", s1, s2, s3);
+// Hier wird kein Ownership übergeben!
+----
+
+=== Indexing
+
+Aus Python z.B. kennt man ja `"Hallo"[0] -> H`.
+In Rust geht das nicht.
+Das liegt am Aufbau der String, dass sie eben UTF-8 verwenden und `String` eigentlich nur ein `Vec<u8>` ist.
+Das macht das ganze ordentlich schwierig.
+
+=== Slicing
+
+Ist immer eine schlechte Idee, außer man weiß exakt wie lang die einzelnen Zeichen (in Byte) des Strings sind.
+Im Englischen ist es normalerweise 1 Byte pro Zeichen, Umlaute sind schon 2, und so weiter.
+Sollte man aus Versehen ein Zeichen "durchschneiden" (also nur 1 Byte eines "ü" im Slice haben), gibt es eine Runtime Panic.
+
+=== Iterieren
+
+Über einem String iterieren geht ganz ok.
+
+[source, rust]
+----
+for c in "hallo".chars() {
+    println!("{}", c);
+}
+// Ist für europäische Sprachen absolut geeignet.
+// Bei Hindi wird es schon wieder eklig.
+
+for b in "hallo".bytes() {
+    println!("{}", b);
+}
+// Wirft eben die einzelnen u8 raus.
+----
+
+Wenn wir "grapheme" haben wollen (Was anscheinend so etwas wie "volle Zeichen" sind, mehr als nur char), gibt es keine eingebaute Funktion aber crates, die das lösen.
+
+== HashMaps
+
+Der Erlöser der Programmierer und Lösung jeder Aufgabe bei der Bewerbung, die "O(n)" enthält.
+Oder so ähnlich.
+
+Nutzung: 
+
+[source, rust]
+----
+// Das hier ist für die "Abkürzungen"
+use std::collections::HashMap;
+
+// -- Erstellen --
+// iter(), zip() und collect()
+// collect() kann in alles mögliche wandeln, deshalb muss der Typ angegeben werden.
+let woerter = vec![String::from("eins"), String::from("zwei"), String::from("drei")];
+let zahlen = vec![1, 2, 3];
+let mut zahlwort: HashMap<_, _> = woerter.into_iter().zip(zahlen.into_iter()).collect();
+// Einfach normal
+let mut zahlwort = HashMap::new();
+
+// -- Nutzung --
+// insert()
+// Ownership wird bei den Strings übergeben
+zahlwort.insert(String::from("eins"), 1);
+zahlwort.insert(String::from("zwei"), 2);
+zahlwort.insert(String::from("drei"), 5);
+zahlwort.insert(String::from("drei"), 3); // Überschreibt vorheriges
+// get()
+// Hier wird kein Ownership übergeben
+let testwort = String::from("eins");
+let eins_oder_none = zahlwort.get(&testwort); // -> Optional
+// entry()
+// Checkt, ob etwas da ist und kann im Zweifel etwas einfügen
+zahlwort.entry(String::from("vier")).or_insert(4);
+// entry kann auch genutzt werden, um den bisherigen Eintrag upzudaten
+let bisher = zahlwort.entry(String::from("vier")).or_insert(4); // &mut i32
+*bisher += 1;
+
+// Drüber Iterieren
+for (key, value) in &zahlwort {
+    println!("{}: {}", key, value);
+}
+// Sehr selbsterklärend
+----
+
+=== Ownership
+
+Falls Key oder Value kein Copy Trait haben, wird der Ownership übergeben. Strings sind also danach ungültig.
+
+== Hausaufgaben
+
+Das Buch gibt uns hier ein paar Aufgaben, die wir jetzt lösen können:
+
+* Den Median aus einer Liste finden. Erst sortieren, dann den mittleren Wert.
+* Wörter zu "pig-latin" machen. Wenn erster Buchstabe ein Vokal ist, wird "-hay" angehängt, wenn es ein Konsonant ist, wird er ans Ende angefügt (nach "-") und "ay" angehängt.
+* Eine kleine Befehlszeile mit Befehlen wie "Add Name to Sales" und Ausgabe.
+
+Vielleicht werde ich sie irgendwann mal lösen, dann landet der Code hier.
+
+=== Aufgabe 1
+
+[source, rust]
+----
+fn main() {
+    let mut list = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+    list.sort();
+    let mid = list.len() / 2; // integer divide
+    println!("{}", list[mid]);
+}
+----

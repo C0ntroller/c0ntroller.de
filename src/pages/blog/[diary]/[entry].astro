@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import MarkdownLayout from "../../../layouts/MarkdownLayout.astro";
+import DiaryNavTop from "../../../components/DiaryNav/DiaryNavTop.astro";
+import DiaryNavBar from "../../../components/DiaryNav/DiaryNavBar.astro";
+
+export async function getStaticPaths() {
+  const pathsAvailable = [];
+
+  const availableCollections = await getCollection("diaryMainPages");
+
+  for (const collection of availableCollections) {
+    const collectionData = await getCollection(collection.slug);
+    for (const entry of collectionData) {
+      pathsAvailable.push({
+        params: { diary: collection.slug, entry: entry.slug },
+        props: { entry },
+      });
+    }
+  }
+
+  return pathsAvailable;
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<MarkdownLayout title={entry.data.title}>
+  <DiaryNavTop collectionName="rust" slot="main-nav" />
+  <Content />
+  <DiaryNavBar collectionName="rust" slot="footer-nav" />
+</MarkdownLayout>

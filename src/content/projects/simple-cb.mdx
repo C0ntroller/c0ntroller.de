@@ -1,0 +1,31 @@
+---
+title: Simple Callback Server
+description: "Most times when using OAuth2 on an API like Google or Spotify I just need the refresh token on setup. To get the initial tokens and the refresh token it is necessary to have a server that prints the POST body. This application does this."
+descriptionShort: "A simple callback server for OAuth2 applications."
+repository: "https://git.c0ntroller.de/c0ntroller/simple-callback-server"
+published: 2022-10-18T17:56:27+02:00
+---
+
+# Simple Callback Server
+
+This is probably my simplest project.
+
+## What is this?
+
+It's the simplest thing you could imagine: An `express` server that prints out all headers and the body or all query parameters.
+Still, I needed it sometimes and I didn't want to rewrite it every time I use it.
+
+## What can it be used for?
+
+When creating a dev application on Google, Spotify, or other services you often have some heavy authentication flow to get access.
+But normally I want to use the API for private projects and it's _my_ account that gets authenticated every time.
+
+To make reauthentication easier these OAuth protocols often provide a "refresh token" which can be used to get a valid new token.
+
+To get the initial authentication token and to get such a refresh token you provide a callback address where you get redirected after the user logs in.
+The tokens and meta information normally are sent in a `POST` body.
+And this is where this small application is necessary.
+
+## This sounds overly complicated
+
+It is. But this is necessary for OAuth2 to be safe.

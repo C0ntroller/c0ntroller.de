@@ -1,0 +1,14 @@
+---
+import DiaryNavAside from "./DiaryNavAside.astro";
+import DiaryNavBar from "./DiaryNavBar.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+    collectionName: CollectionEntry<"diaryMainPages">["slug"];
+}
+
+const { collectionName } = Astro.props;
+---
+
+<DiaryNavBar collectionName={ collectionName } isOnTop={ true } />
+<DiaryNavAside collectionName={ collectionName } />

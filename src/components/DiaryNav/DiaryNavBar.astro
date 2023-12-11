@@ -1,0 +1,147 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+    collectionName: CollectionEntry<"diaryMainPages">["slug"];
+    isOnTop?: boolean;
+}
+
+const { collectionName, isOnTop } = Astro.props;
+const collectionTitle = (await getEntry("diaryMainPages", collectionName)).data.title;
+
+const collection = (await getCollection(collectionName)).sort((a, b) => a.data.sorting - b.data.sorting);
+
+const collectionBasePath = `/blog/${collectionName}`;
+
+const currentIndex = collection.findIndex(entry => `${collectionBasePath}/${entry.slug}` === Astro.url.pathname);
+const previousEntry = collection[currentIndex - 1];
+const nextEntry = collection[currentIndex + 1];
+
+const previousEntryLink = previousEntry ? 
+    {show: true, href: `${collectionBasePath}/${previousEntry.slug}`, title: previousEntry.data.title} : 
+    {show: currentIndex !== -1, href: collectionBasePath, title: collectionTitle};
+const nextEntryLink = nextEntry ? 
+    {href: `${collectionBasePath}/${nextEntry.slug}`, title: nextEntry.data.title} : 
+    null ;
+---
+
+<nav class={isOnTop ? "top" : "bottom"}>
+    <span></span>
+    <span class="leftSelectSpace">
+        { previousEntryLink.show ? 
+            <a href={previousEntryLink.href}>&lt;<span class="longLink"> {previousEntryLink.title}</span><span class="shortLink">&lt;</span></a> : 
+            null
+        }
+    </span>
+    <span class="leftSelectSpaceSync">
+        { nextEntryLink ? 
+        <>&lt;<span class="longLink"> {nextEntryLink.title}</span><span class="shortLink">&lt;</span></>
+        : null}
+    </span>
+    <span style={{ visibility: previousEntryLink.show ? "visible" : "hidden" }}>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+    <select class="selectField">
+        <option value={ collectionBasePath }>{ collectionTitle }</option>
+        { collection.map(entry => <option value={`${collectionBasePath}/${entry.slug}`} selected={`${collectionBasePath}/${entry.slug}` === Astro.url.pathname}>{ entry.data.title }</option> ) }
+    </select>
+    <span style={{ visibility: nextEntryLink ? "visible" : "hidden" }}>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+    <span class="rightSelectSpace">
+        { nextEntryLink ?
+            <a href={nextEntryLink.href}><span class="longLink">{nextEntryLink.title} </span><span class="shortLink">&gt;</span>&gt;</a> : 
+            null
+        }
+    </span>
+    <span class="rightSelectSpaceSync">
+        { previousEntryLink.show ?
+            <><span class="longLink">{previousEntryLink.title} </span><span class="shortLink">&gt;</span>&gt;</> : 
+            null
+        }
+    </span>
+    <span></span>
+</nav>
+
+<style lang="scss">
+nav {
+    display: grid;
+    grid-template-columns: 1fr max-content max-content max-content max-content max-content 1fr;
+    align-items: center;
+    background: transparent;
+    padding: 10px;
+
+    &.top {
+        display: none;
+        margin: -50px -50px 20px;
+        border-bottom: 1px solid var(--blog_content-border);
+
+        @media screen and (max-width: 889px) {
+            & {
+                display: grid;
+                margin-top: -20px;
+            }
+        }
+    }
+
+
+
+    /*&.bottom {
+        margin: 40px -50px -50px;
+        border-top: 1px solid var(--blog_content-border);
+    }*/
+}
+
+select {
+    padding: 5px;
+    border-radius: 1em;
+    border: 1px solid var(--blog_content-border);
+    background: var(--blog_background-main);
+}
+
+
+
+a:link, a:visited, a:active {
+    color: inherit;
+    text-decoration: none;
+    font-weight: bold;
+    text-overflow: clip;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.longLink {
+    display: inline;
+}
+
+.shortLink {
+    display: none;
+}
+
+@media screen and (max-width: 599px) {
+        .longLink {
+            display: none;
+        }
+        .shortLink {
+            display: inline;
+        }
+    }
+
+.leftSelectSpace {
+    grid-area: 1/2;
+}
+
+.leftSelectSpaceSync {
+    grid-area: 1/2;
+    visibility: hidden;
+}
+
+.rightSelectSpace {
+    grid-area: 1/6;
+}
+
+.rightSelectSpaceSync {
+    grid-area: 1/6;
+    visibility: hidden;
+}
+
+</style>
