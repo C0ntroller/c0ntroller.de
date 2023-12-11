@@ -37,7 +37,7 @@ const cardStyle = {
         {
             card.skillBars
                 .sort((bar1, bar2) => bar2.pct - bar1.pct)
-                .map((skill, i) => (
+                .map((skill) => (
                     <div class="skillBar">
                         <div class="barName">
                             <Icon name={skill.icon} />
@@ -57,7 +57,7 @@ const cardStyle = {
     {
         card.additional && card.additional.length > 0 ? (
             <div class="badgeSet">
-                {card.additional?.map((additional, i) => (
+                {card.additional?.map((additional) => (
                     <>
                         <div class="badge">
                             <span>
