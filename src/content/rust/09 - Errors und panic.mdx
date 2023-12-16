@@ -1,11 +1,15 @@
-:experimental:
-:docdatetime: 2022-08-22T17:04:01+02:00
+---
+title: Fehler und PANIK!
+published: 2022-08-22T17:04:01+02:00
+sorting: 9
+slug: errors-and-panic
+---
 
-= Errors und `panic!`
+# Errors und `panic!`
 
-https://doc.rust-lang.org/book/ch09-00-error-handling.html[Link zum Buch]
+[Link zum Buch](https://doc.rust-lang.org/book/ch09-00-error-handling.html)
 
-== `panic!`
+## `panic!`
 
 Dieses Makro it furchtbar simpel: Es macht Panik und das Programm stirbt mit einem Fehler.
 Diesen Fehler kann man auch nicht catchen.
@@ -14,13 +18,12 @@ Wenn `RUST_BACKTRACE` als Umgebungsvariable gesetzt ist, wird auch noch ein lang
 
 Will man gar kein Traceback und kein "unwinding" (das "hochgehen" durch den Funktionsstack und Aufräumen), kann man auch noch folgendes zu seiner `Cargo.toml` hinzufügen:
 
-[source, toml]
-----
+```toml
 [profile.release]
 panic = 'abort'
-----
+```
 
-== `Result<T, E>`
+## `Result<T, E>`
 
 Der Result-Datentyp ist deutlich besser für mögliche Fehler geeignet, die das Programm abfangen und bearbeiten kann.
 Falls zum Beispiel eine Datei auf dem Dateisystem nicht existiert, ist es ja manchmal gewünscht, dass diese Datei dann einfach angelegt wird.
@@ -36,8 +39,7 @@ Der genaue Fehler kann mit `error.kind()` erfahren werden; ein weiteres `match` 
 
 Ein volles Beispiel mit ganz viel `match`:
 
-[source, rust]
-----
+```rust
 use std::fs::File;
 use std::io::ErrorKind;
 
@@ -57,23 +59,22 @@ fn main() {
         },
     };
 }
-----
+```
 
-=== `unwrap()` und `expect()`
+### `unwrap()` und `expect()`
 
 Machen aus einem `Result<T, E>` entweder ein `T` oder eine `panic!`.
 Bei `expect()` kann man noch die Fehlermeldung festlegen.
 
 Warum man jemals `unwrap()` nehmen sollte, erschließt sich mir nicht ganz.
 
-=== `?`
+### `?`
 
 Oft schreibt man Funktionen so, dass Fehler weiter "hochgegeben" werden, falls man welche bekommt.
 `?` macht genau das bei einem Result.
 Codemäßig erklärt:
 
-[source, rust]
-----
+```rust
 let a = match result {
     Ok(nummer) => nummer,
     Err(e) => return Err(e),
@@ -82,11 +83,11 @@ let a = match result {
 // Ergibt das selbe wie
 
 let a = result?;
-----
+```
 
 Das `?` kann auch für zum Beispiel `Option` verwendet werden, dann returned es natürlich `None`.
 
-=== Rückgaben von `main()`
+### Rückgaben von `main()`
 
 Bis jetzt hat `main()` immer nichts, also implizit `()` zurückgegeben.
 Manchmal wollen wir ja aber auch was anderes als "0" als return code haben.
@@ -95,7 +96,7 @@ Der zweite Typ dort, kann wohl als "irgendein Fehler" gelesen werden und wird sp
 
 Allgemein kann aber jedes Objekt, dass `std::process::Termination`-Trait implementiert von main als Rückgabe genutzt werden.
 
-== Wann `Result<T, E>`, wann `panic!`?
+## Wann `Result<T, E>`, wann `panic!`?
 
 Der Artikel ist sehr sehr sehr lang, aber eigentlich sagt er:
 "Panic nur wenn es eben nicht gerettet werden kann."

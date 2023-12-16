@@ -1,11 +1,15 @@
-:experimental:
-:docdatetime: 2022-08-10T17:04:53+02:00
+---
+title: Structs
+published: 2022-08-10T17:04:53+02:00
+sorting: 5
+slug: structs
+---
 
-= Structs
+# Structs
 
-https://doc.rust-lang.org/book/ch05-00-structs.html[Link zum Buch]
+[Link zum Buch](https://doc.rust-lang.org/book/ch05-00-structs.html)
 
-== Was sind Structs
+## Was sind Structs
 
 Structs kennt man ja aus C/C++.
 Man kann es (denke ich) auch mit JavaScript Objekten vergleichen.
@@ -13,12 +17,11 @@ Man kann es (denke ich) auch mit JavaScript Objekten vergleichen.
 In Structs gruppiert man zusammengehöriges Zeug und hat so eine Art Pseudo-OOP.
 Man kann damit neue Datentypen machen.
 
-== How to 
+## How to 
 
-=== "Normale" Structs
+### "Normale" Structs
 
-[source, rust]
-----
+```rust
 struct User {
     active: bool,
     username: String,
@@ -38,59 +41,56 @@ fn main() {
 
     user1.email = String::from("anotheremail@example.com");
 }
-----
+```
 
 Hinweis: Es können nicht einzelne Felder mutable sein, sondern wenn dann immer das ganze Struct.
 
-==== Dinge wie in Javascript
+#### Dinge wie in Javascript
 Wenn die Variable heißt wie das Feld, kann man auch statt `email: email` einfach nur `email` schreiben.
 
 Wenn man ein neues Struct aus einem alten mit Updates erstellen will, geht das auch mit einer Art Spread-Parameter:
 
-[source, rust]
-----
+```rust
 let user2 = User {
     email: String::from("another@example.com"),
     ..user1
 };
-----
+```
 
 `..user1` *muss* als letztes kommen und füllt dann alle bisher nicht gesetzten Felder.
 Außerdem ist das etwas tricky: 
 Wenn die Daten, die von `user1` zu `user2` übertragen werden, gemoved werden (sprich: keine primitiven Datentypen sind), dann ist `user1` danach ungültig.
 Hätten wir jetzt auch noch einen neuen `username` gesetzt (auch ein String) und nur `active` und `sign_in_count` übertragen, wäre `user1` noch gültig.
 
-=== Tupel Structs
+### Tupel Structs
 
-[source, rust]
-----
+```rust
 struct RGBColor(u8, u8, u8);
 
 fn main() {
     let black = Color(0, 0, 0)
 }
-----
+```
 
 Sind nutzbar wie Tupel (destrucuture und `.index` zum Zugriff auf Werte), allerdings eben ein eigener Typ.
 
-=== Unit-Like Structs
+### Unit-Like Structs
 
-[source, rust]
-----
+```rust
 struct AlwaysEqual;
-----
+```
 
 Ein Struct muss keine Felder haben. 
 Das Buch meint, man könnte für diesen Datentypen jetzt noch Traits implementieren, aber davon habe ich noch keine Ahnung.
 Nur dann macht diese Art von Struct irgendwie Sinn.
 
-== Ownership der Felder
+## Ownership der Felder
 
 Im ersten Beispiel wird `String` satt `&str` genutzt.
 Wir wollen am besten im Struct keine Referenzen, oder es müssen "named lifetime parameter" sein, etwas das wir erst später lernen.
 Der Compiler wird sonst streiken.
 
-== Das erste Mal Traits
+## Das erste Mal Traits
 
 Im Buch folgt ein Beispielprogramm für ein Struct, das ein Rechteck abbildet.
 Wir wollten das ganze printen (mit `{}` als Platzhalter), allerdings implementiert Das Rechteck nicht `std::fmt::Display`.
@@ -112,15 +112,14 @@ Alternativ kann man auch das Makro `dbg!(...)` nutzen.
 Das wird dann auf `stderr` geprintet.
 Man kann sogar ein Statement da rein packen (also zum Beispiel `30 * x`) und bekommt das Statement mit dem Ergebnis geprintet, wobei das Ergebnis (als Wert, nicht Referenz) auch zurückgegeben wird.
 
-== Funktionen in Structs
+## Funktionen in Structs
 
 Unser Struct soll jetzt auch eine Funktion auf sich selbst aufrufen können.
-Tatsächlich ist der sehr einfach und sehr OOPig.
+Tatsächlich ist der sehr einfach und sehr OOP-ig.
 
 Die folgenden Beispiele sollten relativ viel erklären:
 
-[source, rust]
-----
+```rust
 struct Rectangle {
     width: u32,
     height: u32,
@@ -177,15 +176,15 @@ fn main() {
     println!("{}", rect2.has_same_area(&rect1)); // true
     println!("{}", Rectangle::same_area(&rect1, &rect2)); // true
 }
-----
+```
 
-=== `&mut self`
+### `&mut self`
 
 Eine Methode kann auch `&mut self` als ersten Parameter haben.
 Dann können auch Felder geschrieben werden. In diesem Fall werden Referenzen aber invalidiert!
 
-[source, rust]
-----
+<div class="notCompiling">
+```rust
 struct Rectangle {
     width: u32,
     height: u32,
@@ -207,4 +206,5 @@ fn main() {
 
     println!("{}", ref1.width); // <- geht nicht!
 }
-----
+```
+</div>

@@ -1,40 +1,44 @@
-:experimental:
-:docdatetime: 2022-10-18T17:56:26+02:00
+---
+title: Konzepte
+published: 2022-10-18T17:56:26+02:00
+sorting: 3
+slug: konzepte
+---
 
-= Konzepte
+# Konzepte
 
-https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html[Link zum Buch]
+[Link zum Buch](https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html)
 
 
-== Variablen
-=== Mutability
+## Variablen
+### Mutability
 
 Standardmäßig sind Variablen nicht mutable, also nicht veränderbar.
 In anderen Sprachen ist das häufig `const` - in Rust gibt es aber auch `const`!
 
 Das Folgende funktioniert also nicht:
 
-[source.notCompiling, Rust]
-----
+<div class="notCompiling">
+```rust
 fn main() {
     let x = "Hello world!";
     // Das folgende funktioniert nicht, weil x nicht mutable ist!
     x = "Hello Rust!";
 }
-----
+```
+</div>
 
 Damit Variablen mutable sind, muss `mut` genutzt werden:
 
-[source, rust]
-----
+```rust
 fn main() {
     let mut x = "Hello world!";
     // Hier funktioniert es.
     x = "Hello Rust!";
 }
-----
+```
 
-=== Constants
+### Constants
 
 Neben unveränderlichen Variablen gibt es auch noch Konstanten. 
 Diese sind sehr ähnlich zu ersteren, haben aber zwei relevante Unterschiede:
@@ -46,12 +50,11 @@ Die Konvention für Konstanten ist snake case all caps.
 
 Ein Beispiel dafür ist folgendes:
 
-[source, rust]
-----
+```rust
 const MINUTES_IN_A_DAY: u32 = 24 * 60;
-----
+```
 
-=== Shadowing
+### Shadowing
 
 Shadowing wurde beim Higher-Lower-Game schon einmal erwähnt.
 Anfangs habe ich es falsch verstanden: Ich dachte Shadowing wäre, dass eine Variable unter dem selben Namen in unterschiedlichen Datentypen vorhanden wäre.
@@ -59,15 +62,14 @@ Anfangs habe ich es falsch verstanden: Ich dachte Shadowing wäre, dass eine Var
 Allerdings ist es mehr ein "Reuse" eines alten Namens. 
 Ein Beispiel:
 
-[source, rust]
-----
+```rust
 fn main() {
     let x = 5;
     let x = x + 5;
 
     println!("{}", x);
 }
-----
+```
 
 Die Ausgabe des Programms ist dabei der letztere Wert, hier also 10.
 Es ist also mehr eine neue Variable unter dem selben Namen wie die alte.
@@ -77,30 +79,29 @@ Da Variablen immer Block-Scope-basiert (?) sind, kann dies natürlich auch in ei
 
 Der Unterschied zu mutable Variablen ist ganz einfach: neben einigen Unterschieden unter der Haube (oder?), haben mutable Variablen einen festen Datentyp, der nicht einfach geändert werden kann.
 
-== Datentypen
+## Datentypen
 
-=== Data Inference
+### Data Inference
 Jede Variable hat einen festen Datentyp. 
 Der Compiler kann häufig selber herausfinden, was für einer das ist, das ist die "Type Inference".
 Wenn das nicht geht, muss manuell ein Typ festgelegt werden.
 
 Ein Beispiel:
 
-[source, rust]
-----
+```rust
 let guess: u32 = "42".parse().expect("Not a number!");
-----
+```
 
 `"42"` ist offensichtlich ein String. 
 `parse()` kann verschiedene Ergebnisse-Datentypen erzeugen.
 Das Ergebnis kann also verschiedene Typen haben, wir wollen ja aber wissen, was `guess` ist.
 Hier muss also `guess: u32` angegeben werden, sonst gibt es einen Fehler vom Compiler.
 
-=== Scalar Types
+### Scalar Types
 Skalar heißt: ein einziges Value.
 Also eine Zahl (integer/float), Boolean oder ein einzelner Character.
 
-==== Integer
+#### Integer
 Es signed und unsigned Integer und verschiedener Länge - 8, 16, 32, 64 und 128 Bit und "size".
 "size" ist dabei architektur-abhängig, also zumeist 32 oder 64 Bit.
 
@@ -119,21 +120,20 @@ Interessant ist, dass es zusätzliche Methoden für alles gibt (nicht nur `add`)
 - `overflowing_add` gibt einen Boolean, ob ein Overflow auftritt
 - `saturating_add` bleibt beim Maximum oder Minimum des verfügbaren Bereiches
 
-[source, rust]
-----
+```rust
 let number: u8 = 254;
 println!("{}", number.wrapping_add(2));
-----
+```
 
 Die Ausgabe des Programms ist 0.
 
-==== Floats
+#### Floats
 Sind normale IEEE-754 floats mit 32 oder 64 Bit.
 
-==== Boolean
+#### Boolean
 Auch nichts besonders, `true` oder `false` halt.
 
-==== Chars
+#### Chars
 Sind besonders.
 Einzelne Character in Rust sind nicht einfach wie in C ein u8 unter anderem Namen, sondern wirklich ein Zeichen.
 Jeder Unicode-Character ist ein Char, also auch `'🐧'`.
@@ -141,18 +141,17 @@ Chars werden mit single-quotes geschrieben (Strings mit doppelten quotes).
 
 Allerdings scheint es noch ein wenig komplizierter zu sein, das kommt aber erst später.
 
-=== Compound Types
+### Compound Types
 Gruppierung von mehreren Werten in einem Typ.
 
-==== Tupel
+#### Tupel
 Tupel sind weird. 
 Sie haben eine feste Länge (wie C-Arrays), können aber verschiedene Datentypen beinhalten, also wie in Python.
 Sie sind aber schreibbar, wenn `mut` zur Initialisierung genutzt wird, also nicht wie in Python.
 
 Ein paar Beispiele als Code:
 
-[source, rust]
-----
+```rust
 let x: (f32, char, u8) = (1.0, '🐧', 3);
 //_x.0 = 2.0; // geht nicht, da x nicht mut ist.
 
@@ -168,18 +167,17 @@ x.2 = 4; // x.2 ist schreibbar, wenn x mut ist.
 println!("{}", x.2);
 
 //x.2 = 1.0; // Das geht nicht, da x.2 ein u8 ist.
-----
+```
 
 Falls eine Funktion in Rust nichts zurückgibt, gibt sie in leeres Tupel `()`, auch `unit type` genannt, zurück.
 
-==== Arrays
+#### Arrays
 Arrays sind wie C-Arrays, haben also eine feste Länge und nur einen Datentyp.
 Für "Arrays" mit veränderbarer Länge gibt es Vektoren.
 
 Wieder etwas Code:
 
-[source, rust]
-----
+```rust
 let x: [i32; 5] = [1, 2, 3, 4, 5];
 //         ^ so sieht der Datentyp aus 
 
@@ -187,19 +185,18 @@ println!("{}", x[0]); // 1, so wie immer
 
 let mut x = [15; 3]; // -> [15, 15, 15]
 x[0] = 16; // x = [16, 15, 15]
-----
+```
 
 Im Gegensatz zu C-Arrays wird allerdings vor dem Zugriff auf das Array ein Check durchgeführt.
 Während C also auch außerhalb des Arrays Speicher lesen kann (mindestens theoretisch), kommt es in Rust dann zu einem Compilerfehler oder einer Runtime-Panic.
 
-== Funktionen
+## Funktionen
 
 Sind wie normale Funktionen in C auch. Keyword ist `fn`.
 
 Beispiel:
 
-[source, rust]
-----
+```rust
 fn calculate_sum(a: i32, b: i32) -> i64 {
     // Statements können natürlich normal genutzt werden
     let c: i64 = a + b
@@ -210,22 +207,22 @@ fn calculate_sum(a: i32, b: i32) -> i64 {
     // Könnte aber auch einfach nur "a + b" sein.
     c
 }
-----
+```
 
-== Kommentare
+## Kommentare
 
 Schon häufiger in den Beispielen - einfach `//`.
 Es gibt auch noch spezielle Docstrings, aber das kommt später.
 
-== Kontrollfluss
-=== `if`
+## Kontrollfluss
+### `if`
 
 - ohne runde Klammern um die Bedingung
 - _immer_ geschweifte Klammern, zumindest kein Beispiel ohne
 - Geht auch als short-if bei `let x = if condition { 5 } else { 6 }`
 - Bedingung *muss* ein bool sein!
 
-=== `loop`
+### `loop`
 
 - Basically ein `while (true)`
 - `break` und `continue`
@@ -233,8 +230,7 @@ Es gibt auch noch spezielle Docstrings, aber das kommt später.
 
 Beispiel für labels: 
 
-[source, rust]
-----
+```rust
 fn main() {
     'outer: loop {
         let mut a = 1;
@@ -246,15 +242,14 @@ fn main() {
         }
     }
 }
-----
+```
 
-==== Ergebnis aus der Loop
+#### Ergebnis aus der Loop
 
 `break` mit Wert ist Rückgabe.
 Einfaches Beispiel:
 
-[source, rust]
-----
+```rust
 fn main() {
     let mut counter = 0;
 
@@ -268,19 +263,18 @@ fn main() {
 
     println!("{}", result); // 20
 }
-----
+```
 
-=== `while`
+### `while`
 
 - nutzt auch keine runden Klammern
 - sonst normal
 
-=== `for`
+### `for`
 
 Looped durch eine Collection (wie in Python).
 
-[source, rust]
-----
+```rust
 fn main() {
     let a = [10, 20, 30, 40, 50];
 
@@ -288,4 +282,4 @@ fn main() {
         println!("{}", element);
     }
 }
-----
+```

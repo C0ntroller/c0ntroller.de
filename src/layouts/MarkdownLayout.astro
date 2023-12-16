@@ -108,6 +108,17 @@ const { title } = Astro.props;
         width: 80%;
         height: auto;
       }
+
+      blockquote {
+        background: rgba(0, 0, 0, 0.2);
+        border-left: 3px solid var(--blog_content-border);
+        padding: .7em 1em;
+        margin-left: 1em;
+
+        p {
+          margin: 0;
+        }
+      }
   
       /* A custom indicator that this code is in fact faulty */
       .notCompiling code {

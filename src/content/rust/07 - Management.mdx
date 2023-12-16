@@ -1,17 +1,21 @@
-:experimental:
-:docdatetime: 2022-10-18T17:56:26+02:00
+---
+title: Projektmanagement
+published: 2022-10-18T17:56:26+02:00
+sorting: 7
+slug: projektmanagement
+---
 
-= How to: Projektmanagement
+# How to: Projektmanagement
 
-https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-crates-and-modules.html[Link zum Buch]
+[Link zum Buch](https://doc.rust-lang.org/book/ch07-00-managing-growing-projects-with-packages-crates-and-modules.html)
 
-== Packages, Crates, Modules, was?
+## Packages, Crates, Modules, was?
 
 Rust hat ein sehr hierarchisches Konzept, was die Strukturierung von Projekten angeht.
 
 Fangen wir mal von oben an:
 
-=== Packages
+### Packages
 
 Packages bestehen aus Crates.
 Sie fassen diese also quasi zusammen und in `Cargo.toml` wird definiert, wie die Crates zu bauen sind.
@@ -20,29 +24,29 @@ Jedes Package, das wir bis jetzt erstellt haben, hatte standardmäßig eine "bin
 
 Die Crates können (soweit wie ich das verstanden habe) in beliebigen Ordnern existieren, falls die Crate so heißen soll wie das Package, ist der Standardpfad `src/main.rs` (für binary) bzw. `src/lib.rs` (für library).
 
-==== Warum mehrere Crates in einem Projekt?
+#### Warum mehrere Crates in einem Projekt?
 
 Einfaches Beispiel: Man hat eine library crate, die Funktionen für einen Webserver bereitstellt.
 Man kann dann einfach eine binary crate hinzufügen, die eine Referenz-Nutzung abbildet, also direkt ein Beispiel ist.
 Dies hilft Nutzern direkt und gleichzeitig testet es direkt auch (wobei richtige Tests natürlich anders zu implementieren sind).
 
-=== Crates
+### Crates
 
 Creates sind die eigentlichen "Module".
 Es gibt zwei Arten: binary und library.
 
-==== Binary Crates
+#### Binary Crates
 
 Diese Crates können zu einer ausführbaren Datei kompiliert werden.
-Jedes der bisherigen Beispiele, z.B. auch das link:#/diary/rust/3[Higher-Lower-Spiel] sind eine solche binary crate.
+Jedes der bisherigen Beispiele, z.B. auch das [Higher-Lower-Spiel](/blog/rust/higher-lower-game) sind eine solche binary crate.
 
 Ihr Merkmal ist vor allem, dass eine `main`-Funktion existiert, die der Einstiegspunkt ist.
 
-==== Library Crate
+#### Library Crate
 
 Wie der Name schon sagt, stellt diese Art Crate nur Funktionen zur Verfügung wie eine Bibliothek.
 
-=== Modules
+### Modules
 
 Innerhalb einer Crate können Module existieren.
 Und hier ist auch schon wieder von OOP abgeschaut.
@@ -53,8 +57,8 @@ Im Hauptprogramm kann mit `mod modulname;` das Modul eingebunden werden. Gesucht
 Zusätzlich kann auch direkt inline ein Modul erstellt werden.
 Ein Beispiel:
 
-[source.notCompiling, rust]
-----
+<div class="notCompiling">
+```rust
 mod testmodul {
     mod nested_modul {
         fn funktion() {
@@ -74,14 +78,14 @@ fn main() {
     // Hello world! Geht nicht...
     crate::testmodul::nested_modul::funktion();
 }
-----
+```
+</div>
 
 Das funktioniert noch *nicht*.
 Denn standardmäßig ist alles private, was nicht explizit public ist.
 Damit wir den obigen Aufruf machen können, muss der Code so aussehen:
 
-[source, rust]
-----
+```rust
 mod testmodul {
     pub mod nested_modul {
         pub fn funktion() {
@@ -101,24 +105,23 @@ fn main() {
     // Hello world!
     crate::testmodul::nested_modul::funktion();
 }
-----
+```
 
 Nur so kann auf Submodule und Funktionen dieser Module zugegriffen werden.
 Wie im "normalen" OOP, können aus diesen öffentlichen Funktionen aber dann auch private aufgerufen werden.
 
-==== Von unten nach oben
+#### Von unten nach oben
 
 Um aus einem inneren Modul auf das äußere zuzugreifen, kann übrigens `super::...` verwendet werden.
 
-==== Structs und Enums
+#### Structs und Enums
 
 In Modulen können natürlich auch Structs und Enums verwendet werden.
 
 Bei Structs ist die Besonderheit, dass die einzelnen Attribute auch wieder private oder public sein können.
 So kann man folgendes machen:
 
-[source, rust]
-----
+```rust
 mod testmodul {
     pub struct Teststruct {
         pub oeffentlich: String,
@@ -142,11 +145,11 @@ fn main() {
     // Geht nicht!
     // println!("Privat: {}", a.privat);
 }
-----
+```
 
 Dagegen gilt für Enums: Wenn der Enum public ist, sind auch alle Varianten public.
 
-==== Abkürzungen mit `use`
+#### Abkürzungen mit `use`
 
 Angenommen, wir haben eine Mediathek mit Filmen, Serien, Spielen, etc. und brauchen immer lange Zugriffspfade (also z.B. `crate::medien::spiele::liste::add()`), obwohl wir nur Spiele brauchen, kann `use` benutzt werden.
 

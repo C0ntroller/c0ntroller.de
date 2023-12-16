@@ -1,17 +1,21 @@
-:experimental:
-:docdatetime: 2022-10-18T17:56:26+02:00
+---
+title: Ownership
+published: 2022-10-18T17:56:26+02:00
+sorting: 4
+slug: ownership
+---
 
-= Ownership
+# Ownership
 
-https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html[Link zum Buch]
+[Link zum Buch](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
 
-== Was ist das?
+## Was ist das?
 
 Jeder Wert hat eine Variable, die ihn "besitzt".
 Jeder Wert kann zu einem Zeitpunkt nur von _einer_ Variable besessen werden.
 Sollte die Variable aus dem Scope verschwinden, wird der Wert ungültig und aus dem Speicher entfernt.
 
-== Warum?
+## Warum?
 
 Wenn ein Wert eine feste Länge hat, kann man sie ganz einfach auf den Stack packen.
 Falls die Länge aber variabel ist, muss zu Laufzeit Speicher allokiert werden.
@@ -23,9 +27,9 @@ Entweder kann Speicher zu früh (eventuell falsche Werte) oder zu spät (höhere
 
 Rust nutzt deshalb (wenn man das nicht aktiv anders macht) einen anderen Ansatz, bei dem der Compiler selber `drop` (was in etwa `free` entspricht) einfügt, wenn eine Variable aus dem Scope verschwindet.
 
-== Was das für den Code bedeutet
+## Was das für den Code bedeutet
 
-=== String Datentyp
+### String Datentyp
 
 Fangen wir mal mit einem Datentypen an, den das betrifft.
 
@@ -35,27 +39,25 @@ Dieser String-Typ hat den Vorteil, dass er eine dynamische Länge hat und damit 
 
 Ein Beispiel:
 
-[source, rust]
-----
+```rust
 let mut x = String::from("Hello"); // Legt "dynamischen" String an
 x.push_str(" world!"); // Konkatiniert an den String
 
 println!("{}", x); // "Hello world!"
-----
+```
 
 Das geht mit den normalen String-Literalen (`let mut x = "Hello";`) nicht, da diese eine immer eine feste Länge haben.
 Theoretisch kann `x` natürlich dann überschrieben werden, mit einem String anderer Länge, aber anscheinend wird das von Rust überdeckt und wahrscheinlich ähnlich wie Shadowing gehandhabt.
 
-=== Move
+### Move
 
-[source, rust]
-----
+```rust
 let x = 5; // Int -> feste Größe und auf Stack
 let y = x;
 
 let s1 = String::from("Hello world"); // Dynamischer String auf Heap
 let s2 = s1;
-----
+```
 
 Hier trifft ähnliches zu, wie zum Beispiel in Python: primitive Datentypen, wie `int` oder `float`, werden einfach kopiert, wenn sie einer anderen Variable zugewiesen werden.
 Bei Objekten auf dem Heap dagegen, wird auch kopiert, allerdings nur was wirklich in `s1` steht: die Referenz auf den Speicher (also ein Pointer), die Länge und andere "Metadaten".
@@ -74,7 +76,7 @@ Die Methode dafür (muss natürlich implementiert sein) heißt `clone`.
 Wir könnten also auch schreiben `let s2 = s1.clone()` und beide Variablen wären unabhängig voneinander und gültig. 
 Das kann aber sehr teuer für die Laufzeit sein!
 
-=== Copy und Drop Annotation
+### Copy und Drop Annotation
 
 Im Buch wird jetzt noch kurz angeschnitten, dass diese primitiven Datentypen kopiert werden, weil sie das `Copy` "trait" implementiert hätten.
 An dem Punkt habe ich noch keine Ahnung, was das ist, aber ich denke es wird so ähnlich sein, wie Java Interfaces?
@@ -83,7 +85,7 @@ Wenn ein Datentyp den `Copy` trait hat, wird es auf jeden Fall einfach kopiert, 
 
 Es gibt auch ein `Drop` trait, mit dem noch irgendwas ausgeführt werden kann, wenn ein Wert dieses Types gedropped wird. Dieser trait ist exklusiv zu `Copy`.
 
-== In Funktionen
+## In Funktionen
 
 Sollte eine Funktion eine Variable übergeben bekommen, wird auch das Ownership der Variable dahin übergeben. 
 Nach Ausführen der Funktion ist die Variable ungültig. 
@@ -108,15 +110,16 @@ Das heißt natürlich auch, dass alle immutable Referenzen invalid werden, sobal
 
 Damit werden (unter anderem) Race Conditions schon beim Compilen verhindert.
 
-=== Dangling references
+### Dangling references
 
-[source.notCompiling, rust]
-----
+<div class="notCompiling">
+```rust
 fn dangle() -> &String {
     let s = String::from("hello");
     &s // Referenz auf s returned
 } // Hier fliegt s aus dem Scope
-----
+```
+</div>
 
 Hier ist eine Funktion gebaut, die nur eine Referenz zurückgibt.
 Allerdings wird `s` ja (da nach Funktion out of scope) nach der Funktion gedropped.
@@ -125,7 +128,7 @@ Der Compiler gibt uns dafür auch einen Fehler.
 Das Tutorial sagt an diesem Punkt, dass man am besten keine Referenzen zurückgibt, die Fehlermeldung redet aber auch noch von "lifetimes" und dass `&'static String` ein möglicher Rückgabetyp wäre.
 Das kommt wohl aber erst später...
 
-== Der Slice-Datentyp
+## Der Slice-Datentyp
 
 Wenn wir auf Arrays arbeiten, wäre es ja cool, an verschiedenen Stellen gleichzeitig zu arbeiten.
 Nur so kann multithreading etc. funktionieren.
@@ -133,13 +136,12 @@ Nur so kann multithreading etc. funktionieren.
 Dafür hat Rust den Slice-Datentyp.
 Der funktioniert ähnlich wie Array-Ranges in Python.
 
-[source, rust]
-----
+```rust
 let s = String::from("hello world");
 
 let hello = &s[0..5];
 let world = &s[6..11];
-----
+```
 
 Rust kümmert sich dabei darum, dass wir jetzt keinen Unsinn mehr mit `s` machen.
 Sollte man versuchen `s` zu mutaten und danach die Slice zu nutzen, gibt es einen Fehler, denn Slices sind genauso Referenzen.
