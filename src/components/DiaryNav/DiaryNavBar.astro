@@ -60,6 +60,16 @@ const nextEntryLink = nextEntry ?
     <span></span>
 </nav>
 
+<script>
+    const selectElements = document.querySelectorAll(".selectField");
+
+    selectElements.forEach((el) => {
+        el.addEventListener("change", (event) => {
+            window.location.pathname = (event.target as HTMLSelectElement)?.value;
+        });
+    });
+</script>
+
 <style lang="scss">
 nav {
     display: grid;
@@ -128,6 +138,7 @@ a:hover {
 
 .leftSelectSpace {
     grid-area: 1/2;
+    text-align: right;
 }
 
 .leftSelectSpaceSync {
