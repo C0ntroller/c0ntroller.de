@@ -3,45 +3,45 @@ import { Icon } from "astro-icon";
 ---
 
 <div class="switch">
-    <Icon name="mdi:language-javascript" class="placeHolder" title="Theme switching needs JS to be enabled."/>
-    <Icon name="mdi:white-balance-sunny" class="sun" title="Switch to dark theme" />
-    <Icon name="mdi:weather-night" class="moon" title="Switch to light theme" />
+    <Icon name="mdi:language-javascript" title="Theme switching needs JS to be enabled." data-theme-ph />
+    <Icon name="mdi:white-balance-sunny" title="Switch to dark theme" data-theme-sun />
+    <Icon name="mdi:weather-night" title="Switch to light theme" data-theme-moon />
 </div>
 
-<script lang="ts">
+<script>
     // Get and delete placeholder (JS is enabled)
-    const placeHolder = document.querySelector(".placeHolder");
-    placeHolder.remove();
+    const placeHolder = document.querySelectorAll("[data-theme-ph]");
+    placeHolder.forEach(e => e.remove());
 
-    const moon = document.querySelector(".moon");
-    const sun = document.querySelector(".sun");
+    const moons = document.querySelectorAll("[data-theme-moon]");
+    const suns = document.querySelectorAll("[data-theme-sun]");
 
     const current = document.documentElement.attributes.getNamedItem('data-theme')?.value ?? "dark";
 
     if (current === "dark") {
-        moon.classList.add("selected");
+        moons.forEach(m => m.classList.add("selected"));
     } else {
-        sun.classList.add("selected");
+        suns.forEach(s => s.classList.add("selected"));
     }
 
     const switchThemeDark = () => {
         document.dispatchEvent(new CustomEvent('set-theme', { detail: 'dark' }));
-        moon.classList.remove("fadeOut");
-        moon.classList.add("fadeIn");
-        sun.classList.remove("fadeIn");
-        sun.classList.add("fadeOut");
+        moons.forEach(m => m.classList.remove("fadeOut"));
+        moons.forEach(m => m.classList.add("fadeIn"));
+        suns.forEach(s => s.classList.remove("fadeIn"));
+        suns.forEach(s => s.classList.add("fadeOut"));
     }
 
     const switchThemeLight = () => {
         document.dispatchEvent(new CustomEvent('set-theme', { detail: 'light' }));
-        moon.classList.remove("fadeIn");
-        moon.classList.add("fadeOut");
-        sun.classList.remove("fadeOut");
-        sun.classList.add("fadeIn");
+        moons.forEach(m => m.classList.remove("fadeIn"));
+        moons.forEach(m => m.classList.add("fadeOut"));
+        suns.forEach(s => s.classList.remove("fadeOut"));
+        suns.forEach(s => s.classList.add("fadeIn"));
     }
 
-    moon.addEventListener("click", switchThemeLight);
-    sun.addEventListener("click", switchThemeDark);
+    moons.forEach(m => m.addEventListener("click", switchThemeLight));
+    suns.forEach(s => s.addEventListener("click", switchThemeDark));
 </script>
 <style lang="scss">
     .switch {
