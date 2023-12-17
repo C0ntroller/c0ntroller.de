@@ -22,9 +22,23 @@ const collectionBasePath = `/blog/${diary}`;
 const diaryPages = (await getCollection(diary)).sort((a, b) => a.data.sorting - b.data.sorting);
 
 const { Content } = await diaryMain.render();
+
+const moreLinks = [];
+if (diaryMain.data.relatedWebsite) {
+  moreLinks.push({
+    href: diaryMain.data.relatedWebsite,
+    icon: "mdi:web",
+  });
+}
+if (diaryMain.data.repository) {
+  moreLinks.push({
+    href: diaryMain.data.repository,
+    icon: "bi:git",
+  });
+}
 ---
 
-<MarkdownLayout title={diaryMain.data.title} srcPath={`diaryMainPages/${diaryMain.id}`}>
+<MarkdownLayout title={diaryMain.data.title} srcPath={`diaryMainPages/${diaryMain.id}`} moreLinks={moreLinks}>
     <Content />
 
     <h2>Pages</h2>

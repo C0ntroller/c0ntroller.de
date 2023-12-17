@@ -18,8 +18,23 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+
+const moreLinks = [];
+if (entry.data.relatedWebsite) {
+  moreLinks.push({
+    href: entry.data.relatedWebsite,
+    icon: "mdi:web",
+  });
+}
+if (entry.data.repository) {
+  moreLinks.push({
+    href: entry.data.repository,
+    icon: "bi:git",
+  });
+}
+
 ---
 
-<MarkdownLayout title={entry.data.title} srcPath={`projects/${entry.id}`} published={entry.data.published}>
+<MarkdownLayout title={entry.data.title} srcPath={`projects/${entry.id}`} published={entry.data.published} moreLinks={moreLinks}>
   <Content />
 </MarkdownLayout>

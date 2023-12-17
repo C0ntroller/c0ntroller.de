@@ -1,13 +1,18 @@
 ---
 import Layout from "./Layout.astro";
+import { Icon } from "astro-icon";
 
 interface Props {
 	title: string;
   published?: Date;
   srcPath?: string;
+  moreLinks?: {
+    icon: string;
+    href: string;
+  }[];
 }
 
-const { title, srcPath, published } = Astro.props;
+const { title, srcPath, published, moreLinks } = Astro.props;
 const gitUrl = `https://git.c0ntroller.de/c0ntroller/frontpage/src/branch/astro/src/content/${srcPath}`
 ---
 
@@ -15,6 +20,12 @@ const gitUrl = `https://git.c0ntroller.de/c0ntroller/frontpage/src/branch/astro/
     {Astro.slots.has("main-nav") ? 
       <slot name="main-nav" /> :
     null}
+
+    { moreLinks && moreLinks.length !== 0 ? 
+      <div class="more">
+        { moreLinks.map(l => <a href={l.href} referrerpolicy="no-referrer" class="nostyle" style={{ display: "inline-block", width: "2em" }}><Icon name={l.icon} /></a>) }
+      </div>  
+    : null}
     <slot />
     { published || srcPath ? <>
       <hr />
@@ -155,4 +166,20 @@ const gitUrl = `https://git.c0ntroller.de/c0ntroller/frontpage/src/branch/astro/
         }
       }
     }
+
+    .more {
+      float: right;
+
+      @media screen and (max-width: 890px) {
+          & {
+              float: none;
+              display: block;
+              width: max-content;
+              margin-left: auto;
+              margin-right: auto;
+          }
+      }
+    }
+
+
   </style>
