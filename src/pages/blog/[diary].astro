@@ -24,7 +24,7 @@ const diaryPages = (await getCollection(diary)).sort((a, b) => a.data.sorting - 
 const { Content } = await diaryMain.render();
 ---
 
-<MarkdownLayout title={diaryMain.data.title}>
+<MarkdownLayout title={diaryMain.data.title} srcPath={`diaryMainPages/${diaryMain.id}`}>
     <Content />
 
     <h2>Pages</h2>

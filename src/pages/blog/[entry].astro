@@ -20,6 +20,6 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 ---
 
-<MarkdownLayout title={entry.data.title}>
+<MarkdownLayout title={entry.data.title} srcPath={`projects/${entry.id}`} published={entry.data.published}>
   <Content />
 </MarkdownLayout>

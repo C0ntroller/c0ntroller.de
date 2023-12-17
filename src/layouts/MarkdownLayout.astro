@@ -3,9 +3,12 @@ import Layout from "./Layout.astro";
 
 interface Props {
 	title: string;
+  published?: Date;
+  srcPath?: string;
 }
 
-const { title } = Astro.props;
+const { title, srcPath, published } = Astro.props;
+const gitUrl = `https://git.c0ntroller.de/c0ntroller/frontpage/src/branch/astro/src/content/${srcPath}`
 ---
 
 <Layout title={title} showAfterMain={Astro.slots.has("footer-nav")}>
@@ -13,6 +16,15 @@ const { title } = Astro.props;
       <slot name="main-nav" /> :
     null}
     <slot />
+    { published || srcPath ? <>
+      <hr />
+        <div class="contentFooter">
+          { published ? <>Published on: <time datetime={published.toISOString()}>{published.toLocaleDateString("en-GB", {day: "2-digit", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Berlin", hour12: false})}</time></> : null }
+          { published && srcPath ? <> | </> : null}
+          { srcPath ? <a href={gitUrl}>Document source</a> : null }
+        </div> 
+      
+      </>: null }
     {Astro.slots.has("footer-nav") ? 
       <slot name="footer-nav" slot="after-main" /> : 
     null}
@@ -20,34 +32,20 @@ const { title } = Astro.props;
 
 <style lang="scss" is:global>
     main {
-      /*h1 {
-        color: var(--blog_color-accent);
-        font-size: 2em;
+      .contentFooter {
+        background-color: var(--blog_background-main);
+        clear: right;
+        border-radius: 1em;
+        margin-top: 10px;
+        padding: 14px 16px;
+        margin-bottom: -40px;
+
+        @media screen and (max-width: 890px) {
+            & {
+                margin-bottom: -10px;
+            }
+        }
       }
-  
-      h2 {
-        font-size: 1.5em;
-      }
-      h3 {
-        font-size: 1.2em;
-      }
-      h4 {
-        font-size: 1.1em;
-      }
-  
-      h2,
-      h3 {
-        font-weight: bold;
-        text-decoration: underline;
-      }
-  
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        color: var(--blog_color-accent-dark);
-      }*/
   
       h1 + p:first-of-type {
         font-style: italic;

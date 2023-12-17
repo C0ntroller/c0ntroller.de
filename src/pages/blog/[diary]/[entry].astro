@@ -22,11 +22,12 @@ export async function getStaticPaths() {
   return pathsAvailable;
 }
 
+const { diary } = Astro.params
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 ---
 
-<MarkdownLayout title={entry.data.title}>
+<MarkdownLayout title={entry.data.title} srcPath={`${diary}/${entry.id}`} published={entry.data.published}>
   <DiaryNavTop collectionName="rust" slot="main-nav" />
   <Content />
   <DiaryNavBar collectionName="rust" slot="footer-nav" />
