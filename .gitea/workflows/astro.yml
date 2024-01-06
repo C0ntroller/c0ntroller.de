@@ -2,7 +2,7 @@ name: Deploy Astro
 on: 
   push:
     branches:
-      - astro
+      - dev
 
 jobs:
   build-and-deploy:
@@ -26,6 +26,6 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         source: "dist/*"
-        target: /var/www/website/astro
+        target: /var/www/website/dev
         overwrite: true
         strip_components: 1
