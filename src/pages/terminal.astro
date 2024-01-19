@@ -1,33 +1,89 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import wasmData from "@c0ntroller/wasm-terminal/package.json";
+
+const date = new Date();
+const screenVersion = `${date.getFullYear()}${date.getMonth()+1}${date.getDate()}${date.getHours()}${date.getMinutes()}`;
+const wasmVersion = wasmData.version;
 ---
 
 <Layout title="Terminal">
-    <div class="screen">
-        <pre data-terminal-output></pre>
+    <div class="screen" data-terminal-screen>
+        <div data-terminal-output>
+            <noscript><pre>You need to enable JavaScript to use this terminal.</pre></noscript>
+            <pre>cer0 0S V{wasmVersion} - UI V{screenVersion}</pre>
+            <pre class="logo">@@@@@@@@@@@                                                      
+          @@@@@@@@@@@@                                           
+                  @@@@@@@@@@@@                                   
+                        @@@@@@@@@@@@@                            
+                @@@@           @@@@@@@@@@@@                      
+                            @@@@@    @@@@@@@@@@                  
+ @@@@@@@@@@@@@@@@@@@@@@@@@@@          @@@  @@@@@@@@@             
+  @@@@@@@@@@@@@@@W#MW@@@@@@@@@@@@@@@          @@@@@@@@@          
+    @@@@@########*****pkaMB@@@@@@@@mb@@@@@        @@@@@@@        
+     @@@@@*************pwdhoh@@@@@$OOOOOw*##@@@@     @ @@@@      
+      @@@@@************dOOOOOOOOOO0OOOOOO*******#@@    @   @@@   
+        @@@@************pOOOOOOOOOOOOOOZ#**********#@@          @
+         @@@@************oOOOOOOOOOOOOa***************#@         
+            @@@@@***********odwwpdda**********************       
+                @@@@@**********************************          
+                      @@@@@@@@@$#*###MMB@@@@@@@@@@@@</pre>
+        </div>
+        <div class="input"><pre class="user">user@cer0</pre><pre>:</pre><pre class="pwd">/</pre><pre class="dollar">$&nbsp;</pre><input type="text" data-terminal-input autofocus /></div>
     </div>
-    <input type="text" data-terminal-input />
+
+    <template data-terminal-user-cmd>
+        <pre><pre class="user">user@cer0</pre><pre>:</pre><pre class="pwd"></pre><pre class="dollar">$&nbsp;</pre><pre class="user-cmd"></pre></pre>
+    </template>
 </Layout>
 
 <script>
     (async () => {
         const wasm = import("@c0ntroller/wasm-terminal");
+
         const outputs = document.querySelectorAll("[data-terminal-output]") as NodeListOf<HTMLPreElement>;
         const inputs = document.querySelectorAll("[data-terminal-input]") as NodeListOf<HTMLInputElement>;
+        const screens = document.querySelectorAll("[data-terminal-screen]") as NodeListOf<HTMLDivElement>;
+        const template = document.querySelector("[data-terminal-user-cmd]") as HTMLTemplateElement;
+        
+        screens.forEach((s) => s.addEventListener("click", () => inputs[0]?.focus()))
+
         const { default: init, Console } = await wasm;
 
         await init();
         const c = Console.new();
 
+        function updatePwd() {
+            document.querySelector(".input .pwd")!.textContent = c.get_pwd();
+        }
+
+        updatePwd();
+
         inputs.forEach((input) => {
             input.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
+                    const prevPwd = c.get_pwd();
                     const cmd = input.value;
-                    const resp = c.execute(cmd);
+
+                    const inputLine = template.content.cloneNode(true) as HTMLPreElement;
+                    inputLine.querySelector(".user-cmd")!.textContent = cmd;
+                    inputLine.querySelector(".pwd")!.textContent = prevPwd;
                     outputs.forEach((output) => {
-                        output.innerHTML += `$ ${cmd}${resp ? `\n${resp}` : ""}\n`;
+                        output.prepend(inputLine);
                     });
+
+                    const resp = c.execute(cmd);
+
+                    if (resp) {
+                        const outputLine = document.createElement("pre");
+                        outputLine.textContent = resp
+                        outputs.forEach((output) => {
+                            output.prepend(outputLine);
+                        });
+                    }
+
                     input.value = "";
+                    updatePwd();
                 }
             });
         });
@@ -35,22 +91,78 @@ import Layout from "../layouts/Layout.astro";
 </script>
 
 <style lang="scss">
+    @font-face {
+        font-family: "Cascadia Code";
+        src: url("/fonts/CascadiaCode.woff2") format("woff2");
+    }
+
     .screen {
         width: 100%;
-        height: 60em;
+        height: 30em;
         background: #000;
         border-radius: 0.2em;
         box-shadow: 0 0 0.5em #000;
         color: #fff;
-        font-family: monospace;
         padding: 10px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
 
-        pre {
-            margin: 0;
+        pre > pre {
+            display: inline-block;
+        }
+
+        .logo {
+            overflow-wrap: normal !important;
+            white-space: pre !important;
+            overflow-x: hidden;
+            font-size: min(2vw, 1em);
+        }
+
+        [data-terminal-output] {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    }
+
+    :global(pre) {
+        margin: 0;
+        padding: 0;
+        white-space: pre-wrap;
+        word-wrap: normal;
+        overflow-wrap: break-word;
+        font-family: "Cascadia Code", monospace;
+
+        &.user {
+            color: #0f0;
+        }
+        &.pwd {
+            color: #00f;
+        }
+    }
+
+    .input {
+        display: flex;
+        flex-direction: row;
+
+        input {
+            font-family: "Cascadia Code", monospace;
+            display: inline-block;
+            flex-grow: 2;
+            font-size: 1rem;
             padding: 0;
-            white-space: pre-wrap;
-            word-wrap: normal;
-            overflow-wrap: break-word;
+            margin: 0;
+            border: none;
+            background: transparent;
+            appearance: none !important;
+            outline: none;
+            caret-shape: block;
+
+            &::-moz-focus-outer, &::-moz-focus-inner, &:focus, &:focus *, &:-moz-focusring, &:-moz-focusring * {
+                border: none !important;
+                outline: none !important;
+                box-shadow: none !important;
+            }
         }
     }
 
