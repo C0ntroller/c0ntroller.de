@@ -20,14 +20,14 @@ const wasmVersion = wasmData.version;
                             @@@@@    @@@@@@@@@@                  
  @@@@@@@@@@@@@@@@@@@@@@@@@@@          @@@  @@@@@@@@@             
   @@@@@@@@@@@@@@@W#MW@@@@@@@@@@@@@@@          @@@@@@@@@          
-    @@@@@########*****pkaMB@@@@@@@@mb@@@@@        @@@@@@@        
-     @@@@@*************pwdhoh@@@@@$OOOOOw*##@@@@     @ @@@@      
-      @@@@@************dOOOOOOOOOO0OOOOOO*******#@@    @   @@@   
-        @@@@************pOOOOOOOOOOOOOOZ#**********#@@          @
-         @@@@************oOOOOOOOOOOOOa***************#@         
-            @@@@@***********odwwpdda**********************       
-                @@@@@**********************************          
-                      @@@@@@@@@$#*###MMB@@@@@@@@@@@@</pre>
+    @@@@@########     pkaMB@@@@@@@@mb@@@@@        @@@@@@@        
+     @@@@@             pwdhoh@@@@@$OOOOOw ##@@@@     @ @@@@      
+      @@@@@            dOOOOOOOOOO0OOOOOO       #@@    @   @@@   
+        @@@@            pOOOOOOOOOOOOOOZ#          #@@          @
+         @@@@            oOOOOOOOOOOOOa               #@         
+            @@@@@           odwwpdda                             
+                @@@@@                                            
+                      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</pre>
         </div>
         <div class="input"><pre class="user">user@cer0</pre><pre>:</pre><pre class="pwd">/</pre><pre class="dollar">$&nbsp;</pre><input type="text" data-terminal-input autofocus /></div>
     </div>
@@ -41,7 +41,7 @@ const wasmVersion = wasmData.version;
     (async () => {
         const wasm = import("@c0ntroller/wasm-terminal");
 
-        const outputs = document.querySelectorAll("[data-terminal-output]") as NodeListOf<HTMLPreElement>;
+        const outputs = document.querySelectorAll("[data-terminal-output]") as NodeListOf<HTMLDivElement>;
         const inputs = document.querySelectorAll("[data-terminal-input]") as NodeListOf<HTMLInputElement>;
         const screens = document.querySelectorAll("[data-terminal-screen]") as NodeListOf<HTMLDivElement>;
         const template = document.querySelector("[data-terminal-user-cmd]") as HTMLTemplateElement;
@@ -72,20 +72,26 @@ const wasmVersion = wasmData.version;
                         output.prepend(inputLine);
                     });
 
-                    const resp = c.execute(cmd);
+                    if (cmd) {
+                        const resp = c.execute(cmd);
 
-                    if (resp) {
-                        const outputLine = document.createElement("pre");
-                        outputLine.textContent = resp
-                        outputs.forEach((output) => {
-                            output.prepend(outputLine);
-                        });
+                        if (resp) {
+                            const outputLine = document.createElement("pre");
+                            outputLine.textContent = resp
+                            outputs.forEach((output) => {
+                                output.prepend(outputLine);
+                            });
+                        }
                     }
 
                     input.value = "";
                     updatePwd();
                 }
             });
+        });
+
+        screens.forEach((screen) => {
+            new MutationObserver(() => screen.scrollTo(0, screen.scrollHeight)).observe(screen, { childList: true, subtree: true });
         });
     })()
 </script>
@@ -106,7 +112,7 @@ const wasmVersion = wasmData.version;
         padding: 10px;
         display: flex;
         flex-direction: column;
-        overflow-y: scroll;
+        overflow-y: auto;
 
         pre > pre {
             display: inline-block;
@@ -148,6 +154,7 @@ const wasmVersion = wasmData.version;
         input {
             font-family: "Cascadia Code", monospace;
             display: inline-block;
+            width: 100%;
             flex-grow: 2;
             font-size: 1rem;
             padding: 0;
