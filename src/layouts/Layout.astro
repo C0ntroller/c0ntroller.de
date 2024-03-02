@@ -1,21 +1,24 @@
 ---
-import Navbar from "../components/LayoutComponents/Navbar.astro";
+import { ViewTransitions } from 'astro:transitions';
 import Themes from "astro-themes";
 import Icon from "astro-icon";
+import Navbar from "../components/LayoutComponents/Navbar.astro";
 import socials from "../data/socials.json";
 
 interface Props {
 	title: string;
 	showAfterMain?: boolean;
+	mainTransitionName?: string;
 }
 
-const { title, showAfterMain } = Astro.props;
+const { title, showAfterMain, mainTransitionName } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<Themes defaultTheme="dark" />
+		<ViewTransitions />
 
 		<meta charset="utf-8" />
 		<meta
@@ -115,18 +118,18 @@ const { title, showAfterMain } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<span id="top" aria-hidden></span>
-		<header>
+		<span id="top" aria-hidden="true"></span>
+		<header transition:persist="nav">
 			<Navbar />
 		</header>
-		<main>
+		<main transition:name={ mainTransitionName }>
 			<slot />
 		</main>
 		{showAfterMain ? <div class="after-main">
 			<slot name="after-main" />		
 		</div> : null
 		}
-		<footer id="bottom">
+		<footer id="bottom" transition:persist="footer">
 			<span style="visibility:hidden">▲</span>
 			<span class="spacer"></span>
 			<span class="footerContent">

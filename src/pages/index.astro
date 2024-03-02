@@ -22,11 +22,11 @@ const diaries = (await getCollection("diaryMainPages")).sort((a, b) => a.data.la
 	</p>
 	<h2>Projects</h2>
 	<div class="contentList">
-		{ projects.map(p => <ContentCard title={p.data.title} description={p.data.description} path={`/blog/${p.slug}`} />) }
+		{ projects.map(p => <ContentCard title={p.data.title} description={p.data.description} path={`/blog/${p.slug}`} slug={p.slug} />) }
 	</div>
 	<h2>Diaries</h2>
 	<div class="contentList">
-		{ diaries.map(p => <ContentCard title={p.data.title} description={p.data.description} path={`/blog/${p.slug}`} />) }
+		{ diaries.map(p => <ContentCard title={p.data.title} description={p.data.description} path={`/blog/${p.slug}`} slug={p.slug} />) }
 	</div>
 </Layout>
 

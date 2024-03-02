@@ -35,6 +35,6 @@ if (entry.data.repository) {
 
 ---
 
-<MarkdownLayout title={entry.data.title} srcPath={`projects/${entry.id}`} published={entry.data.published} moreLinks={moreLinks}>
+<MarkdownLayout title={entry.data.site_title || entry.data.title} slug={entry.slug} srcPath={`projects/${entry.id}`} published={entry.data.published} moreLinks={moreLinks}>
   <Content />
 </MarkdownLayout>

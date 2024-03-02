@@ -4,6 +4,7 @@ import { Icon } from "astro-icon";
 
 interface Props {
 	title: string;
+  slug: string;
   published?: Date;
   srcPath?: string;
   moreLinks?: {
@@ -12,11 +13,11 @@ interface Props {
   }[];
 }
 
-const { title, srcPath, published, moreLinks } = Astro.props;
+const { title, srcPath, published, moreLinks, slug } = Astro.props;
 const gitUrl = `https://git.c0ntroller.de/c0ntroller/frontpage/src/branch/dev/src/content/${srcPath}`
 ---
 
-<Layout title={title} showAfterMain={Astro.slots.has("footer-nav")}>
+<Layout title={title} showAfterMain={Astro.slots.has("footer-nav")} mainTransitionName={`markdown-border-${slug}`}>
     {Astro.slots.has("main-nav") ? 
       <slot name="main-nav" /> :
     null}
@@ -26,6 +27,7 @@ const gitUrl = `https://git.c0ntroller.de/c0ntroller/frontpage/src/branch/dev/sr
         { moreLinks.map(l => <a href={l.href} referrerpolicy="no-referrer" class="nostyle" style={{ display: "inline-block", width: "2em" }}><Icon name={l.icon} /></a>) }
       </div>  
     : null}
+    <h1 transition:name={`markdown-title-${slug}`}>{title}</h1>
     <slot />
     { published || srcPath ? <>
       <hr />

@@ -38,7 +38,7 @@ if (diaryMain.data.repository) {
 }
 ---
 
-<MarkdownLayout title={diaryMain.data.title} srcPath={`diaryMainPages/${diaryMain.id}`} moreLinks={moreLinks}>
+<MarkdownLayout title={diaryMain.data.site_title || diaryMain.data.title} slug={diaryMain.slug} srcPath={`diaryMainPages/${diaryMain.id}`} moreLinks={moreLinks}>
     <Content />
 
     <h2>Pages</h2>

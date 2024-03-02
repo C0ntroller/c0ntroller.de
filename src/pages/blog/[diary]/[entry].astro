@@ -27,7 +27,7 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 ---
 
-<MarkdownLayout title={entry.data.title} srcPath={`${diary}/${entry.id}`} published={entry.data.published}>
+<MarkdownLayout title={entry.data.site_title || entry.data.title} slug={entry.slug} srcPath={`${diary}/${entry.id}`} published={entry.data.published}>
   <DiaryNavTop collectionName="rust" slot="main-nav" />
   <Content />
   <DiaryNavBar collectionName="rust" slot="footer-nav" />

@@ -4,14 +4,15 @@ interface Props {
     description: string;
     published?: Date;
     path: string;
+    slug: string;
 }
 
-const { title, description, published, path } = Astro.props;
+const { title, description, published, path, slug } = Astro.props;
 ---
 
 <a href={path} class="nostyle">
-    <div class="card">
-        <h3>{title}</h3>
+    <div class="card" transition:name={`markdown-border-${slug}`}>
+        <h3 transition:name={`markdown-title-${slug}`}>{title}</h3>
         <p>{description}</p>
     </div>
 </a>

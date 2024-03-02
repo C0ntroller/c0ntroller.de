@@ -5,6 +5,7 @@ const projectsCol = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
+    site_title: z.string().optional(),
     description: z.string(),
     descriptionShort: z.string(),
     repository: z.string().url().optional(),
@@ -19,6 +20,7 @@ const diaryMainPages = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
+    site_title: z.string().optional(),
     description: z.string(),
     descriptionShort: z.string(),
     repository: z.string().url().optional(),
@@ -33,6 +35,7 @@ const diarySubPages = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
+    site_title: z.string().optional(),
     repository: z.string().url().optional(),
     relatedWebsite: z.string().url().optional(),
     published: z.date().optional(),

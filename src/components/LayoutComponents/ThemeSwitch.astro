@@ -2,7 +2,7 @@
 import { Icon } from "astro-icon";
 ---
 
-<div class="switch">
+<div class="switch" transition:persist="theme-switch">
     <Icon name="mdi:language-javascript" title="Theme switching needs JS to be enabled." data-theme-ph />
     <Icon name="mdi:white-balance-sunny" title="Switch to dark theme" data-theme-sun />
     <Icon name="mdi:weather-night" title="Switch to light theme" data-theme-moon />
@@ -26,18 +26,34 @@ import { Icon } from "astro-icon";
 
     const switchThemeDark = () => {
         document.dispatchEvent(new CustomEvent('set-theme', { detail: 'dark' }));
-        moons.forEach(m => m.classList.remove("fadeOut"));
+        moons.forEach(m => m.classList.remove("fadeOut", "fadeOutDone"));
         moons.forEach(m => m.classList.add("fadeIn"));
-        suns.forEach(s => s.classList.remove("fadeIn"));
+        setTimeout(() => moons.forEach(m => {
+            m.classList.add("fadeInDone");
+            m.classList.remove("fadeIn");
+        }), 250); // After 0.2s animation is completed
+        suns.forEach(s => s.classList.remove("fadeIn", "fadeInDone"));
         suns.forEach(s => s.classList.add("fadeOut"));
+        setTimeout(() => suns.forEach(s => {
+            s.classList.add("fadeOutDone");
+            s.classList.remove("fadeOut");
+        }), 250); // After 0.2s animation is completed
     }
 
     const switchThemeLight = () => {
         document.dispatchEvent(new CustomEvent('set-theme', { detail: 'light' }));
-        moons.forEach(m => m.classList.remove("fadeIn"));
+        moons.forEach(m => m.classList.remove("fadeIn", "fadeInDone"));
         moons.forEach(m => m.classList.add("fadeOut"));
-        suns.forEach(s => s.classList.remove("fadeOut"));
+        setTimeout(() => moons.forEach(m => {
+            m.classList.add("fadeOutDone");
+            m.classList.remove("fadeOut");
+        }), 250); // After 0.2s animation is completed
+        suns.forEach(s => s.classList.remove("fadeOut", "fadeOutDone"));
         suns.forEach(s => s.classList.add("fadeIn"));
+        setTimeout(() => suns.forEach(s => {
+            s.classList.add("fadeInDone");
+            s.classList.remove("fadeIn");
+        }), 250); // After 0.2s animation is completed
     }
 
     moons.forEach(m => m.addEventListener("click", switchThemeLight));
@@ -66,9 +82,19 @@ import { Icon } from "astro-icon";
         animation-fill-mode: forwards;
     }
 
+    .fadeOutDone {
+        opacity: 0;
+        transform: translate(0, -100%);
+    }
+
     .fadeIn {
         animation: fadeIn 0.2s ease-in-out;
         animation-fill-mode: forwards;
+    }
+
+    .fadeInDone {
+        opacity: 1;
+        transform: translate(0, 0);
     }
 
     .placeHolder {
