@@ -6,6 +6,9 @@ import wasmPack from 'vite-plugin-wasm-pack';
 
 // https://astro.build/config
 export default defineConfig({
+  prefetch: {
+    prefetchAll: true
+  },
   integrations: [mdx()],
   markdown: {
     remarkPlugins: [

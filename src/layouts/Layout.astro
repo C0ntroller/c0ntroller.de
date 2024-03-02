@@ -122,7 +122,7 @@ const { title, showAfterMain, mainTransitionName } = Astro.props;
 		<header transition:persist="nav">
 			<Navbar />
 		</header>
-		<main transition:name={ mainTransitionName }>
+		<main transition:name={ mainTransitionName || "main" }>
 			<slot />
 		</main>
 		{showAfterMain ? <div class="after-main">

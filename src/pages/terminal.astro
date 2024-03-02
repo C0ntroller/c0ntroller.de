@@ -46,7 +46,20 @@ const wasmVersion = wasmData.version;
         const screens = document.querySelectorAll("[data-terminal-screen]") as NodeListOf<HTMLDivElement>;
         const template = document.querySelector("[data-terminal-user-cmd]") as HTMLTemplateElement;
         
-        screens.forEach((s) => s.addEventListener("click", () => inputs[0]?.focus()))
+        screens.forEach((s) => s.addEventListener("click", () => inputs[0]?.focus()));
+
+        screens.forEach((screen) => {
+            new MutationObserver((changes) => {
+                const totalNewHeight = changes.reduce((prev, change) => {
+                    change.addedNodes.forEach(n => prev += (n as HTMLPreElement).clientHeight || 0);
+                    return prev;
+                }, 0);
+                
+                if (screen.scrollTop + screen.clientHeight >= screen.scrollHeight - totalNewHeight - 40) {
+                    screen.scrollTo(0, screen.scrollHeight);
+                }
+            }).observe(screen, { childList: true, subtree: true });
+        });
 
         const { default: init, Console } = await wasm;
 
@@ -69,8 +82,10 @@ const wasmVersion = wasmData.version;
                     inputLine.querySelector(".user-cmd")!.textContent = cmd;
                     inputLine.querySelector(".pwd")!.textContent = prevPwd;
                     outputs.forEach((output) => {
-                        output.prepend(inputLine);
+                        output.append(inputLine);
                     });
+
+                    input.value = "";
 
                     if (cmd) {
                         const resp = c.execute(cmd);
@@ -79,19 +94,14 @@ const wasmVersion = wasmData.version;
                             const outputLine = document.createElement("pre");
                             outputLine.textContent = resp
                             outputs.forEach((output) => {
-                                output.prepend(outputLine);
+                                output.append(outputLine);
                             });
                         }
                     }
 
-                    input.value = "";
                     updatePwd();
                 }
             });
-        });
-
-        screens.forEach((screen) => {
-            new MutationObserver(() => screen.scrollTo(0, screen.scrollHeight)).observe(screen, { childList: true, subtree: true });
         });
     })()
 </script>
@@ -127,7 +137,7 @@ const wasmVersion = wasmData.version;
 
         [data-terminal-output] {
             display: flex;
-            flex-direction: column-reverse;
+            flex-direction: column;
         }
     }
 
@@ -164,6 +174,7 @@ const wasmVersion = wasmData.version;
             appearance: none !important;
             outline: none;
             caret-shape: block;
+            color: #fff;
 
             &::-moz-focus-outer, &::-moz-focus-inner, &:focus, &:focus *, &:-moz-focusring, &:-moz-focusring * {
                 border: none !important;
