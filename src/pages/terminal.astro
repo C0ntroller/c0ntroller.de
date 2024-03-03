@@ -7,7 +7,7 @@ const screenVersion = `${date.getFullYear()}${date.getMonth()+1}${date.getDate()
 const wasmVersion = wasmData.version;
 ---
 
-<Layout title="Terminal">
+<Layout title="Terminal" showAfterMain>
     <div class="screen" data-terminal-screen>
         <div data-terminal-output>
             <noscript><pre>You need to enable JavaScript to use this terminal.</pre></noscript>
@@ -29,12 +29,16 @@ const wasmVersion = wasmData.version;
                 @@@@@                                            
                       @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</pre>
         </div>
-        <div class="input"><pre class="user">user@cer0</pre><pre>:</pre><pre class="pwd">/</pre><pre class="dollar">$&nbsp;</pre><input type="text" data-terminal-input autofocus /></div>
+        <div class="input"><pre class="user">user@cer0</pre><pre>:</pre><pre class="pwd">/</pre><pre class="dollar">$&nbsp;</pre><input type="text" data-terminal-input /></div>
     </div>
 
     <template data-terminal-user-cmd>
         <pre><pre class="user">user@cer0</pre><pre>:</pre><pre class="pwd"></pre><pre class="dollar">$&nbsp;</pre><pre class="user-cmd"></pre></pre>
     </template>
+
+    <div slot="after-main" class="more">
+        Read more about the development of this terminal&nbsp;<a href="/blog/wasm-terminal" class="nocolor">here</a>.
+    </div>
 </Layout>
 
 <script>
@@ -182,6 +186,14 @@ const wasmVersion = wasmData.version;
                 box-shadow: none !important;
             }
         }
+    }
+
+    .more {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-style: italic;
+        padding: 5px;
     }
 
 </style>
