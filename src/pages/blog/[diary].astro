@@ -46,5 +46,5 @@ if (diaryMain.data.repository) {
       { diaryPages.map((page) => <li><a href={collectionBasePath + "/" + page.slug}>{page.data.title}</a></li>) }
     </ol>
 
-    <DiaryNavBar collectionName={diary} slot="footer-nav" transition:name="diary-footer-nav" />
+    <DiaryNavBar collectionName={diary} slot="footer-nav" />
 </MarkdownLayout>
