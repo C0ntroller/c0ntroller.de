@@ -1,8 +1,12 @@
 ---
 import { Image } from "astro:assets";
-import { Icon } from "astro-icon";
+import { Icon } from "astro-icon/components";
 import ThemeSwitch from "./ThemeSwitch.astro";
 import logo from "./logo.png";
+
+const defaultFontSize = 16;
+//                               120%, 2em
+const svgSize = defaultFontSize * 1.2 * 2;
 ---
 
 <nav class="navigation">
@@ -15,7 +19,7 @@ import logo from "./logo.png";
             <span class="linkIcon"
                 ><Icon
                     name="mdi:home"
-                    size="2em"
+                    size={svgSize}
                     title="Home and Projects"
                     id="mdi_nav_home"
                 /></span
@@ -28,7 +32,7 @@ import logo from "./logo.png";
             <span class="linkIcon"
                 ><Icon
                     name="mdi:account"
-                    size="2em"
+                    size={svgSize}
                     title="About Me"
                     id="mdi_nav_aboutme"
                 /></span
@@ -40,7 +44,7 @@ import logo from "./logo.png";
         <a href="/terminal" class="nostyle">
             <Icon
                 name="mdi:console"
-                size="2em"
+                size={svgSize}
                 title="Terminal"
                 id="mdi_nav_terminal"
             />
