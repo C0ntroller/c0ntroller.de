@@ -20,6 +20,8 @@
   },
   "devDependencies": {
     "@fec/remark-a11y-emoji": "^4.0.2",
+    "@iconify-json/mdi": "^1.1.64",
+    "@iconify-json/simple-icons": "^1.1.93",
     "astro-themes": "^0.2.4",
     "remark-code-extra": "^1.0.1",
     "vite-plugin-wasm-pack": "0.1.11"
