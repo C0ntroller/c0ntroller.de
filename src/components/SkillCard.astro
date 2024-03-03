@@ -40,7 +40,7 @@ const cardStyle = {
                 .map((skill) => (
                     <div class="skillBar">
                         <div class="barName">
-                            <Icon name={skill.icon} />
+                            <Icon name={skill.icon} class="icon-2em" />
                         </div>
                         <div
                             class="percentBar"
@@ -61,7 +61,7 @@ const cardStyle = {
                     <>
                         <div class="badge">
                             <span>
-                                <Icon name={additional.icon} />
+                                <Icon name={additional.icon} class="icon-1em" />
                             </span>
                             <span>{additional.name}</span>
                         </div>
@@ -202,7 +202,6 @@ const cardStyle = {
         }
 
         & > div:first-of-type {
-            height: 2em;
             grid-row: 1/3;
         }
 

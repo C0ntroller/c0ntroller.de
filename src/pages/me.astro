@@ -67,16 +67,15 @@ const age = new Date().getFullYear() - 1998 - (new Date().getMonth() <= 10 ? 1 :
                     target="_blank"
                     rel="noreferrer"
                     class="nocolor"
-                    style={{ width: "2em" }}
                 >
-                    <Icon name={social.icon} />
+                    <Icon name={social.icon} class="icon-2em" />
                 </a>
             ))
     }
 </div>
 <h2>Achievements</h2>
 {achievements.map((achievement) => <div class="achievement">
-    <Icon name={achievement.icon} /><span>{achievement.description}</span>
+    <Icon name={achievement.icon} class="icon-2em" /><span>{achievement.description}</span>
 </div>)}
 <h2>Skills</h2>
 {skills.cards.map((card) => <SkillCard card={card} />)}

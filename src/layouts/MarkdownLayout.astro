@@ -24,7 +24,7 @@ const gitUrl = `https://git.c0ntroller.de/c0ntroller/frontpage/src/branch/dev/sr
 
     { moreLinks && moreLinks.length !== 0 ? 
       <div class="more">
-        { moreLinks.map(l => <a href={l.href} referrerpolicy="no-referrer" class="nostyle" style={{ display: "inline-block", width: "2em" }}><Icon name={l.icon} /></a>) }
+        { moreLinks.map(l => <a href={l.href} referrerpolicy="no-referrer" class="nostyle"><Icon name={l.icon} class="icon-2em" /></a>) }
       </div>  
     : null}
     <h1 transition:name={`markdown-title-${slug}`}>{title}</h1>

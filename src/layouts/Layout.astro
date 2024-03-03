@@ -137,8 +137,8 @@ const { title, showAfterMain, mainTransitionName } = Astro.props;
 				<span class="divider">|</span>
 				{socials.flatMap((social, i) => (
 					i !== 0 ? 
-						[<span class="divider">|</span>, <a href={social.url} target="_blank" rel="noreferrer" class="socialIcon"><Icon name={social.icon} title={social.name} /></a>] : 
-						[<a href={social.url} target="_blank" rel="noreferrer" class="socialIcon"><Icon name={social.icon} title={social.name} /></a>]
+						[<span class="divider">|</span>, <a href={social.url} target="_blank" rel="noreferrer" class="socialIcon"><Icon name={social.icon} title={social.name} class="socialIcon" /></a>] : 
+						[<a href={social.url} target="_blank" rel="noreferrer" class="socialIcon"><Icon name={social.icon} title={social.name} class="socialIcon" /></a>]
 				))}
 				<span class="divider">|</span>
 				<a class="nocolor" target="_blank" href="mailto:admin-website@c0ntroller.de" rel="noreferrer">Contact</a>
@@ -304,4 +304,20 @@ const { title, showAfterMain, mainTransitionName } = Astro.props;
 	h6 {
 		color: var(--blog_color-accent-dark);
 	}
+
+	.icon-1em {
+		height: 1em;
+		width: 1em;
+	}
+	
+	.icon-15em {
+		height: 1.5em;
+		width: 1.5em;
+	}
+
+	.icon-2em {
+		height: 2em;
+		width: 2em;
+	}
+
 </style>
