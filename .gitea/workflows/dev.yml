@@ -1,0 +1,46 @@
+name: Deploy Astro
+on: 
+  push:
+    branches:
+      - dev
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    services:
+      mermaid:
+        image: yuzutech/kroki-mermaid  
+      kroki:
+        image: yuzutech/kroki
+        env:
+          KROKI_MERMAID_HOST: mermaid
+
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout code
+      
+      - name: Setup node and npm
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Check and build
+        run: npm run build
+        # env:
+        #   KROKI_SERVER: "http://kroki:8000"
+      
+      - name: Copy files via ssh
+        uses: appleboy/scp-action@v1
+        with:
+          host: c0ntroller.de
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "dist/*"
+          target: /srv/website/dev
+          overwrite: true
+          strip_components: 1
