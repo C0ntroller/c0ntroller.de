@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import "katex/dist/katex.min.css";
+import "rehype-callouts/theme/obsidian"
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.id }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<BaseLayout title={entry.data.title} theme="blog">
+  <div class="glass-container header">
+    <h1>{entry.data.title}</h1>
+    <div class="meta">
+      <time>{entry.data.pubDate.toLocaleDateString()}</time>
+    </div>
+  </div>
+  
+  <div class="glass-container content prose">
+    <Content />
+  </div>
+</BaseLayout>
+
+<style>
+  .header {
+    margin-bottom: 2rem;
+  }
+  .meta {
+    opacity: 0.7;
+    margin-top: 0.5rem;
+  }
+  .content {
+    line-height: 1.8;
+  }
+</style>

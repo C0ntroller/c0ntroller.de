@@ -1,0 +1,37 @@
+---
+title: Simple Callback Server
+summary: "Um große APIs wie von Google oder Spotify zu nutzen, wird häufig ein OAuth2-Flow benutzt. Für meine kleinen privaten Projekte reicht aber eigentlich auch der Refresh-Token, den man nach dem initialen Setup immer wieder verwenden kann. Um diesen Token aus dem Flow zu bekommen, habe ich einen Mini-Webserver erstellt, welcher einfach den Body der Request printed, sodass man den Token ganz einfach bekommt. Simpel aber effektiv."
+repository: "https://git.c0ntroller.de/c0ntroller/simple-callback-server"
+pubDate: 2022-08-08
+tags: 
+  - JavaScript
+  - Scripting
+---
+
+Das wahrscheinlich einfachste Projekt.
+
+## Was macht es?
+
+Das einfachste, was man sich vorstellen kann: Ein `express`-Server printed einfach alle Header und den POST-Body oder die GET-Parameter eines Aufrufs.
+Manchmal braucht man sowas eben.
+
+## Für was kann ich das benutzen?
+
+Am Ende eines OAuth2-Flows gibt es im Normalfall einen "Callback" an den "Dienst", den man betreibt und wo man den Nutzer authentifizieren will.
+Callback bedeutet hier einfach nur, dass die konfigurierte Server-URL mit einigen Parametern wie Tokens aufgerufen wird.
+
+In meinen eigenen Projekten bin der User aber ich selbst und jedes mal den Flow zu durchlaufen, ist mühselig.
+
+Stattdessen gibt es häufig einen Refresh-Token, der mit dem Callback mitgesendet wird.
+Der steckt aber nur im Callback und um ihn auszulesen, muss man den Callback auslesen.
+
+Nun, hier schließt sich der Kreis.
+
+## Klingt unnötig kompliziert
+
+Ist es. Aber OAuth2 ist nunmal kompliziert.
+
+## Und was ist mit `whoami`?
+
+Dass es einen Docker-Container gibt, der quasi genau das macht, ist mir leider erst viel später aufgefallen.
+Naja, dümmer bin ich nicht geworden.

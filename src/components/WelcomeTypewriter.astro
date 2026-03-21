@@ -1,0 +1,186 @@
+---
+---
+
+<div id="welcome-typewriter-container">
+    <noscript>
+        <p class="welcome-typewriter-nostyle">Automatisierungstechnik</p>
+        <p class="welcome-typewriter-nostyle">Software, und mehr...</p>
+    </noscript>
+    <p id="welcome-typewriter" style="display: none;"><span id="welcome-typewriter-text"></span><span id="caret"></span></p>
+</div>
+
+<style>
+    p {
+        margin: 0;
+    }
+
+    #welcome-typewriter-container {
+        font-size: min(4vw, 1.5rem);
+        font-weight: bold;
+        max-width: 90dvw;
+        font-family: var(--font-cascadia-code);
+        letter-spacing: .38em;
+        text-align: center;
+        white-space: break-spaces;
+        word-wrap: break-word;
+        color: rgb(var(--accent-base));
+        text-shadow: 0 0 2px black, 0 0 5px black, 0 0 10px black;
+    }
+
+    #welcome-typewriter-container {
+        min-height: 2em;
+    }
+
+    #welcome-typewriter, #welcome-typewriter-text, #caret {
+        min-height: 1.5em;
+    }
+
+    #welcome-typewriter span {
+        display: inline-block;
+        margin: auto;
+    }
+
+    .welcome-typewriter-nostyle {
+        min-height: 1em;
+        border-right: 2px solid orange;
+        margin: 0 auto;
+        display: block;
+        overflow-x: hidden;
+        white-space: nowrap;
+        text-overflow: clip;
+        width: var(--text-length);
+    }
+
+    .welcome-typewriter-nostyle:nth-of-type(1) {
+        animation: blink-caret 1s step-end infinite,
+            0s 2s hide-caret forwards,
+            2s text-typing steps(24, end) forwards normal 1;
+        --text-length: 23em;
+    }
+
+    .welcome-typewriter-nostyle:nth-of-type(2) {
+        animation: hide-text 0s forwards 1,
+            hide-caret 0s forwards 1,
+            1s 2s blink-caret step-end infinite,
+            2s 2s text-typing steps(21, end) forwards normal 1;
+        --text-length: 20em;
+    }
+
+    #caret {
+        display: inline-block;
+        height: 1em;
+        width: 0px;
+        border-right: 2px solid orange;
+        animation: blink-caret 1s step-end infinite;
+    }
+
+    @keyframes hide-text {
+        to { width: 0; }
+    }
+
+    @keyframes blink-caret {
+        from, to { border-color: orange }
+        50% { border-color: transparent; }
+    }
+
+    @keyframes hide-caret {
+        to { border-color: transparent; }
+    }
+
+    @keyframes text-typing {
+        from { width: 0; }
+        to { width: var(--text-length); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .welcome-typewriter-nostyle {
+            animation-duration: 0s !important;
+            animation-delay: 0s !important;
+        }
+
+        #caret {
+            animation-play-state: paused;
+        }
+    }
+</style>
+
+<script>
+    const element = document.getElementById("welcome-typewriter-text");
+    const possibleWords: string[] = [
+        "Automatisierungstechnik", 
+        "Software", 
+        "Web Development", 
+        "Datenbanken", 
+        "Katzen", 
+        "Frontend", 
+        "Backend", 
+        "Fullstack",
+        "React",
+        "Node.js",
+        "Python",
+        "C#",
+        "Projektmanagement",
+        "IT-Sicherheit",
+        "Embedded",
+        "Linux",
+        "IoT",
+        "Industrie 4.0",
+        "Software-Architektur",
+        "Windows",
+        "Arduino",
+        "C/C++",
+        "git",
+        "CI/CD",
+        "Programmierung",
+        "Hardware",
+        "Technik",
+        "Pinguine",
+        "Open Source",
+        "Heimautomatisierung",
+        "Selfhosting",
+    ]//.map(word => word.replaceAll(" ", "\u00A0"));
+
+    if (element) {
+        // Initial word setup
+        let currentWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
+        let currentStep = 0;
+        // Show the element
+        element.parentElement?.style.removeProperty("display");
+
+        // Get reduced motion settings from user preferences
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+        if (prefersReducedMotion) {
+            // If the user prefers reduced motion, just show the first word without animation
+            element.innerText = currentWord;
+        } else {
+            // Otherwise, start the typewriter animation}
+
+            window.setInterval(() => {
+                if (currentStep < currentWord.length) {
+                    // Add the next character
+                    element.innerText += currentWord[currentStep];
+                    currentStep++;
+                } else if (currentStep < currentWord.length + 24) { // 1.2s/50ms = 1200/50 steps = 24 steps
+                    // Just wait a bit
+                    currentStep++;
+                } else if (currentStep < currentWord.length * 2 + 24) {
+                    // Remove the last character
+                    element.innerText = element.innerText.slice(0, -1);
+                    currentStep++;
+                } else if (currentStep < currentWord.length * 2 + 24 + 10) { // 500ms
+                    // Wait a bit before the next word
+                    currentStep++;
+                } else {
+                    // Reset the step and choose new word
+                    currentStep = 0;
+                    let newWord;
+                    do {
+                        newWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
+                    } while (newWord === currentWord);
+                    currentWord = newWord;
+                }
+            }, 50);
+        }
+    }
+</script>

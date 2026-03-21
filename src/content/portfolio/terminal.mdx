@@ -1,0 +1,109 @@
+---
+title: Terminal (veraltet)
+summary: "Das hier beschriebene \"Terminal\" war meine erste eigene Webseite. Nur mit JavaScript programmiert, konnte man die Seite mit Befehlen navigieren. Später war dieses Terminal auch auf der zweiten Iteration eingebunden. Es gab echt viele Funktionen, Eastereggs und Shortcuts. Auch wenn es so nicht mehr verfügbar ist, habe ich hier noch die Dokumentation dazu."
+repository: https://git.c0ntroller.de/c0ntroller/frontpage
+pubDate: 2022-02-04
+tags: 
+  - Veraltet
+  - JavaScript
+  - React
+---
+
+> [!info] Dieses Projekt ist veraltet.
+> Als Kontext: Die ersten Versionen meiner Website waren nur eine "CLI" in React.
+> Unschwer zu erkennen, dass sich das geändert hat.
+> Mittlerweile habe ich die CLI komplett entfernt.
+> Aus nostalgischen Gründen möchte ich die Dokumentation aber hier lassen.
+
+Hi und Willkommen auf meiner Website. 
+Dies ist die Dokumentation für meine CLI.
+Probiert sie mal aus, wenn ihr es noch nicht gemacht habt!
+
+## Warum?
+
+Vor allem aus Langeweile und weil ich Codeschreiben mag.
+Und auf meiner eigenen Webseite kann ich auch einfach nerdig sein und wilde Dinge programmieren.
+
+## Wie?
+### Frameworks
+
+Die Webseite ist komplett in [Next.js](https://nextjs.org/) geschrieben, einem JavaScript/React-Framework.
+Also ist das Backend letzlich in [Node.js](https://nodejs.org/).
+Die Projekteinträge sind in [AsciiDoc](https://projects.eclipse.org/projects/asciidoc.asciidoc-lang) verfasst.
+Das ganze hoste ich in einerm [Docker](https://www.docker.com/) Container auf meinem eigenen Server.
+
+### Der Beginn
+#### Ein eigener Platz im Internet
+Ich wollte schon immer mal eine eigene Webseite haben.
+Aber langweilig sollte sie auch nicht einfach sein.
+Eines Tages kam mir dann die Idee - wie wäre es mit einer Webseite, die im Grunde eine Konsole ist.  
+Klingt eigentlich nicht so schwer, es besteht ja nur aus einem Eingabefeld und einem Log/Verlauf.
+
+Aber ich wollte mehr:
+Der Code sollte so modular wie möglich sein, damit es in Zukunft einfach ist, Befehle, Projektlogs und Komponenten hinzuzufügen.
+Außerdem wollte ich coole Features wie Tab-Vervollständigung und Shortcuts.
+
+Aber da es schwer ist, Freunden oder Arbeitgebern, die sich nicht mit Informatik auskennen, ein CLI ohne Erklärung hinzuwerfen, entschied ich mich, auch einen "normalen" Frontend-Teil hinzuzufügen.
+
+#### Implementierung
+
+> Klingt eigentlich nicht so schwer [...]
+
+Unsinn. Es war schwer. Aber am Ende hat es sich gelohnt.  
+Alle Kommandos sind in einer Quelldatei nach einem spezifischen Format definiert, sodass man super einfach neue hinzufügen oder alte entfernen kann.
+Man kann Flags und andere Attribute hinzufügen und die Funktion definieren, die ausgeführt wird, wenn das Kommando ausgeführt wird.  
+Die Projektdateien sind in einer separaten Repository und Ordner auf meinem Server, der als Docker-Volume eingebunden ist.
+Somit kann man sie super einfach aktualisieren, ohne das ganze Projekt neu bauen zu müssen.
+
+Als die CLI fertig war, war sie für einige Monate meine Hauptseite.
+Dann habe ich den "normalen" Teil erstellt, der im Grunde ein Blog und mein Portfolio ist.
+
+#### Autodeployment
+Wir mögen hier maximale Automatisierung, also musste auch eine CI/CD-Pipeline her.
+Da ich mein eigenes Gitea zum Spielen habe, musste auch die Pipeline selbstgehostet sein.
+Also habe ich [Drone](https://www.drone.io/) benutzt.
+Der Docker-Container landet in der eigenen Registry, also ist es sicher, wenn ich mal geheime oder private Daten in das Projekt einfügen will.
+
+Die Projektdateien werden zuerst mit [Asciidoctor](https://asciidoctor.org/) gebaut, um ihre Gültigkeit zu überprüfen.
+Dann zieht ein Skript sie auf den Server.
+Da das Git-Verzeichnis der Projekte auf dem Server nur im Docker-Container eingebunden ist, reicht ein schnelles Neuladen, damit die Dateien auf dem Server verfügbar sind.
+
+## Die Zuuukuuunft
+
+Was wird es noch für Features geben?  
+Keine Ahnung.
+
+Wahrscheinlich wird es so sein, wie alles hier:
+Ich hab eine Idee (ob die gut oder schlecht ist, ist irrelevant) und setze sie entweder sofort um oder füge sie als Issue hinzu.
+
+## CLI Shortcuts
+Wie vorher erwähnt, gibt es einige Shortcuts, um die Bedienung zu erleichtern.
+
+| Key | Effect |
+|-----|--------|
+| <kbd>Tab</kbd> | Fügt die aktuellen Vorschläge aus der Autovervollständigung ein. |
+| <kbd>&#9650;</kbd> / <kbd>&#9660;</kbd> | Durchsuchen der letzten Befehle. |
+| <kbd>Ctrl</kbd>+<kbd>L</kbd> | Löscht den Verlauf. Ähnlich wie `clear`. |
+| <kbd>Ctrl</kbd>+<kbd>D</kbd> | Verlässt die Seite. Wenn das nicht funktioniert ([JavaScript-Einschränkung](https://developer.mozilla.org/en-US/docs/Web/API/Window/close)) geht es zurück in die Seitenhistorie. Ähnlich wie `exit`. |
+| <kbd>Ctrl</kbd>+<kbd>U</kbd>/<kbd>Ctrl</kbd>+<kbd>C</kbd> | Entfernt die aktuelle Eingabe. |
+| <kbd>Esc</kbd> | Schließt das Dialogmodal. |
+
+## Zeug, auf das ich stolz bin
+- Jede Zeile der Historie wird in einem eigenen Format geparst.
+  * `%{command}` wird als klickbares Kommando dargestellt.
+  * `#{link text|url}` wird als Link dargestellt.
+- Die Projektlogs werden dynamisch geladen. Sie können jederzeit aktualisiert werden.
+  * Aber sie werden im Backend gerendert. Für die Hauptseite (nicht die CLI) ist theoretisch kein JS notwendig.
+- Es gibt viele Eastereggs. Einige sind für bestimmte Personen, einige für mich und einige einfach nur zum Spaß.
+- Ich habe einige benutzerdefinierte Anmerkungen für Codeblöcke erstellt, die fehlerhaften Code anzeigen (falsche Syntax/wird nicht kompiliert/etc.).
+
+<div class="notCompiling">
+```rust
+// So sieht ein fehlerhafter Codeblock aus
+fn main() {
+  let x = 5;
+  x = 6;
+}
+```
+</div>
+

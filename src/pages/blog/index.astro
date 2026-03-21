@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = await getCollection('blog');
+posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<BaseLayout title="Blog" theme="blog" description="Gedanken über Technologie, Design und das Leben von c0ntroller.de.">
+  <div class="glass-container header">
+    <h1>Artikel & Gedanken</h1>
+    <p>Gedanken über Technologie, Design und das Leben.</p>
+  </div>
+
+  <div class="list">
+    {posts.map(post => (
+      <a href={`/blog/${post.id}`} class="glass-container link-card">
+        <h2>{post.data.title}</h2>
+        <p class="date">{post.data.pubDate.toLocaleDateString()}</p>
+        <p>{post.data.summary}</p>
+      </a>
+    ))}
+  </div>
+</BaseLayout>
+<style>
+  .header {
+    margin-bottom: 2rem;
+  }
+  .list { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 2rem; 
+  }
+  .link-card { 
+    display: block; 
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .link-card h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+  .date {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-top: 0;
+  }
+</style>

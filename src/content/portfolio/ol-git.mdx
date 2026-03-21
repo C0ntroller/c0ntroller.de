@@ -1,0 +1,81 @@
+---
+title: Overleaf Sync with Git
+summary: "Overleaf ist ein webbasierter LaTeX-Editor einfach echt gut in seinem Job. Aber ein Projekt backupen ohne Geld zu zahlen? Unmöglich, sogar wenn man seine Instanz selbst hosted. Das fand ich schlimm und hab ein Script geschrieben, dass ein bestimmtes Projekt regelmäßig über git sichert."
+repository: "https://git.c0ntroller.de/c0ntroller/overleaf-git-sync"
+pubDate: 2022-07-29
+tags: 
+  - Scripting
+  - Git
+---
+
+## Das Problem
+
+Als ich in der Uni wichtige Paper wie meine Abschlussarbeit schreiben musste, wollte ich nicht böse überrascht werden und stattdessen so viele Backups wie möglich haben.
+Denn was wenn meine eigene Festplatte oder die der Overleaf-Instanz kaputt geht?
+
+Da die Arbeit eh mit LaTeX geschrieben werden sollte, bot sich eine selbstgehostete Instanz von [Overleaf](https://overleaf.com/) an.
+Overleaf ist einer der besten Editoren für LaTeX und da es webbasiert ist, kann ich von all meinen Geräten darauf zugreifen.
+Und da es am Ende nur ein Frontend für Ordner und Dateien ist, sollte es doch eine einfache Möglichkeit geben, die Projekte zu sichern, oder?
+
+Nö!<br/>
+Nicht nur gibt es kann die selbstgehostete Community-Version keine Projekte mit Cloud-Speicher oder git synchronisieren.
+Es gibt diese Möglichkeit in der zentralen Version, die von Overleaf selbst gehostet wird aber diese befindet sich hinter einer Paywall.
+
+Und der Preis dafür ist nichtmal gering, selbst als Student sollte ich damals 70€/Jahr zahlen!
+Das ist einfach nur Abzocke und Blödsinn.
+
+Da muss es doch einen besseren Weg geben.
+
+## Wo sind meine Daten?
+
+Erstmal habe ich Overleaf mit Docker aufgesetzt und ein kleines Projekt erstellt.
+
+Jetzt müssten die Dateien doch irgendwo auf der Festplatte liegen, oder?
+
+Wieder falsch.<br/>
+Also teilweise, Bilder findet man auf der Festplatte.
+Aber ich vermute den ganzen LaTeX-Kram pipen sie in die MongoDB, die der Service nutzt.
+
+Also nochmal von vorn.
+
+Gibt es eine API?
+Klar, das Frontend nutzt ja auch eine.
+Aber dokumentiert ist da nichts.
+Wir können dank OpenSource aber einfach ins Repo schauen - und finden eine Datei [`router.js`](https://github.com/overleaf/overleaf/blob/main/services/web/app/src/router.js).
+Jetzt musste ich nur noch herausfinden, wie man die API nutzt.
+
+## \*Hackervoice\*: I'm in
+
+Im Frontend kann man ganz gut nachvollziehen, wie das geht.
+Zuerst einmal erfolgt die Authentifizierung über Sessions-IDs.
+Beim Einloggen sendet man einen POST-Request an `/login` mit den Zugangsdaten und einem CSRF-Token, in diesem Moment wird die Session-ID gültig.
+
+Über die zuvor erwähnte Datei war gut nachvollziehbar, welche Routen wir nun nutzen konnten.
+Ich brauchte nur eine: Den Download eines ganzen Projekts.
+
+Und das war einfacher als erwartet, denn man kann auch das im Browser nachvollziehen: `/project/{id}/download/zip`
+
+Jetzt hatte ich alle Puzzleteile und konnte mir ein einfaches Python-Script schreiben, das diese Requests durchführt.
+
+## Was tun mit der Zip?
+
+Theoretisch hätte man hier etwas abkürzen können und einfach alle Befehle in Python mit `subprocess` ausführen können.
+Aber das fühlte sich falsch an und stattdessen habe ich liber zwei Bash-Skripte geschrieben.
+
+Das erste setzt den git-Ordner auf.
+Es klont das Repository, in dem wir unsere Sachen ablegen wollen und wechselt auf den Branch, den wir nutzen wollen.
+Dann wird die zuvor heruntergeladene Zip-Datei in diesem Ordner entpackt.
+
+Das zweite Bash-Script erstellt einen git-Commit und pusht die Änderungen ins Remote-Repository.
+
+Das wars auch schon.
+
+## Was könnte man besser machen?
+
+Das ganze ist mehr Script als nutzbares Programm, daher gibt es natürlich Dinge zu verbessern:
+
+- Eine `.env` Datei benutzen, statt ein Python-Dictionary für die Einstellungen und Zugangsdaten.
+- Mehr Sync-Methoden wie verschiedene Cloud-Speicher einbauen.
+- OAuth-Support (Werde ich wahrscheinlich eh nie machen).
+
+Das Projekt ist aber für mich hier abgeschlossen, also werden die anderen Punkte wohl auch nichts...

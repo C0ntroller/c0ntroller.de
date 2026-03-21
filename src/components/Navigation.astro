@@ -1,0 +1,101 @@
+---
+const currentPath = Astro.url.pathname;
+import Logo from "../assets/logo.svg";
+---
+
+<nav class="main-nav glass-container">
+  <div class="nav-content">
+    <a href="/" class="logo">
+      <Logo class="logo-img" />
+      c0ntroller.de
+    </a>
+    <div class="links">
+      <a
+        href="/portfolio"
+        class={currentPath.startsWith("/portfolio") ? "active" : ""}
+        >Portfolio</a
+      >
+      <a href="/blog" class={currentPath.startsWith("/blog") ? "active" : ""}
+        >Blog</a
+      >
+      <a href="/book" class={currentPath.startsWith("/book") ? "active" : ""}
+        >Buch</a
+      >
+    </div>
+  </div>
+</nav>
+
+<style is:global>
+  body:has(nav a[href="/"]:hover) {
+    --accent-base: var(--accent-base--default);
+  }
+  body:has(nav a[href="/portfolio"]:hover) {
+    --accent-base: var(--accent-base--portfolio);
+  }
+  body:has(nav a[href="/blog"]:hover) {
+    --accent-base: var(--accent-base--blog);
+  }
+  body:has(nav a[href="/book"]:hover) {
+    --accent-base: var(--accent-base--book);
+  }
+</style>
+
+<style>
+  .main-nav {
+    position: sticky;
+    top: 1.5rem;
+    z-index: 100;
+    margin: 0 auto 3rem auto;
+    max-width: 800px;
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+  .nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .logo-img {
+    height: 1.5rem;
+    width: auto;
+    --logo-eye-border: #fff;
+    --logo-eye-brow: #fff;
+  }
+  .links {
+    display: flex;
+    gap: 2rem;
+  }
+  .links a {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    transition: color 0.2s ease;
+  }
+  .links a:hover {
+    color: rgb(var(--accent-base));
+  }
+  .links a[href="/portfolio"]:hover {
+    color: rgb(var(--accent-base--portfolio));
+  }
+  .links a[href="/blog"]:hover {
+    color: rgb(var(--accent-base--blog));
+  }
+  .links a[href="/book"]:hover {
+    color: rgb(var(--accent-base--book));
+  }
+  .links a.active {
+    color: rgb(var(--accent-base));
+    font-weight: 600;
+  }
+</style>

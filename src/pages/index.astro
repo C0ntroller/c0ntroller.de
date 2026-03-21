@@ -1,0 +1,226 @@
+---
+import WelcomeTypewriter from '../components/WelcomeTypewriter.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Icon } from 'astro-icon/components';
+import socials from "../data/socials.json";
+---
+<BaseLayout title="c0ntroller.de" theme="default">
+  <div class="landing-wrapper">
+    <div class="hero-section">
+      <div class="socials fade-in-up shadow-glow glass-bg glass-container">
+        {socials.map(({ name, url, icon }) => (
+          <a href={url} target="_blank" rel="noreferrer" class="social-link">
+            <Icon name={icon} desc={name} />
+          </a>
+        ))}
+      </div>
+      <h1 class="gradient-text reveal-text">Willkommen auf meiner Seite.</h1>
+      <p class="subtitle fade-in-up">
+        Hier geht es unter anderem um:
+      </p>
+      <WelcomeTypewriter class="fade-in-up" />
+    </div>
+
+    <div class="bento-grid">
+      <a href="/portfolio" class="bento-card portfolio shadow-glow">
+        <div class="card-content glass-bg">
+          <div class="icon"><Icon name="lucide:sparkles" /></div>
+          <h2>Portfolio</h2>
+          <p>Meine neuesten Projekte und Experimente.</p>
+        </div>
+      </a>
+      
+      <a href="/blog" class="bento-card blog shadow-glow">
+        <div class="card-content glass-bg">
+          <div class="icon"><Icon name="lucide:pen-tool" /></div>
+          <h2>Blog</h2>
+          <p>Einige planlose Gedanken über Technologie und Design.</p>
+        </div>
+      </a>
+      
+      <a href="/book" class="bento-card book shadow-glow">
+        <div class="card-content glass-bg">
+          <div class="icon"><Icon name="lucide:book-open" /></div>
+          <h2>Das Buch</h2>
+          <p>Ein subjektiver Guide in die Welt der Programmierung.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .landing-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 2rem 0;
+  }
+
+  .hero-section {
+    text-align: center;
+    max-width: 750px;
+    margin-bottom: 5rem;
+  }
+
+  .gradient-text {
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.03em;
+  }
+
+  .socials {
+    border-radius: 2rem;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: .5rem;
+    margin: 0 auto 2rem auto;
+    padding: 0.5rem 1rem;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .social-link {
+    color: rgb(var(--accent-base));
+    font-size: 2rem;
+    margin: 0 0.5rem;
+    filter: drop-shadow(0px 0px 5px transparent);
+    transition: filter 0.5s ease;
+  }
+
+  .social-link:hover svg {
+    filter: drop-shadow(0px 0px 5px rgba(var(--accent-base), 0.4));
+  }
+
+  .subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0 auto;
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  @media (max-width: 800px) {
+    .bento-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .bento-card {
+    text-decoration: none;
+    border-radius: 1.5rem;
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+  }
+
+  .bento-card:hover {
+    transform: translateY(-8px);
+  }
+
+  .card-content {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 1.4rem;
+    padding: 2.5rem 2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+
+  .bento-card:hover .card-content {
+    background: rgba(15, 23, 42, 0.4);
+  }
+
+  .icon {
+    font-size: 2.5rem;
+    margin: 0 auto 1rem auto;
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    color: #fff;
+  }
+
+  .bento-card h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    color: #fff;
+  }
+
+  .bento-card p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 1rem;
+  }
+
+  .portfolio { background: linear-gradient(135deg, rgba(var(--accent-base--portfolio), 0.5) 0%, rgba(var(--accent-base--portfolio), 0.15) 100%); }
+  .blog { background: linear-gradient(135deg, rgba(var(--accent-base--blog), 0.8) 0%, rgba(var(--accent-base--blog), 0.15) 100%); }
+  .book { background: linear-gradient(135deg, rgba(var(--accent-base--book), 0.8) 0%, rgba(var(--accent-base--book), 0.15) 100%); }
+
+  .portfolio:hover { box-shadow: 0 10px 40px -10px rgba(var(--accent-base--portfolio), 1); }
+  .blog:hover { box-shadow: 0 10px 40px -10px rgba(var(--accent-base--blog), 0.4); }
+  .book:hover { box-shadow: 0 10px 40px -10px rgba(var(--accent-base--book), 0.4); }
+
+  .portfolio .icon { color: rgb(var(--accent-base--portfolio)); }
+  .blog .icon { color: rgb(var(--accent-base--blog)); }
+  .book .icon { color: rgb(var(--accent-base--book)); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal-text {
+    animation: fadeUp 0.8s ease-out forwards;
+  }
+  
+  .fade-in-up {
+    animation: fadeUp 1s ease-out forwards;
+    opacity: 0;
+    animation-delay: 0.2s;
+  }
+
+  /* Stagger grid items */
+  .bento-card {
+    animation: fadeUp 0.8s ease-out forwards;
+    opacity: 0;
+  }
+  .portfolio { animation-delay: 0.4s; }
+  .blog { animation-delay: 0.6s; }
+  .book { animation-delay: 0.8s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bento-card, .fade-in-up, .reveal-text {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    .bento-card:hover {
+      transform: none;
+    }
+  }
+</style>

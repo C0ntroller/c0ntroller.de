@@ -1,0 +1,39 @@
+---
+title: Google Photo Sync
+summary: "Irgendwelchen Apps vollen Zugriff auf seine Google Photos geben? Uff. Vor allem wenn es um Kleinigkeiten wie Bildschirmschoner geht. Also habe ich kurz gebastelt, um ein Album lokal zu halten und regelmäßig zu synchronisieren."
+repository: https://git.c0ntroller.de/c0ntroller/google-photo-album-sync
+pubDate: 2022-08-08
+tags: 
+  - Google API
+  - Scripting
+---
+
+Warum sollte ich für einen Bildschirmschoner auf meine Privatsphäre verzichten?
+
+## Storytime
+
+Auf meinem NVidia Shield mit Android TV wollte ich einen Bildschirmschoner einrichten.
+Es gibt natürlich viele davon und Google Photos als Quelle ist natürlich ein sehr einfacher Weg, wenn die eigenen Bilder sowieso dort liegen.
+
+Also die nächstbeste App installiert und einloggen.
+
+Oder auch nicht.
+
+Denn die App wollte nicht nur Zugriff auf meine Bilder.
+Sie wollte auch Zugriff auf meine persönlichen Daten, E-Mail-Adresse, Kontaktliste und andere Dinge.
+Ja ich weiß, ich rede hier über Privatsphäre und Datenschutz, aber nutze Google Photos - aber lieber hat Google meine Daten als irgendeine App, der ich nicht vertrauen kann.
+
+Aber vielleicht gibt es ja doch eine Möglichkeit - einfach die Bilder offline bereitstellen, dann bleibt der Google Account privat.
+
+## Die Lösung
+
+Ich hatte schon einige Erfahrung mit den Google APIs vom [Infoscreen](/projekt/infoscreen) und dem [Simple Callback Server](/projekt/simple-cb).
+
+Um auch Leuten ohne diese Erfahrung etas Hilfe zu geben, habe ich gleich eine CLI-Anwendung für das Setup erstellt.
+In der `README` sollte eigentlich ein guter Startpunkt sein, um seine eigenen Bilder zu synchen.
+
+## Was noch?
+
+Hat man mehrere Bilder mit gleichem Namen, kann noch etaws kaputtgehen.
+Grundsätzlich funktioniert aber auch dieser Fall.
+Theoretisch könnte man noch Hashing wie MD5 benutzen, um die Bilder besser zu unterscheiden.

@@ -1,0 +1,151 @@
+---
+title: Einmal Zahlen bitte!
+chapter: grundlagen
+part: 2
+---
+
+Bevor wir jetzt anfangen können zu rechnen, brauchen wir natürlich Zahlen.
+Und zwar mehr als nur 0 und 1.
+Also schauen wir uns mal an, wie wir Zahlen im Binärsystem darstellen können.
+
+## Positive Zahlen
+Im Dezimalsystem, also dem Zahlensystem, das wir im Alltag benutzen, haben wir zehn Ziffern: 0 bis 9.  
+Im Binärsystem gibt's aber nur zwei Ziffern: 0 und 1.  
+Interessanterweise kann man alle Prinzipien unseres Dezimalsystems auch im Binärsystem anwenden.  
+Was bedeuted das?
+
+Zählen wir erstmal hoch. 0, 1, 2, ..., 9, und jetzt?
+Wir haben ja nur die Ziffern 0 bis 9.  
+Also zählen wir die Stelle vor der 9 einmal hoch und fangen neu an. 09 wird also zu 10.  
+Ok, ich schwöre wir sind nicht im Kindergarten und das ganze hat einen tieferen Sinn!
+
+Machen wir doch das gleiche im Binärsystem  
+Wir zählen also: 0, 1, und jetzt?  
+Jetzt machen wir das gleiche: Wir zählen die Stelle vor der 1 hoch und fangen neu an. 01 wird also zu 10.
+
+Was in unserem Dezimalsystem eine 2 ist, ist binär ausgedrückt also eine 10.
+Und so können wir natürlich weiter zählen.  
+
+| Dezimal | Binär |
+|---------|-------|
+|    0    |  0    |
+|    1    |  1    |
+|    2    |  10   |
+|    3    |  11   |
+|    4    | 100   |
+|    5    | 101   |
+|    6    | 110   |
+|    7    | 111   |
+|    8    |1000   |
+|  ...    | ...   |
+
+Das Prinzip sollte klar sein.
+
+Aber zum Umrechnen wollen wir ja nicht immer hochzählen müssen bis wir zufällig die richtige zahl finden.
+Natürlich gibt es aber Umrechnungsformeln, die wir benutzen können.
+
+### Umrechnung Binär zu Dezimal
+Um eine Binärzahl in eine Dezimalzahl umzuwandeln, können wir jede Stelle der Binärzahl mit der entsprechenden Potenz von 2 multiplizieren und die Ergebnisse addieren.
+Ihh, das klingt nach Mathe.  
+Aber so schwierig ist es nicht. 
+Nehmen wir zum Beispiel die Binärzahl $1101$.
+
+| Stelle | Wert der Stelle | Potenz von 2 | Berechnung      |
+|--------|-----------------|---------------|------------------|
+|   3    |       1         |     $2^3 = 8$     | $1 * 8 = 8$       |
+|   2    |       1         |     $2^2 = 4$     | $1 * 4 = 4$       |
+|   1    |       0         |     $2^1 = 2$     | $0 * 2 = 0$       |
+|   0    |       1         |     $2^0 = 1$     | $1 * 1 = 1$       |
+|        |                 |                   | $8 + 4 + 0 + 1 = 13$ |
+
+Was hier schon auffällt, dass wir die Stellen von rechts nach links durchnummerieren, beginnend bei 0.
+Das können wir übrigens auch im Dezimalsystem machen.
+
+$42 = 4 * 10^1 + 2 * 10^0 = 4 * 10 + 2 * 1 = 40 + 2 = 42$
+
+Die händische Umrechnung ist in der Theorie ganz einfach, praktisch ist es natürlich bei großen Zahlen etwas umständlich.  
+Daher  lasst ihr am besten einen Computer die Umrechnung machen.
+Der kennt das schon.
+
+### Umrechnung Dezimal zu Binär
+Um eine Dezimalzahl in eine Binärzahl umzuwandeln, können wir die Zahl durch 2 teilen und den Rest notieren.
+Wir wiederholen diesen Vorgang mit dem Ergebnis der Division, bis das Ergebnis 0 ist.
+Die Binärzahl ergibt sich dann aus den notierten Resten, gelesen von unten nach oben.  
+Das klingt doch schon wieder so kompliziert...
+
+Ist es aber auch nicht, ebenfalls nur aufwendig.
+
+Nehmen wir zum Beispiel die Dezimalzahl 13 von oben und rechnen wieder zurück:
+
+| Division | Ergebnis | Rest |
+|----------|----------|------|
+| $13 / 2$   |    6     |  1   |
+| $6 / 2$    |    3     |  0   |
+| $3 / 2$    |    1     |  1   |
+| $1 / 2$    |    0     |  1   |
+
+Die Reste von unten nach oben gelesen ergeben die Binärzahl $1101$.
+
+Auch hier gilt wieder: Probiert es gern mal aus, aber bei großen Zahlen lasst lieber den Computer die Arbeit machen.
+
+### Wo hoch kann ich gehen?
+
+In PCs arbeiten wir im Normalfall mit einer festen Anzahl an Bits für eine Ganzzahl.
+Je nach Definition im Code kann das unterschiedlich lang sein, aber im Normalfall hat man die Auswahl aus 8, 16, 32, 64 und vielleicht sogar 128 Bit.
+Die höchste Zahl in der jeweiligen "Feldbreite" ist dann natürlich die, wo alle Bits auf 1 gesetzt sind.  
+Also für z.B. 8 Bit: $11111111_2 = 255_{10}$  
+Zusammen mit der 0 sind das also $256$ verschiedene Zahlen, die man darstellen kann.
+
+Man kann diese beiden Werte auch ganz einfach berechnen:
+- Die Anzahl der darstellbaren Zahlen (inkl. 0) ist $2^n$, wobei $n$ die Anzahl der Bits ist.
+- Die höchste Zahl ist $2^n - 1$, wobei $n$ die Anzahl der Bits ist.
+
+> [!info] Anzeige des Zahlenraums
+> Damit wir nicht durcheinanderkommen, wenn ich mal irgendwo eine Hundert schreibe (Ist es eine $100$? Oder doch $4$?) benutzen wir kleine Hinweise an den Zahlen.
+> $10_{10}$ ist eine Zehn im "normalen" Dezimalsystem und wäre binär dargestellt eine $1010_2$.
+> $10_2$ muss man wiederum binär lesen und kommt so auf eine Zwei.
+> Diese Schreibweise wird ab jetzt häufiger vorkommen, um Missverständnisse zu vermeiden.
+
+## Negative Zahlen
+Bisher haben wir nur positive Zahlen betrachtet.
+Wie sieht es aber mit negativen Zahlen aus?
+Im Alltag im Dezimalsystem schreiben wir einfach ein Minuszeichen vor die Zahl.
+Und das können wir natürlich auch vor unsere Binärzahlen schreiben - aber der PC kann nur 0 und 1, der kann kein Minus.
+
+Um trotzdem negative Zahlen darstellen zu können, benutzen Computer das sogenannte Zweierkomplement.
+Das haben sich ein paar schlaue Köpfe ausgedacht und es ist cool, weil unsere normalen Rechenregeln für Addition und Substraktion weiterhin funktionieren.
+
+Eine Zahl im Zweierkomplement darzustellen funktioniert so:
+1. Man nimmt die Binärdarstellung der positiven Zahl
+2. Man invertiert alle Bits (0 wird zu 1 und 1 wird zu 0)
+3. Man addiert 1 zur invertierten Zahl
+
+Schritt 2 ist tricky, weil man etwas bedenken muss: Vor der Zahl gibt es eine feste Anzahl an Bits, die alle 0 sind.
+Im Zweierkomplement muss unser Zahlenraum (in Bit angegeben) als begrenzt sein und berücksichtig werden.  
+Nehmen wir also an, wir arbeiten in einem 8-Bit-System.
+
+Nehmen wir zum Beispiel die Zahl $-13$:
+1. Die Binärdarstellung von $13_{10}$ ist $00001101_2$
+2. Invertieren wir alle Bits: $11110010_2$
+3. Addieren wir $1$: $11110010_2 + 1 = 11110011_2$
+
+Also ist die Darstellung von $-13$ im Zweierkomplement $11110011_2$ (in einem 8-Bit-System).
+
+Die Rechnung zurück ist übrigens exakt gleich.  
+Nehmen wir also die Zahl $11110011_2$ von eben:
+1. Invertieren wir alle Bits: $00001100_2$
+2. Addieren wir $1$: $00001100_2 + 1 = 00001101_2$
+3. Die Binärdarstellung $00001101_2$ ist $13_{10}$ im Dezimalsystem, also ist die ursprüngliche Zahl $-13$.
+
+Woher wissen wir nun, ob eine Zahl im Zweierkomplement positiv oder negativ ist?
+Wir schauen uns einfach das höchstwertige Bit (das ganz links) an. 
+Wenn es eine $0$ ist, ist die Zahl positiv, wenn es eine $1$ ist, ist die Zahl negativ.
+Damit haben wir quasi ein Minus vor die Zahl geschrieben.
+Man spricht im englischen auch von "sign bit" und nennt Ganzzahlen mit Vorzeichen "signed integer".  
+Das Gegenteil ist dann "unsigned integer".
+
+Jetzt haben wir aus einem 8-Bit-System nur noch 7 Bits für die Zahl selbst übrig, da die erste Stelle, ja das Vorzeichen angibt.
+Durch das Nutzen von Vorzeichen, schränken wir die möglichen Zahlen ein.
+
+Während wir mit 8 Bit noch 255 positive Zahlen und die 0 darstellen konnten, sind es nun nur noch 127 positive Zahlen (0 bis 127) und die 0, aber auch 128 negative Zahlen (-1 bis -128).
+Wenn wir später rechnen, müssen wir hier eher aufpassen: $127 + 1$ ist im Zweierkomplement $10000000_2$, und damit $-128$!

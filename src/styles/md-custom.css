@@ -1,0 +1,49 @@
+.callout {
+    mix-blend-mode: unset !important;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th {
+    border-bottom: 1px solid var(--text-muted, #ccc);
+    font-weight: bold;
+}
+td {
+    border-top: 1px solid var(--text-muted, #ccc);
+}
+
+th:not(:first-child), td:not(:first-child) {
+    border-left: 1px solid var(--text-muted, #ccc);
+}
+th:not(:last-child), td:not(:last-child) {
+    border-right: 1px solid var(--text-muted, #ccc);
+}
+
+th, td {
+    padding: 0.5em;
+    text-align: right;
+}
+
+blockquote, output {
+    position: relative;
+    border-top: 1px solid var(--text-muted, #ccc);
+    border-bottom: 1px solid var(--text-muted, #ccc);
+    margin: 0;
+    padding: 10px;
+    padding-left: 25px;
+    font-family: var(--font-cascadia-code);
+
+    p {
+        margin: 0;
+    }
+}
+
+blockquote::before {
+    content: ">";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    color: var(--text-muted, #ccc);
+}

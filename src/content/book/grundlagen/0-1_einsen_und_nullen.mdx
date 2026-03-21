@@ -1,0 +1,224 @@
+---
+title: Einsen und Nullen
+chapter: grundlagen
+part: 1
+---
+import { Image } from "astro:assets";
+import transistor from "./assets/01-transistor.svg";
+import cmos from "./assets/02-cmos.svg";
+
+Jap, wir fangen ganz von vorn an.
+
+Die meisten Computer-Produkte heutzutage sind Digitaltechnik.
+Digital bedeutet in diesem Fall, dass alle Signale in unserem Gerät zwei Zustände haben können: an oder aus, 1 oder 0, _high_ oder _low_. 
+Letzteres kommt dabei aus der Elektrotechnik und bezieht sich auf die Spannung.
+Denn auch das Spannungssignal kann bei unserer Digitaltechnik nur zwei Werte haben.
+
+Wie können denn solche einfachen Signale so komplexe Routinen bilden? 
+
+> [!info]
+> Der eben gelesene Abschnitt ist in der modernen Technik natürlich stark vereinfacht. 
+> Für die grundlegende Vorstellung ist es aber komplett ausreichend und wahr genug. 
+
+## Zahlen
+
+Normalerweise benutzen wir für unsere Zahlen die Ziffern 0-9. 
+Und weil das insgesamt zehn Ziffern ergibt und Wissenschaft sich gerne bei Griechisch und Latein borgt, nennen wir das ganze Dezimalsystem. 
+
+Bei unseren Einsen und Nullen können wir natürlich aber nur die Ziffern 0-1 benutzen. 
+Das nennt man dann Binärsystem. 
+
+Grundsätzlich bleiben die Rechenregeln gleich:
+Wir zählen von 0 bis 9 aufwärts und wenn wir 9 + 1 rechnen wollen, gibt es einen Überlauf. 
+Wir schreiben dann eine 1 vorn hin und fangen hinten wieder mit der 0 an - eine 10 ergibt sich.   
+Analog dazu das Binärsystem.
+Wir zählen 0, 1 und 1+1 ergibt dann einen Überlauf und wir kommen auf 10.
+
+> [!warning] 
+> Wir reden hier erstmal nur von positiven Ganzzahlen. 
+> Wie negative Zahlen gehandhabt werden, kommt später. 
+> Gleitkommazahlen sind nochmal ein ganz anderes Kaliber. 
+
+Wie wir jetzt schon sehen, ist 2 im Dezimalsystem (folgend $2_{dez}$) äquivalent zu 10 im Binärsystem (folgend $10_{bin}$). 
+Jede Zahl des Dezimalsystems können wir als Binärzahl darstellen und andersrum. 
+
+## Logik
+
+Wenn wir in der Informatik von Logik reden, ist dies deutlich elementarer gemeint, als die im Alltag benutze Logik. 
+Logik ist hier ein stumpfer Teil der Mathematik. 
+
+Anfangs soll uns die sogenannte _boolsche_ Logik interessieren. 
+Diese legt Rechenregeln für das Rechnen mit _wahr_ und _falsch_ fest. 
+Klingt komisch, aber sobald wir wahr mit 1 und falsch mit 0 ersetzen, sieht es plötzlich wieder nach Mathe aus. 
+
+Wie sehen diese Regeln nun aus? 
+Nutzen wir wieder mal eine Analogie für die Vorstellung. 
+Wir wollen für unser morgiges Frühstück einkaufen. 
+
+1. "Bring bitte Eier **und** Milch mit." - Unsere Aufgabe ist nur erledigt, wenn wir beides mitbringen. Bringen wir nur eins oder keins mit, müssen wir nochmal los einkaufen. 
+2. "Bring bitte Gouda **oder** Edamer mit." - Wir können eins von beidem mitbringen oder beides, in jedem Fall ist der Auftrag erfüllt. 
+3. "Wir brauchen noch **entweder** Vollkornbrot **oder** Toast." - Beides wäre zu viel. Nur genau eins von beiden wollen wir haben. 
+4. "Bring **nicht** schon wieder Süßigkeiten mit!" - Hier ist unsere Aufgabe erfüllt, wenn wir etwas nicht tun. 
+5. "Könntest du noch Orangensaft oder Apfelsaft mitbringen? Nur wenn du willst, Hauptsache **nicht beides**." - Der einzige Weg hier den Auftrag nicht zu erfüllen, ist beides mitzubringen. 
+6. "Ich möchte **weder** Müsli, **noch** Joghurt auf dem Tisch sehen!" - Keines der beiden Sachen darf eingekauft werden, sonst schlägt unser Einkaufsauftrag fehl. 
+
+Klingt dich erstmal nach einer soliden Einkaufsliste. 
+Und ohne es zu wollen, benutzen wir hier boolsche Mathematik. 
+
+Schauen wir uns das doch mal am ersten Beispiel an:
+
+| Eier mitgebracht | Milch mitgebracht | Einkauf erfolgreich (Eier **und** Milch) |
+|------------------|-------------------|---------------------|
+| nein/falsch      | nein/falsch       | nein/falsch         |
+| nein/falsch      | ja/wahr           | nein/falsch         |
+| ja/wahr          | nein/falsch       | nein/falsch         |
+| ja/wahr          | ja/wahr           | ja/wahr             |
+
+Was wir hier genutzt haben, ist eine Wahrheitstabelle.
+Sie gibt alle Kombinationen unserer Eingangswerte und die zugehörigen Ausgangswerte wieder.  
+In der Tabelle sehen wir ganz gut, wie die Und-Verknüpfung funktioniert.
+
+Zurück zur Mathematik.
+Statt unseres konkreten Beispiels, nutzen wir doch etwas akademischeres:
+
+- $a$ und $b$ als Eingangswerte 
+- $\land$ statt immer "und" zu schreiben
+- $1$ für ja/wahr
+- $0$ für nein/falsch
+
+| $a$ | $b$ | $a \land b$ |
+|-----|-----|-------------|
+| $0$ | $0$ | $0$         |
+| $0$ | $1$ | $0$         |
+| $1$ | $0$ | $0$         |
+| $1$ | $1$ | $1$         |
+
+Wow, sieht direkt viel krasser aus, ist aber noch genau das gleiche wie vorher!
+Im Englischen heißt die Operation übrigens auch einfach "and".
+
+Kommen wir doch zu den anderen Beispielen.
+
+Als nächstes steht "Gouda **oder** Edamer" an.
+Ob wir eins oder beides mitbringen führt immer zu einem erfolgreichen Einkauf, nichts mitzubringen nicht.  
+Für "oder" (engl. "or") wollen wir das Symbol $\lor$ benutzen.
+Somit ergibt sich auch gleich folgende Wahrheitstabelle.
+
+| $a$ | $b$ | $a \lor b$ |
+|-----|-----|------------|
+| $0$ | $0$ | $0$        |
+| $0$ | $1$ | $1$        |
+| $1$ | $0$ | $1$        |
+| $1$ | $1$ | $1$        |
+
+Oh übrigens, lustige Sache – die Spalten $a$ und $b$ sehen immer gleich aus.
+Schließlich sind das alle möglichen Kombinationen der Werte und damit müssen wir sie nicht ändern.
+
+Jetzt der Fall "**entweder** Vollkornbrot **oder** Toast", wo nur genau eine Sache mitgebracht werden darf.
+Das ganze nennt man auch "**exklusives oder**" (engl. "exclusive or" → "xor").  
+Als Symbol dafür wollen wir $\veebar$ benutzen.
+
+| $a$ | $b$ | $a \veebar b$ |
+|-----|-----|---------------|
+| $0$ | $0$ | $0$           |
+| $0$ | $1$ | $1$           |
+| $1$ | $0$ | $1$           |
+| $1$ | $1$ | $0$           |
+
+Langsam wird klar, wie dieser ganze Logik-Kram funktioniert, oder?
+Sieht aus wie Magie, mit genug Erklärung kann das aber jeder.
+
+Für das nächste Beispiel müssen wir aus dem gewohnten Umfeld ausbrechen. 
+Warum?
+Weil wir nur eine Bedingung haben: "**nicht** Süßigkeiten mitbringen".
+Wenn wir etwas nicht machen, sind wir erfolgreich.
+Effektiv drehen wir unsere Bedingung des Mitbringens einfach um.  
+Dies hat viele Namen, normalerweise wird es im deutschen mit "**nicht**" oder "**invertiert**" bezeichnet, im Englischen ist es dann "not" und "inverted".
+Es gibt auch mehrere Varianten zur Kennzeichnung: $\lnot$, $\sim$ und auch $!$ bezeichnen alle dasselbe. 
+Eine weitere Variante ist ein vertikaler Strich über dem Term, um ihn zu negieren (also $\overline{(\text{Term})}$).  
+Im Folgenden nutzen wir immer die letzte Variante.  
+Eine Wahrheitstabelle gib es natürlich auch, wenn auch kleiner:
+
+| $a$ | $\lnot a$ |
+|-----|-----------|
+| $0$ | $1$       |
+| $1$ | $0$       |
+
+Weiter geht's mit "Orangensaft oder Apfelsaft, **nicht beides**".
+Interessant, wir kennen sowohl ein Symbol für "beides" (und) und "nicht".
+Und an diesem Punkt lernen wir die ersten Kombinationen.
+Diese hier nennen wir "**nicht und**" (engl. "not and" → "nand") und wie schon beschrieben ist es die Kombination der Zeichen $\overline{(\text{Term})}$ und $\land$.
+
+| $a$ | $b$ | $\overline{a \land b}$ |
+|-----|-----|---------------|
+| $0$ | $0$ | $1$           |
+| $0$ | $1$ | $1$           |
+| $1$ | $0$ | $1$           |
+| $1$ | $1$ | $0$           |
+
+Und als allerletztes betrachten wir das "**weder** Müsli, **noch** Joghurt".
+Das ist etwas tricky formuliert, aber auch hier ist es eine Kombination aus nur zwei Symbolen.
+Zum Spaß machen wir es doch andersrum, wir stellen zuerst die Wahrheitstabelle auf und schauen dann mal, was es sein könnte.  
+Wir wissen , dass wir nichts von beidem mitbringen sollen, ist auch nur eine Sache mitgebracht, war der Einkauf nicht ohne Fehler.
+Tragen wir das doch mal genau so ein:
+
+| $a$ | $b$ | ?   |
+|-----|-----|-----|
+| $0$ | $0$ | $1$ |
+| $0$ | $1$ | $0$ |
+| $1$ | $0$ | $0$ |
+| $1$ | $1$ | $0$ |
+
+Probier doch mal, wie wir die Zeichen von Oben kombinieren können, um auf dasselbe Ergebnis zu kommen.
+
+Bist du auch auf $\overline{a \lor b}$ gekommen? 
+Oder hast du $\overline{a} \land \overline{b}$ rausbekommen?
+Oha, es gibt also mehrere Lösungen!  
+Genauer gesagt kann man sogar logische Terme ineinander umwandeln, die wichtigste Umformungen hierfür sind die sogenannten [De-morgansche Gesetze](https://de.wikipedia.org/wiki/De-morgansche_Gesetze).
+
+Aber das geht jetzt zu weit.
+Schweifen lieber kurz ab und danach geht es im nächsten Kapitel darum, wie wir mit Logik rechnen können.
+
+<details>
+<summary>Abschweifung: Wie bekommen wir Logik in Strom?</summary>
+
+Wir reden die ganze Zeit über "einfache" Logik, aber man fragt sich nun, wie wir Strom dazu bekommen, dieser Logik zu folgen.
+
+Das ist gar nicht so schwer: Mithilfe von Transistoren.
+
+Okay, vielleicht muss ich doch etwas mehr erzählen.  
+Ein Transistor ist ein aktives elektrisches Bauelement.
+Es gibt verschiedene Arten, aber zu Beginn schauen wir uns einen n-Kanal MOSFET an.
+Im Normalfall hat dieser drei nutzbare Konnektoren und macht richtig interessante Sachen in Analogschaltungen, wie Verstärkung von Signalen wie Ton.
+Aber analoge Sachen interessieren uns hier nicht.
+Und dann wird es plötzlich viel einfacher.
+
+Betrachten wir den folgenden Schaltkreis:
+
+<Image src={transistor} alt="Ein n-Kanal MOSFET Transistor mit Eingang In an Source, a am Gate und Ausgang Out am Drain" height="200" />
+
+Gehen wir davon aus, dass wir am Eingang $In$ eine Spannung von 5V anlegen.
+Solange an $a$ keine Spannung anliegt, ist der Transistor "aus" und es fließt kein Strom zum Ausgang $Out$.
+An $Out$ liegt also 0V an.  
+Also das behaupte ich jetzt einfach mal, in Wirklichkeit ist der Knoten gerade in "Schwebe", also undefiniert.
+
+Sobald wir aber am Gate $a$ auch eine Spannung von 5V anlegen, "schaltet" der Transistor durch und es fließt Strom von $In$ zu $Out$.
+Wenn wir den Transistor und unsere Spannungen gut wählen, liegt an $Out$ dann auch fast genau 5V an.
+Wenn wir nur damit jetzt ein Und-Gatter bauen wollen, brauchen wir nur noch einen zweiten Transistor.
+
+Um den Ausgang nicht in Schwebe zu lassen, können wir bei der sogenannten CMOS-Technik (Complementary Metal-Oxide-Semiconductor) noch einen p-Kanal MOSFET hinzufügen.
+Dieser funktioniert genau andersrum: Wenn am Gate eine Spannung anliegt, ist der Transistor aus, wenn keine Spannung anliegt, ist er an.
+Dadurch ist dann unser Ausgang immer definiert.  
+Hier nochmal als Schaubild:
+
+<Image src={cmos} alt="Eine CMOS-Schaltung mit a und b als Eingänge, die ein Und-Gatter bilden." height="500" />
+
+Statt je nachdem, ob bei $a$ und $b$ Spannung anliegt, fließt der Strom von "oben" oder "unten" durch die Transistoren und unser $Out$ nimmt die Spannung von $High$ oder $Low$ an.
+$High$ und $Low$ sind dabei die Spannungen, die für 1 und 0 stehen.  
+Was genau die zugehörigen Spannung ist, hängt vom jeweiligen System ab.
+Die Spannungen sind so zu wählen, dass sie von den Transistoren sicher erkannt werden können.
+
+Aber gut, jetzt haben wir schon ein Und-Gatter.
+Man kann sich nun selbst überlegen, wie die anderen Gatter mit Transistoren aufgebaut werden können.  
+Dazu noch der Hinweis: Wir können auch Signale in CMOS sehr einfach invertieren.
+Einfach den p-Kanal Transistor an High und den n-Kanal Transistor an Low anschließen.
+</details>

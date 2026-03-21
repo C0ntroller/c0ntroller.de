@@ -1,0 +1,133 @@
+---
+title: Infoscreen
+summary: "Aus einem alten Monitor und einem Raspberry Pi wurde ein Küchen-Infoscreen, der Wetter, Kalender, Nachrichten und mehr anzeigt. Über mehrere Iterationen hinweg entwickelte sich das Projekt von einfachem JavaScript zu Electron und schließlich zurück zu einer Gatsby-basierten Anwendung."
+repository: "https://git.c0ntroller.de/c0ntroller/infoscreen"
+pubDate: 2022-06-13
+tags:
+    - Heimprojekt
+    - JavaScript
+---
+
+import { Image } from "astro:assets";
+import screenshot from "./assets/screenshot.jpg";
+
+Hier gehts um einen Bildschirm der Informationen anzeigt.  
+Überraschend, ich weiß.
+
+## Wie sieht es aus?
+
+<Image src={screenshot} alt="Screenshot des Infoscreens" width="500" />
+
+Ich habe ein paar Dinge unkenntlich gemacht, um meine persönlichen Daten zu schützen.
+
+## Wie es begann
+
+Eines Tages habe ich mir einen coolen neuen und viel besseren Monitor für meinen PC gekauft.
+Aber was macht man mit dem alten, wenn man keinen Platz für einen dritten hat?
+
+Die Idee war simpel: Einfach einen Raspberry Pi anschließen und nützliche Informationen anzeigen lassen.
+Wetter, Nachrichten, Kalender und so weiter.
+Und um immer gut informiert zu sein, wurde der Bildschirm in der Küche platziert.
+
+## Geschichte
+### Die erste Iteration
+
+Am Anfang war es einfach eine Webseite in Vanilla JS und natürlich dem üblichen HTML und CSS.
+Ich hatte zu dem Zeitpunkt nicht viel Erfahrung in JS, aber ich versuchte "gute" Software-Entwicklungspraktiken zu verwenden, wie Klassenvererbung und [ES-Module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+
+Warum Web Technologien nutzen, wenn ich davon wenig Ahnung habe?
+Weil ich noch weniger Ahnung von anderen GUI-Technologien hatte.
+Außerdem nutzen viele Quellen, die ich benutzen wollte, REST-Schnittstellen und JSON, was einfach in JavaScript super einfach zu handhaben ist.
+
+Das ganze wurde lokal mit dem Standard-[PHP HTTP-Server](https://www.php.net/manual/en/features.commandline.webserver.php) gehostet und Chromium-Browser im Kiosk-Modus geöffnet.
+
+Wen der Code wirklich interessiert, der kann [hier](https://github.com/C0ntroller/infoscreen-old) den Repository der zweiten Version finden, die den Großteil des Codes der ersten Version nutzt.
+
+### Die zweite Iteration
+
+Beim zweiten Mal war die Idee, statt einen Chromium-Browser zu öffnen, eine Electron App zu schreiben.
+Klingt erstmal nicht so viel anders, aber ich dachte, dass es vielleicht performanter sein könnte, da zumindest etwas Bloat fehlt.
+
+Naja, es war nicht performanter.
+Der Code dafür ist trotzdem noch [hier](https://github.com/C0ntroller/infoscreen-old) zu finden.
+
+### Die dritte Iteration
+
+Einige Zeit später habe ich angefangen, mich mehr mit React zu beschäftigen.
+Irgendwie kam mir der Gedanke, dass was ich damals mit Vanilla JS versucht habe, in React viel einfacher und sauberer umzusetzen wäre.
+Also habe ich angefangen, den Code zu portieren.
+
+Ich habe auch schon von Frameworks für React gehört, die statische Seiten generieren können, wie [Next.JS](https://nextjs.org/) und [Gatsby](https://www.gatsbyjs.com/).
+Gatsby schien mir eine gute Wahl zu sein, also habe ich mich dafür entschieden.
+
+Diesmal wurde es in einem Docker-Container auf meinem eigenen Heimserver gehostet und der Pi öffnet wieder einen Chromium-Browser.
+
+Damit endet die Entwicklungsgeschichte.
+
+### Das Ende der Geschichte
+
+Und nun?<br/>
+Die brennensten Fragen mal geklärt:
+
+> Wird der Bildschirm genutzt?
+
+Nein. Er war eine ganze Weile in Betrieb, aber mittlerweile bin ich umgezogen und habe keinen schönen Platz mehr. Zudem muss ich sagen, dass man über die Zeit immer weniger drauf schaut...
+
+> Was gab es für coole Erweiterungen?
+
+Das war eigentlich eine der coolsten Sachen an dem Projekt.
+Denn um Nachts nicht geblendet zu werden, gab es einen Nachtmodus.
+Dieser bestand aus einem dunklen Hintergrund, dunkleren Farben und des Deaktivieren der großen Wetterkarte.<br/>
+Außerdem gab es einen Bewegungsmelder. Nach 10 Minuten ohne Bewegung wurde der Bildschirm dunkel geschaltet. 
+Sobald jemand den Raum betrat, wurde der Bildschirm wieder aktiviert.<br/>
+Zuletzt hab ich unseren [librespot](https://github.com/librespot-org/librespot) Server noch selbst dazu gebracht, den aktuell laufenden Song dem Infoscreen mitzuteilen.
+
+## Was war denn nun auf dem Bildschirm?
+
+Folgende Infos wurden zuletzt angezeigt:
+- Zeit
+- Wetter und Wetterkarte
+- zwei RSS News Feeds
+- ein Google Kalender
+- Abfahrten der nächsten Straßenbahnstation
+- derzeit laufendes Spotify oder (falls nichts läuft) Infos von meinen Pflanzensensoren
+
+Außerdem wird der Hintergrund durch ca. 20 Bilder rotiert.
+
+Wenn es spät wird, wird ein Nachtmodus aktiviert und die Wetterkarte durch ein süßes GIF von einem schlafenden Pikachu ersetzt.
+
+### Wetter
+
+Für das Wetter nutze ich zuerst die [DarkSky API](https://darksky.net/).
+Als Apple den Dienst gekauft und den kostenlosen Zugang beschränkt hat, war klar, dass ich eine Alternative brauche.
+
+Meine Wahl fiel auf [Pirate Weather](https://pirateweather.net/).
+Doch der Dienst war oft nicht zuverlässig.
+Wahrscheinlich sollte man eher einen anderen Dienst nutzen.
+
+### RSS News
+
+Hier hab ich mir einen Spaß erlaubt: 
+Dem Feed der [Tagesschau](https://www.tagesschau.de/) wurden einige wenige Artikel des [Postillons](https://www.der-postillon.com/) zugefügt.
+Manchmal musste man aber echt raten...
+
+### Google Calendar
+
+Hier wurde einfach die [Google Calendar API](https://developers.google.com/calendar) genutzt und das Ergebnis in einer Liste nach Tagen gruppiert angezeigt.
+
+### Haltestellenauskunft
+
+Die lokalen Verkehrsbetriebe haben eine API bereitgestellt, um die nächsten Abfahrten an einer Haltestelle abzufragen.
+Dokumentiert oder offiziell ist sie nicht so recht und ich habe gehört, dass sie seitdem auch stärker limitiert ist.
+Auf jeden Fall wurden einfach die nächsten beiden Haltestellen abgefragt und die Ankuftszeiten inkl. Verspätungen angezeigt.
+
+### Spotify
+
+Wie das funktioniert hat, ist gar nicht so simpel.
+Vielleicht sollte ich mal einen eigenen Blogpost dazu schreiben.
+
+Falls nichts lief, wurden stattdessen Infos von meinen Pflanzensensoren angezeigt.
+
+### Pflanzensensoren
+
+Hier wurden einfach einige Daten aus meinem [Home Assistant](https://www.home-assistant.io/) zu den Pflanzen in der Küche angezeigt.

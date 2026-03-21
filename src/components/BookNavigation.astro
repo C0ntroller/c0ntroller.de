@@ -1,0 +1,111 @@
+---
+interface Props {
+  prevUrl?: string;
+  prevTitle?: string;
+  nextUrl?: string;
+  nextTitle?: string;
+}
+const { prevUrl, prevTitle, nextUrl, nextTitle } = Astro.props;
+---
+<div class="book-nav glass-container">
+  <div class="nav-controls">
+    <div class="nav-prev">
+      {prevUrl ? <a href={prevUrl}>← {prevTitle || 'Zurück'}</a> : <span class="disabled">← Zurück</span>}
+    </div>
+    
+    <div class="nav-toc-toggle">
+      <input type="checkbox" id="toc-toggle" class="toc-checkbox" />
+      <label for="toc-toggle" class="toc-label">Inhaltsverzeichnis ☰</label>
+      
+      <div class="toc-dropdown glass-container">
+        <nav class="toc-content">
+          <h3 class="toc-title">Kapitel</h3>
+          <slot name="toc" />
+        </nav>
+      </div>
+    </div>
+
+    <div class="nav-next">
+      {nextUrl ? <a href={nextUrl}>{nextTitle || 'Weiter'} →</a> : <span class="disabled">Weiter →</span>}
+    </div>
+  </div>
+</div>
+
+<style>
+  .book-nav {
+    position: relative;
+    margin-top: 4rem;
+    padding: 1.5rem;
+  }
+  .nav-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* CSS-Only Toggle Magic */
+  .toc-checkbox {
+    display: none;
+  }
+  .toc-label {
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    background: rgba(var(--accent-base), 0.15);
+    border: 1px solid rgba(var(--accent-base), 0.3);
+    color: rgb(var(--accent-base));
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .toc-label:hover {
+    background: rgba(var(--accent-base), 0.25);
+  }
+  
+  .toc-dropdown {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 1.5rem;
+    width: 320px;
+    max-height: 60vh;
+    overflow-y: auto;
+    z-index: 50;
+    opacity: 0;
+    transform-origin: bottom center;
+    background: var(--bg-color);
+    backdrop-filter: blur(var(--glass-blur));
+  }
+  
+  /* When checkbox is checked, show the dropdown */
+  .toc-checkbox:checked ~ .toc-dropdown {
+    display: block;
+    animation: slideUpFade 0.3s ease-out forwards;
+  }
+  
+  .toc-title {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 0.5rem;
+  }
+  
+  @keyframes slideUpFade {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, 15px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+</style>

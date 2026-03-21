@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const pages = await getCollection('book');
+pages.sort((a, b) => a.data.part - b.data.part);
+
+const chapters = pages.reduce((acc, page) => {
+  const chapter = page.data.chapter["id"];
+  if (!acc[chapter]) acc[chapter] = [];
+  acc[chapter].push(page);
+  return acc;
+}, {} as Record<string, typeof pages>);
+---
+<BaseLayout title="Das Buch" theme="book" description="Ein fortlaufendes Werk über Software, Design und Architektur von c0ntroller.de.">
+  <div class="glass-container header">
+    <h1>Das Buch</h1>
+    <p>Ein fortlaufendes Werk über Software, Design und Architektur.</p>
+  </div>
+  
+  <div class="glass-container toc">
+    <h2>Inhaltsverzeichnis</h2>
+    {Object.entries(chapters).map(([chapter, items]) => (
+      <div class="chapter">
+        <h3>{chapter.replace(/-/g, ' ').toUpperCase()}</h3>
+        <ul class="page-list">
+          {items.map(item => (
+            <li><a href={`/book/${item.id}`}>{item.data.title}</a></li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</BaseLayout>
+<style>
+  .header { margin-bottom: 2rem; }
+  .toc { padding: 2rem; }
+  .chapter { margin-bottom: 1.5rem; }
+  .chapter h3 { margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem; opacity: 0.8; }
+  .page-list { list-style: none; padding-left: 0; margin: 0; }
+  .page-list li { margin-bottom: 0.5rem; }
+  .page-list a { display: block; padding: 0.5rem; border-radius: 0.25rem; transition: background 0.2s; }
+  .page-list a:hover { background: rgba(59, 130, 246, 0.1); }
+</style>
