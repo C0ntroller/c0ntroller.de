@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="40" viewBox="0 0 220 40" role="img" aria-label="Blogeintrag @ c0ntroller.de">
+    <style>text { transition: text-shadow 0.3s ease; } rect:hover ~ text, text:hover { text-shadow: 0 0 5px rgba(214,134,249,0.6), 0 0 10px rgba(214, 134, 249, .6) }</style>
+    <rect width="220" height="40" fill="#0d0117" rx="8" />
+    <text x="110" y="25" fill="rgb(214, 134, 249)" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">Blogeintrag @ c0ntroller.de</text>
+</svg>
