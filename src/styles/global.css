@@ -1,5 +1,6 @@
 *, *::before, *::after {
   box-sizing: border-box;
+  transition: color .4s ease, background-color .4s ease, border-color .4s ease, box-shadow .4s ease;
 }
 
 @view-transition {
@@ -121,6 +122,11 @@ body[data-theme="book"] {
   --bg-image: url('../assets/backgrounds/curve-ripple.svg');
   --bg-image-static: url('../assets/backgrounds/curve-ripple-static.svg');
 }
+
+body:has(nav a[href="/"]:hover) { --accent-base: var(--accent-base--default);}
+body:has(nav a[href="/portfolio"]:hover), body:has(.portfolio:hover) { --accent-base: var(--accent-base--portfolio); }
+body:has(nav a[href="/blog"]:hover), body:has(.blog:hover) { --accent-base: var(--accent-base--blog); }
+body:has(nav a[href="/book"]:hover), body:has(.book:hover) { --accent-base: var(--accent-base--book); }
 
 html {
   background-color: var(--bg-color);
