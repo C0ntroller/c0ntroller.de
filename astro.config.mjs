@@ -22,7 +22,7 @@ export default defineConfig({
       remarkMath, [
         remarkKroki, { 
           alias: ["mermaid", "tikz"],
-          server: "https://kroki.io",
+          server: process.env.KROKI_SERVER || "https://kroki.io",
           target: "mdx3",
           output: "inline-svg"
       }
