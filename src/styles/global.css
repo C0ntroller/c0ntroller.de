@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   transition: color .4s ease, background-color .4s ease, border-color .4s ease, box-shadow .4s ease;
 }
@@ -16,66 +18,79 @@
   inherits: true;
   initial-value: 214, 134, 249;
 }
+
 @property --bg-image {
   syntax: '<image>';
   inherits: true;
   initial-value: url('../assets/backgrounds/bubble.svg');
 }
+
 @property --bg-image-static {
   syntax: '<image>';
   inherits: true;
   initial-value: url('../assets/backgrounds/bubble-static.svg');
 }
+
 @property --glass-bg {
   syntax: '<color>';
   inherits: true;
   initial-value: rgba(20, 25, 35, 0.4);
 }
+
 @property --glass-border {
   syntax: '<color>';
   inherits: true;
   initial-value: rgba(255, 255, 255, 0.08);
 }
+
 @property --glass-blur {
   syntax: '<length>';
   inherits: true;
   initial-value: 16px;
 }
+
 @property --glass-shadow {
   syntax: '<shadow>';
   inherits: true;
   initial-value: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
+
 @property --text-main {
   syntax: '<color>';
   inherits: true;
   initial-value: #e0e7f0;
 }
+
 @property --text-muted {
   syntax: '<color>';
   inherits: true;
   initial-value: #92a1b6;
 }
+
 @property --bg-color {
   syntax: '<color>';
   inherits: true;
   initial-value: #0d0117;
 }
+
 @property --accent-base--default {
   syntax: '<color>';
   inherits: true;
   initial-value: 214, 134, 249;
 }
+
 @property --accent-base--portfolio {
   syntax: '<color>';
   inherits: true;
   initial-value: 255, 181, 102;
 }
+
 @property --accent-base--blog {
   syntax: '<color>';
   inherits: true;
   initial-value: 111, 221, 246;
 }
+
 @property --accent-base--book {
   syntax: '<color>';
   inherits: true;
@@ -87,7 +102,7 @@
   --bg-color: #0d0117;
   --text-main: #e0e7f0;
   --text-muted: #92a1b6;
-  
+
   --glass-bg: rgba(20, 25, 35, 0.4);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-blur: 16px;
@@ -123,10 +138,24 @@ body[data-theme="book"] {
   --bg-image-static: url('../assets/backgrounds/curve-ripple-static.svg');
 }
 
-body:has(nav a[href="/"]:hover) { --accent-base: var(--accent-base--default);}
-body:has(nav a[href="/portfolio"]:hover), body:has(.portfolio:hover) { --accent-base: var(--accent-base--portfolio); }
-body:has(nav a[href="/blog"]:hover), body:has(.blog:hover) { --accent-base: var(--accent-base--blog); }
-body:has(nav a[href="/book"]:hover), body:has(.book:hover) { --accent-base: var(--accent-base--book); }
+body:has(nav a[href="/"]:hover) {
+  --accent-base: var(--accent-base--default);
+}
+
+body:has(nav a[href="/portfolio"]:hover),
+body:has(.portfolio:hover) {
+  --accent-base: var(--accent-base--portfolio);
+}
+
+body:has(nav a[href="/blog"]:hover),
+body:has(.blog:hover) {
+  --accent-base: var(--accent-base--blog);
+}
+
+body:has(nav a[href="/book"]:hover),
+body:has(.book:hover) {
+  --accent-base: var(--accent-base--book);
+}
 
 html {
   background-color: var(--bg-color);
@@ -153,7 +182,12 @@ body {
   }
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: rgb(var(--accent-base));
   font-weight: 600;
   margin-top: 2rem;
@@ -215,13 +249,24 @@ a:hover {
 }
 
 /* Mobile Responsiveness */
-@media (max-width: 600px) {
+@media (max-width: 500px) {
   .container {
     padding: 1rem;
   }
+
   .glass-container {
     padding: 1.25rem;
   }
-  h1 { font-size: 1.75rem; }
-  h2 { font-size: 1.5rem; }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
 }

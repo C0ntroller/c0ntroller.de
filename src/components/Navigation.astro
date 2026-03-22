@@ -7,7 +7,7 @@ import Logo from "../assets/logo.svg";
   <div class="nav-content">
     <a href="/" class="logo">
       <Logo class="logo-img" />
-      c0ntroller.de
+      <span class="logo-text">c0ntroller.de</span>
     </a>
     <div class="links">
       <a
@@ -82,5 +82,14 @@ import Logo from "../assets/logo.svg";
   .links a.active {
     color: rgb(var(--accent-base));
     font-weight: 600;
+  }
+
+  @media (max-width: 500px) {
+    .logo-text {
+      display: none;
+    }
+    .links {
+      gap: 1rem;
+    }
   }
 </style>

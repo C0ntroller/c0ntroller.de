@@ -1,23 +1,24 @@
 ---
-import WelcomeTypewriter from '../components/WelcomeTypewriter.astro';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { Icon } from 'astro-icon/components';
+import WelcomeTypewriter from "../components/WelcomeTypewriter.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
 import socials from "../data/socials.json";
 ---
+
 <BaseLayout title="c0ntroller.de" theme="default">
   <div class="landing-wrapper">
     <div class="hero-section">
       <div class="socials fade-in-up shadow-glow glass-bg glass-container">
-        {socials.map(({ name, url, icon }) => (
-          <a href={url} target="_blank" rel="noreferrer" class="social-link">
-            <Icon name={icon} desc={name} />
-          </a>
-        ))}
+        {
+          socials.map(({ name, url, icon }) => (
+            <a href={url} target="_blank" rel="noreferrer" class="social-link">
+              <Icon name={icon} desc={name} />
+            </a>
+          ))
+        }
       </div>
       <h1 class="gradient-text reveal-text">Willkommen auf meiner Seite.</h1>
-      <p class="subtitle fade-in-up">
-        Hier geht es unter anderem um:
-      </p>
+      <p class="subtitle fade-in-up">Hier geht es unter anderem um:</p>
       <WelcomeTypewriter class="fade-in-up" />
     </div>
 
@@ -29,7 +30,7 @@ import socials from "../data/socials.json";
           <p>Meine neuesten Projekte und Experimente.</p>
         </div>
       </a>
-      
+
       <a href="/blog" class="bento-card blog shadow-glow">
         <div class="card-content glass-bg">
           <div class="icon"><Icon name="lucide:pen-tool" /></div>
@@ -37,7 +38,7 @@ import socials from "../data/socials.json";
           <p>Einige planlose Gedanken über Technologie und Design.</p>
         </div>
       </a>
-      
+
       <a href="/book" class="bento-card book shadow-glow">
         <div class="card-content glass-bg">
           <div class="icon"><Icon name="lucide:book-open" /></div>
@@ -82,7 +83,7 @@ import socials from "../data/socials.json";
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: .5rem;
+    gap: 0.5rem;
     margin: 0 auto 2rem auto;
     padding: 0.5rem 1rem;
     backdrop-filter: blur(24px);
@@ -116,9 +117,18 @@ import socials from "../data/socials.json";
     max-width: 1000px;
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 700px) {
+    .landing-wrapper {
+      padding: 0;
+      margin-top: -1rem;
+    }
+
     .bento-grid {
       grid-template-columns: 1fr;
+    }
+
+    .hero-section {
+      margin-bottom: 2rem;
     }
   }
 
@@ -177,27 +187,63 @@ import socials from "../data/socials.json";
     font-size: 1rem;
   }
 
-  .portfolio { background: linear-gradient(135deg, rgba(var(--accent-base--portfolio), 0.5) 0%, rgba(var(--accent-base--portfolio), 0.15) 100%); }
-  .blog { background: linear-gradient(135deg, rgba(var(--accent-base--blog), 0.8) 0%, rgba(var(--accent-base--blog), 0.15) 100%); }
-  .book { background: linear-gradient(135deg, rgba(var(--accent-base--book), 0.8) 0%, rgba(var(--accent-base--book), 0.15) 100%); }
+  .portfolio {
+    background: linear-gradient(
+      135deg,
+      rgba(var(--accent-base--portfolio), 0.5) 0%,
+      rgba(var(--accent-base--portfolio), 0.15) 100%
+    );
+  }
+  .blog {
+    background: linear-gradient(
+      135deg,
+      rgba(var(--accent-base--blog), 0.8) 0%,
+      rgba(var(--accent-base--blog), 0.15) 100%
+    );
+  }
+  .book {
+    background: linear-gradient(
+      135deg,
+      rgba(var(--accent-base--book), 0.8) 0%,
+      rgba(var(--accent-base--book), 0.15) 100%
+    );
+  }
 
-  .portfolio:hover { box-shadow: 0 10px 40px -10px rgba(var(--accent-base--portfolio), 1); }
-  .blog:hover { box-shadow: 0 10px 40px -10px rgba(var(--accent-base--blog), 0.4); }
-  .book:hover { box-shadow: 0 10px 40px -10px rgba(var(--accent-base--book), 0.4); }
+  .portfolio:hover {
+    box-shadow: 0 10px 40px -10px rgba(var(--accent-base--portfolio), 1);
+  }
+  .blog:hover {
+    box-shadow: 0 10px 40px -10px rgba(var(--accent-base--blog), 0.4);
+  }
+  .book:hover {
+    box-shadow: 0 10px 40px -10px rgba(var(--accent-base--book), 0.4);
+  }
 
-  .portfolio .icon { color: rgb(var(--accent-base--portfolio)); }
-  .blog .icon { color: rgb(var(--accent-base--blog)); }
-  .book .icon { color: rgb(var(--accent-base--book)); }
+  .portfolio .icon {
+    color: rgb(var(--accent-base--portfolio));
+  }
+  .blog .icon {
+    color: rgb(var(--accent-base--blog));
+  }
+  .book .icon {
+    color: rgb(var(--accent-base--book));
+  }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .reveal-text {
     animation: fadeUp 0.8s ease-out forwards;
   }
-  
+
   .fade-in-up {
     animation: fadeUp 1s ease-out forwards;
     opacity: 0;
@@ -209,12 +255,20 @@ import socials from "../data/socials.json";
     animation: fadeUp 0.8s ease-out forwards;
     opacity: 0;
   }
-  .portfolio { animation-delay: 0.4s; }
-  .blog { animation-delay: 0.6s; }
-  .book { animation-delay: 0.8s; }
+  .portfolio {
+    animation-delay: 0.4s;
+  }
+  .blog {
+    animation-delay: 0.6s;
+  }
+  .book {
+    animation-delay: 0.8s;
+  }
 
   @media (prefers-reduced-motion: reduce) {
-    .bento-card, .fade-in-up, .reveal-text {
+    .bento-card,
+    .fade-in-up,
+    .reveal-text {
       animation: none;
       opacity: 1;
       transform: none;
