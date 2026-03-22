@@ -11,7 +11,7 @@ import socials from "../data/socials.json";
       <div class="socials fade-in-up shadow-glow glass-bg glass-container">
         {
           socials.map(({ name, url, icon }) => (
-            <a href={url} target="_blank" rel="noreferrer" class="social-link">
+            <a href={url} target="_blank" referrerpolicy="no-referrer" class="social-link">
               <Icon name={icon} desc={name} />
             </a>
           ))
