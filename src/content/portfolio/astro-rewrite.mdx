@@ -2,10 +2,65 @@
 title: Astro Rewrite
 summary: "Next.js entwickelt sich rasend - zu schnell für mich, um Features und Sicherheitsupdates immer zu verfolgen. Und React für einen Blog? Unnötig. Eine einfache statische Lösung aber mit Komponenten? Astro ist genau das. Also: Willkommen zum neuen Anstrich in Astro!"
 repository: "https://git.c0ntroller.de/c0ntroller/frontpage"
-pubDate: 2023-04-03
+pubDate: 2025-03-22
 tags: 
   - Astro
-  - SSR
   - Webentwicklung
 ---
 
+Next.js war einfach Magie.  
+Als ich React lernte und noch überlegte, wie ich am besten ein Backend dazu stelle, fragete ein Freund, warum ich nicht einfach Next.js nehme.  
+Und das war magisch.  
+Denn ich konnte mein Gelerntes nutzen und hatte trotzdem direkt ein Backend mit dabei.
+Ich hab mir darin nicht nur ein kleines Projekt gebaut, sondern später auch meine erste Website.
+
+Die Struktur war einfach: Eine Datei in `app` anlegen und... Moment. 
+Stimmt gar nicht mehr.  
+Also: Eine Datei in `pages` anlegen. Oder doch in `app`?
+Beides Ok.  
+Achso, außer dass `app` dann deprecated wurde.
+
+Next.js war für mich die erste Berührung mit dem JavaScript Ökosystem und plötzlich verstand ich die ganzen Memes.
+Dann kam auch plötzlich die Nacht vom dependebot und ich hatte plötzlich 20 PRs, die alle Next.js Updates waren.
+Nur, dass ab irgendeinem Punkt man plötzlich sich mit komplizierteren Updates rumschlagen musste und nicht einfach nur `npm audit fix` machen konnte.
+
+Also brauchte es eine Alternative.
+
+## Sinneswandel
+
+React ist cool.
+Ziemlich performant für das, was es macht, sehr flexibel und einmal gelernt kann man auch andere Frameworks leicht lernen.
+
+Aber wofür braucht eine Homepage eine komplexe reaktive Komponente?
+Naja, eigentlich braucht sie das nicht.
+Aber es war an dem Punkt für mich die einzige Möglichkeit absiets von Vanilla HTML5, CSS und JS zu arbeiten.
+
+Gleichzeitig merkte ich bei immer mehr Seiten, dass hier Unmengen an Rechenleistung in JavaScript nur für hübsche Effekte drauf ging.
+Ich bin sehr für schöne Effekte, aber immer mehr fand ich, dass man als **guter** Web Entwickler eigentlich so wenig JavaScript wie möglich einsetzen sollte.
+JavaScript Frameworks sind im Normalfall aber das genaue Gegenteil.
+
+Ich wollte meine Seite also neu machen und hatte eien Vision, die nicht ganz erreichbar erschien.
+Und dann fand ich ein Framework, dass eigentlich genau das war, was ich suchte: Astro.
+
+## Astro
+
+Astro zeichnet sich dadurch aus, dass es komplett statische Seiten generiert.
+Falls man das braucht, kann man aber auch Server Side Rendering nutzen, oder sogar beides gleichzeitig.
+Islands gibt es sogar für die verschiedensten Frameworks.
+
+Aber all das brauchte ich gar nicht.
+Eine cleane modulare Webseite aufbauen, mit verschachtelten Komponenten, scoped CSS und ohne JavaScript, dass man nicht selbst schreibt.
+Das war genau das, was ich suchte.
+
+Und so habe ich mich an die Arbeit gemacht, meine Seite neu zu bauen.  
+Und gebaut.  
+Und gebaut.  
+Und gebaut...
+
+Tja ich fing an zu arbeiten und plötzlich war da gar nicht mehr so viel Zeit.
+
+Aber nach wirklich langer Zeit und viel Arbeit ist es jetzt endlich soweit - die neue Seite ist hübsch, sehr schnell, hat vollen Score bei Lighthouse und ist komplett in Astro gebaut.
+Ich bin sehr zufrieden damit.
+
+Vielleicht kommt irgendwann ja nochmal wieder ein Terminal dazu, dass ich früher als Webseite hatte.
+Aber vorerst genieße ich es erstmal wieder eine eine hübsche und schnelle Seite zu haben.
