@@ -1,43 +1,13 @@
-# Astro Starter Kit: Minimal
+# Frontpage
 
-```sh
-npm create astro@latest -- --template minimal
-```
+[![Read the blog entry at c0ntroller.de](https://c0ntroller.de/img/read-blog.svg)](https://c0ntroller.de/portfolio/astro-rewrite/)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+| Stable | Dev
+| ------ | ---
+| [![Build Status Stable](https://git.c0ntroller.de/c0ntroller/frontpage/actions/workflows/stable.yml/badge.svg?branch=senpai)](https://c0ntroller.de/) | [![Build Status Dev](https://git.c0ntroller.de/c0ntroller/frontpage/actions/workflows/dev.yml/badge.svg?branch=dev)](https://dev.c0ntroller.de/)
 
-## 🚀 Project Structure
+This repository contains my Astro-based website.
 
-Inside of your Astro project, you'll see the following folders and files:
+When changes are made to `senpai` it will be deploy on https://c0ntroller.de
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+When changes are made in the `dev` branch it will be deployed on https://dev.c0ntroller.de
