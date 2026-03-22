@@ -1,8 +1,8 @@
-name: Deploy Dev Website
+name: Deploy Stable Website
 on: 
   push:
     branches:
-      - dev
+      - senpai
 
 jobs:
   build-and-deploy:
@@ -41,6 +41,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           source: "dist/*"
-          target: /srv/website/stable
+          target: /srv/website/dev
           overwrite: true
           strip_components: 1
