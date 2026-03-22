@@ -34,8 +34,8 @@ const chapters = allPages.reduce((acc, p) => {
 }, {} as Record<string, typeof allPages>);
 ---
 <BaseLayout title={page.data.title} theme="book">
-  <div class="glass-container content prose">
-    <h1>{page.data.title}</h1>
+  <div class="glass-container content prose" style="view-transition-name:main-glass;">
+    <h1 style={`view-transition-name: book-headline-${page.id.replaceAll("/", "-")};`}>{page.data.title}</h1>
     <Content />
   </div>
 

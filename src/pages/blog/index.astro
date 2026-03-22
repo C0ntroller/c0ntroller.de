@@ -6,16 +6,16 @@ const posts = await getCollection('blog');
 posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 <BaseLayout title="Blog" theme="blog" description="Gedanken über Technologie, Design und das Leben von c0ntroller.de.">
-  <div class="glass-container header">
+  <div class="glass-container header" style="view-transition-name:main-glass;">
     <h1>Artikel & Gedanken</h1>
     <p>Gedanken über Technologie, Design und das Leben.</p>
   </div>
 
   <div class="list">
     {posts.map(post => (
-      <a href={`/blog/${post.id}`} class="glass-container link-card">
-        <h2>{post.data.title}</h2>
-        <p class="date">{post.data.pubDate.toLocaleDateString()}</p>
+      <a href={`/blog/${post.id}`} class="glass-container link-card" style={`view-transition-name: blog-header-${post.id};`}>
+        <h2 style={`view-transition-name: blog-headline-${post.id};`}>{post.data.title}</h2>
+        <time class="date" style={`view-transition-name: blog-pubdate-${post.id};`}>{post.data.pubDate.toLocaleDateString()}</time>
         <p>{post.data.summary}</p>
       </a>
     ))}

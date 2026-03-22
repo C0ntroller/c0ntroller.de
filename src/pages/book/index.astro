@@ -13,7 +13,7 @@ const chapters = pages.reduce((acc, page) => {
 }, {} as Record<string, typeof pages>);
 ---
 <BaseLayout title="Das Buch" theme="book" description="Ein fortlaufendes Werk über Software, Design und Architektur von c0ntroller.de.">
-  <div class="glass-container header">
+  <div class="glass-container header" style="view-transition-name:main-glass;">
     <h1>Das Buch</h1>
     <p>Ein fortlaufendes Werk über Software, Design und Architektur.</p>
   </div>
@@ -25,7 +25,7 @@ const chapters = pages.reduce((acc, page) => {
         <h3>{chapter.replace(/-/g, ' ').toUpperCase()}</h3>
         <ul class="page-list">
           {items.map(item => (
-            <li><a href={`/book/${item.id}`}>{item.data.title}</a></li>
+            <li><a href={`/book/${item.id}`} style={`view-transition-name: book-headline-${item.id.replaceAll("/", "-")};`}>{item.data.title}</a></li>
           ))}
         </ul>
       </div>

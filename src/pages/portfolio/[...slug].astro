@@ -15,8 +15,8 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
 <BaseLayout title={entry.data.title} theme="portfolio">
-  <div class="glass-container header">
-    <h1>{entry.data.title}</h1>
+  <div class="glass-container header" style={`view-transition-name: project-header-${entry.id};`}>
+    <h1 style={`view-transition-name: project-headline-${entry.id};`}>{entry.data.title}</h1>
     <p>{entry.data.summary}</p>
     {entry.data.tags && (
       <div class="tags">

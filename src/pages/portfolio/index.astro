@@ -6,15 +6,15 @@ const projects = await getCollection('portfolio');
 projects.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 <BaseLayout title="Portfolio" theme="portfolio" description="Eine Auswahl aktueller Projekte und Experimente von c0ntroller.de.">
-  <div class="glass-container">
+  <div class="glass-container" style="view-transition-name:main-glass;">
     <h1>Meine Arbeiten</h1>
     <p>Eine Auswahl aktueller Projekte und Experimente.</p>
   </div>
   
   <div class="grid">
     {projects.map(project => (
-      <a href={`/portfolio/${project.id}`} class="glass-container link-card">
-        <h2>{project.data.title}</h2>
+      <a href={`/portfolio/${project.id}`} class="glass-container link-card" style={`view-transition-name: project-header-${project.id};`}>
+        <h2 style={`view-transition-name: project-headline-${project.id};`}>{project.data.title}</h2>
         <p>{project.data.summary}</p>
         {project.data.tags && (
           <div class="tags">
