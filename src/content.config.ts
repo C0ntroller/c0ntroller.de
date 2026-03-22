@@ -17,6 +17,7 @@ const portfolioCollection = defineCollection({
     summary: z.string(),
     tags: z.array(z.string()).optional(),
     pubDate: z.date(),
+    repository: z.url().regex(/git/).optional(),
   }),
 });
 

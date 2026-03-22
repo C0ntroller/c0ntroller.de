@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { Icon } from "astro-icon/components";
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const projects = await getCollection('portfolio');
@@ -16,11 +17,21 @@ projects.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
       <a href={`/portfolio/${project.id}`} class="glass-container link-card" style={`view-transition-name: project-header-${project.id};`}>
         <h2 style={`view-transition-name: project-headline-${project.id};`}>{project.data.title}</h2>
         <p>{project.data.summary}</p>
-        {project.data.tags && (
-          <div class="tags">
-            {project.data.tags?.map(tech => <span class="tag">{tech}</span>)}
+        {(project.data.tags || project.data.repository) &&
+        (<div class="additional-meta">
+          <div class="meta-tags">
+            {project.data.tags && (
+              <div class="tags">
+                {project.data.tags?.map(tech => <span class="tag">{tech}</span>)}
+              </div>
+            )}
           </div>
-        )}
+          <div class="meta-repository">
+            { project.data.repository && (
+                <Icon name="simple-icons:git" style={`view-transition-name: project-git-${project.id};`} />
+            )}
+          </div>
+        </div>)}
       </a>
     ))}
   </div>
@@ -40,16 +51,34 @@ projects.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
   .link-card h2 {
     margin-top: 0;
   }
+  .additional-meta {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 1rem;
+    align-items: center;
+  }
   .tags {
     display: flex;
     gap: 0.5rem;
-    margin-top: 1rem;
     flex-wrap: wrap;
+    flex-grow: 1;
+    align-items: center;
   }
   .tag {
     font-size: 0.8rem;
     background: rgba(var(--accent-base), 0.2);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
+  }
+  .meta-repository {
+    flex-shrink: 1;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    color: rgb(var(--accent-base));
   }
 </style>

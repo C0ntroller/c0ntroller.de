@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { Icon } from "astro-icon/components";
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import "katex/dist/katex.min.css";
 import "rehype-callouts/theme/obsidian"
@@ -18,11 +19,23 @@ const { Content } = await render(entry);
   <div class="glass-container header" style={`view-transition-name: project-header-${entry.id};`}>
     <h1 style={`view-transition-name: project-headline-${entry.id};`}>{entry.data.title}</h1>
     <p>{entry.data.summary}</p>
-    {entry.data.tags && (
-      <div class="tags">
-        {entry.data.tags.map(tech => <span class="tag">{tech}</span>)}
-      </div>
-    )}
+    {(entry.data.tags || entry.data.repository) &&
+        (<div class="additional-meta">
+          <div class="meta-tags">
+            {entry.data.tags && (
+              <div class="tags">
+                {entry.data.tags?.map(tech => <span class="tag">{tech}</span>)}
+              </div>
+            )}
+          </div>
+          <div class="meta-repository">
+            { entry.data.repository && (
+                <a href={entry.data.repository} referrerpolicy="no-referrer">
+                  <Icon name="simple-icons:git" style={`view-transition-name: project-git-${entry.id};`} />
+                </a>
+            )}
+          </div>
+        </div>)}
   </div>
   
   <div class="glass-container content prose">
@@ -39,6 +52,7 @@ const { Content } = await render(entry);
     gap: 0.5rem;
     margin-top: 1rem;
     flex-wrap: wrap;
+    align-items: center;
   }
   .tag {
     font-size: 0.8rem;
@@ -48,5 +62,24 @@ const { Content } = await render(entry);
   }
   .content {
     line-height: 1.8;
+  }
+  .additional-meta {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 1rem;
+    align-items: center;
+  }
+  .meta-repository {
+    flex-shrink: 1;
+    font-size: 1.2rem;
+    color: rgb(var(--accent-base));
+  }
+  .meta-repository a {
+    display: flex;
+    align-items: center;
   }
 </style>
