@@ -15,7 +15,7 @@ posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
     {posts.map(post => (
       <a href={`/blog/${post.id}`} class="glass-container link-card" style={`view-transition-name: blog-header-${post.id};`}>
         <h2 style={`view-transition-name: blog-headline-${post.id};`}>{post.data.title}</h2>
-        <time class="date" style={`view-transition-name: blog-pubdate-${post.id};`}>{post.data.pubDate.toLocaleDateString()}</time>
+        <time class="date" style={`view-transition-name: blog-pubdate-${post.id};`}>{post.data.pubDate.toLocaleDateString("de-DE")}</time>
         <p>{post.data.summary}</p>
       </a>
     ))}

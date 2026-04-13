@@ -18,7 +18,7 @@ const { Content } = await render(entry);
   <div class="glass-container header" style={`view-transition-name: blog-header-${entry.id};`}>
     <h1 style={`view-transition-name: blog-headline-${entry.id};`}>{entry.data.title}</h1>
     <div class="meta">
-      <time style={`view-transition-name: blog-pubdate-${entry.id};`}>{entry.data.pubDate.toLocaleDateString()}</time>
+      <time style={`view-transition-name: blog-pubdate-${entry.id};`}>{entry.data.pubDate.toLocaleDateString("de-DE")}</time>
     </div>
   </div>
   
