@@ -8,6 +8,6 @@
 
 This repository contains my Astro-based website.
 
-When changes are made to `senpai` it will be deploy on https://c0ntroller.de
+When changes are made to `senpai` it will be deployed on https://c0ntroller.de
 
 When changes are made in the `dev` branch it will be deployed on https://dev.c0ntroller.de
