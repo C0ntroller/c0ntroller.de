@@ -56,7 +56,7 @@
     <g class="">
         <use
             xlink:href="#node_nfet"
-            fill="#fff"
+            fill="var(--text-main, #e0e7f0)"
             stroke="hsl(0 0 85)"
             style="color: hsl(0 0 85);"
             transform="matrix(1,0,0,1,340.38261,-407.58671999999996)"
@@ -165,7 +165,7 @@
     <g class="">
         <use
             xlink:href="#node_circ"
-            fill="#fff"
+            fill="var(--text-main, #e0e7f0)"
             stroke="hsl(0 0 85)"
             style="color: hsl(0 0 85);"
             transform="matrix(1,0,0,1,375.57113999999996,-409.43721999999997)"
@@ -174,7 +174,7 @@
     <g class="">
         <use
             xlink:href="#node_circ"
-            fill="#fff"
+            fill="var(--text-main, #e0e7f0)"
             stroke="hsl(0 0 85)"
             style="color: hsl(0 0 85);"
             transform="matrix(1,0,0,1,375.57113999999996,-351.23247999999995)"
@@ -183,7 +183,7 @@
     <g class="">
         <use
             xlink:href="#node_circ"
-            fill="#fff"
+            fill="var(--text-main, #e0e7f0)"
             stroke="hsl(0 0 85)"
             style="color: hsl(0 0 85);"
             transform="matrix(1,0,0,1,338.53211,-380.33486)"
@@ -192,7 +192,7 @@
     <g class="">
         <use
             xlink:href="#node_circ"
-            fill="#fff"
+            fill="var(--text-main, #e0e7f0)"
             stroke="hsl(0 0 85)"
             style="color: hsl(0 0 85);"
             transform="matrix(1,0,0,1,375.5494034883087,-390.5945499304999)"

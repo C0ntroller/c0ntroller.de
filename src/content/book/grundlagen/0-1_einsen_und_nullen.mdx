@@ -210,12 +210,16 @@ Dieser funktioniert genau andersrum: Wenn am Gate eine Spannung anliegt, ist der
 Dadurch ist dann unser Ausgang immer definiert.  
 Hier nochmal als Schaubild:
 
-<Image src={cmos} alt="Eine CMOS-Schaltung mit a und b als Eingänge, die ein Und-Gatter bilden." height="500" />
+<Image src={cmos} alt="Eine CMOS-Schaltung mit a und b als Eingänge, die ein Und-Gatter bilden." height="400" />
 
-Statt je nachdem, ob bei $a$ und $b$ Spannung anliegt, fließt der Strom von "oben" oder "unten" durch die Transistoren und unser $Out$ nimmt die Spannung von $High$ oder $Low$ an.
+Statt je nachdem, ob bei $a$ und $b$ Spannung anliegt, fließt der Strom von "oben" oder "unten" durch die Transistoren und unser $Out$ nimmt die Spannung von $High$ oder $Low$ an.  
+Genauer: Wenn $a$ und $b$ beide High sind, verbinden die "oberen" Transistoren den Ausgang mit $High$ und die "unteren" sind nicht mehr verbunden.
+Wenn $a$ oder $b$ Low sind, ist mindestens einer der "oberen" Transistoren nicht mehr durchgeschaltet und mindestens einer der "unteren" verbindet den Ausgang zu $Low$.  
 $High$ und $Low$ sind dabei die Spannungen, die für 1 und 0 stehen.  
-Was genau die zugehörigen Spannung ist, hängt vom jeweiligen System ab.
-Die Spannungen sind so zu wählen, dass sie von den Transistoren sicher erkannt werden können.
+
+> [!info]
+> Wie genau die Spannungen sind und ob jetzt eine hohe oder niedrige Spannung für 1 oder 0 steht, kann von System zu System unterschiedlich sein.
+> Nachfolgend ist das auch gar nicht mehr so wichtig, da wir einfach nur noch 1 und 0 als Werte benutzen werden.
 
 Aber gut, jetzt haben wir schon ein Und-Gatter.
 Man kann sich nun selbst überlegen, wie die anderen Gatter mit Transistoren aufgebaut werden können.  
