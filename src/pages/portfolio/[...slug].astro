@@ -3,7 +3,8 @@ import { getCollection, render } from 'astro:content';
 import { Icon } from "astro-icon/components";
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import "katex/dist/katex.min.css";
-import "rehype-callouts/theme/obsidian"
+// @ts-expect-error Theme is not provided as ".css"
+import "rehype-callouts/theme/obsidian";
 
 export async function getStaticPaths() {
   const portfolioEntries = await getCollection('portfolio');
