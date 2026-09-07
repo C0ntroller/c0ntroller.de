@@ -70,7 +70,7 @@ projects.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
   }
   .tag {
     font-size: 0.8rem;
-    background: rgba(var(--accent-base), 0.2);
+    background: rgb(from var(--accent-base) r g b / 0.2);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
   }
@@ -79,6 +79,6 @@ projects.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
     font-size: 1.2rem;
     display: flex;
     align-items: center;
-    color: rgb(var(--accent-base));
+    color: var(--accent-base);
   }
 </style>

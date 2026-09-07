@@ -57,14 +57,14 @@ const { prevUrl, prevTitle, nextUrl, nextTitle } = Astro.props;
     font-size: 0.9rem;
     padding: 0.75rem 1.25rem;
     border-radius: 0.5rem;
-    background: rgba(var(--accent-base), 0.15);
-    border: 1px solid rgba(var(--accent-base), 0.3);
-    color: rgb(var(--accent-base));
+    background: rgb(from var(--accent-base) r g b / 0.15);
+    border: 1px solid rgb(from var(--accent-base) r g b / 0.3);
+    color: var(--accent-base);
     transition: all 0.2s ease;
     user-select: none;
   }
   .toc-label:hover {
-    background: rgba(var(--accent-base), 0.25);
+    background: rgb(from var(--accent-base) r g b / 0.25);
   }
   
   .toc-dropdown {

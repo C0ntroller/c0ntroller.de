@@ -57,7 +57,7 @@ const { Content } = await render(entry);
   }
   .tag {
     font-size: 0.8rem;
-    background: rgba(var(--accent-base), 0.2);
+    background: rgb(from var(--accent-base) r g b / 0.2);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
   }
@@ -77,7 +77,7 @@ const { Content } = await render(entry);
   .meta-repository {
     flex-shrink: 1;
     font-size: 1.2rem;
-    color: rgb(var(--accent-base));
+    color: var(--accent-base);
   }
   .meta-repository a {
     display: flex;

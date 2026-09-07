@@ -102,12 +102,12 @@ const chapters = allPages.reduce((acc, p) => {
     text-decoration: none;
   }
   .mini-chapter a:hover {
-    background: rgba(var(--accent-base), 0.1);
-    color: rgb(var(--accent-base));
+    background: rgb(from var(--accent-base) r g b / 0.1);
+    color: var(--accent-base);
   }
   .mini-chapter a.active {
-    background: rgba(var(--accent-base), 0.2);
-    color: rgb(var(--accent-base));
+    background: rgb(from var(--accent-base) r g b / 0.2);
+    color: var(--accent-base);
     font-weight: 600;
   }
 </style>

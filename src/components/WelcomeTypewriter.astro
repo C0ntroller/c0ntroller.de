@@ -23,7 +23,7 @@
         text-align: center;
         white-space: break-spaces;
         word-wrap: break-word;
-        color: rgb(var(--accent-base));
+        color: var(--accent-base);
         text-shadow: 0 0 2px black, 0 0 5px black, 0 0 10px black;
     }
 
@@ -42,7 +42,7 @@
 
     .welcome-typewriter-nostyle {
         min-height: 1em;
-        border-right: 2px solid rgb(var(--accent-base));
+        border-right: 2px solid var(--accent-base);
         margin: 0 auto;
         display: block;
         overflow-x: hidden;
@@ -70,7 +70,7 @@
         display: inline-block;
         height: 1em;
         width: 0px;
-        border-right: 2px solid rgb(var(--accent-base));
+        border-right: 2px solid var(--accent-base);
         animation: blink-caret 1s step-end infinite;
     }
 
@@ -79,7 +79,7 @@
     }
 
     @keyframes blink-caret {
-        from, to { border-color: rgb(var(--accent-base)) }
+        from, to { border-color: var(--accent-base); }
         50% { border-color: transparent; }
     }
 

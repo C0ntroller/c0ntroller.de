@@ -18,7 +18,7 @@
 @property --accent-base {
   syntax: '<color>';
   inherits: true;
-  initial-value: 214, 134, 249;
+  initial-value: rgb(214, 134, 249);
 }
 
 @property --bg-image {
@@ -51,12 +51,6 @@
   initial-value: 16px;
 }
 
-@property --glass-shadow {
-  syntax: '<shadow>';
-  inherits: true;
-  initial-value: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-}
-
 @property --text-main {
   syntax: '<color>';
   inherits: true;
@@ -78,25 +72,25 @@
 @property --accent-base--default {
   syntax: '<color>';
   inherits: true;
-  initial-value: 214, 134, 249;
+  initial-value: rgb(214, 134, 249);
 }
 
 @property --accent-base--portfolio {
   syntax: '<color>';
   inherits: true;
-  initial-value: 255, 181, 102;
+  initial-value: rgb(255, 181, 102);
 }
 
 @property --accent-base--blog {
   syntax: '<color>';
   inherits: true;
-  initial-value: 111, 221, 246;
+  initial-value: rgb(111, 221, 246);
 }
 
 @property --accent-base--book {
   syntax: '<color>';
   inherits: true;
-  initial-value: 247, 110, 138;
+  initial-value: rgb(247, 110, 138);
 }
 
 :root {
@@ -110,10 +104,10 @@
   --glass-blur: 16px;
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
-  --accent-base--default: 214, 134, 249;
-  --accent-base--portfolio: 255, 181, 102;
-  --accent-base--blog: 111, 221, 246;
-  --accent-base--book: 247, 110, 138;
+  --accent-base--default: rgb(214, 134, 249);
+  --accent-base--portfolio: rgb(255, 181, 102);
+  --accent-base--blog: rgb(111, 221, 246);
+  --accent-base--book: rgb(247, 110, 138);
   --accent-base: var(--accent-base--default);
 }
 
@@ -171,7 +165,7 @@ body {
   padding: 0;
   line-height: 1.6;
   min-height: 100vh;
-  background-image: var(--bg-image), radial-gradient(circle at 50% 0%, rgba(var(--accent-base), 0.15), transparent 60%);
+  background-image: var(--bg-image), radial-gradient(circle at 50% 0%, rgba(from var(--accent-base) r g b / 0.15), transparent 60%);
   background-size: cover, auto;
   background-position: center;
   background-attachment: fixed;
@@ -180,7 +174,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   body {
-    background-image: var(--bg-image-static), radial-gradient(circle at 50% 0%, rgba(var(--accent-base), 0.15), transparent 60%);
+    background-image: var(--bg-image-static), radial-gradient(circle at 50% 0%, rgba(from var(--accent-base) r g b / 0.15), transparent 60%);
   }
 }
 
@@ -190,7 +184,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: rgb(var(--accent-base));
+  color: var(--accent-base);
   font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 1rem;
@@ -203,7 +197,7 @@ a {
 }
 
 a:hover {
-  text-shadow: 0 0 8px rgba(var(--accent-base), 0.6);
+  text-shadow: 0 0 8px rgba(from var(--accent-base) r g b / 0.6);
 }
 
 .glass-container {
@@ -218,8 +212,8 @@ a:hover {
 }
 
 .glass-container:hover {
-  border-color: rgba(var(--accent-base), 0.3);
-  box-shadow: 0 8px 32px 0 rgba(var(--accent-base), 0.1);
+  border-color: rgba(from var(--accent-base) r g b / 0.3);
+  box-shadow: 0 8px 32px 0 rgba(from var(--accent-base) r g b / 0.1);
 }
 
 .container {
@@ -231,7 +225,7 @@ a:hover {
 /* Typography styles for markdown content */
 .prose code {
   font-family: var(--font-cascadia-code);
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(from var(--accent-base) r g b / 0.1);
   padding: 0.2em 0.4em;
   border-radius: 0.25rem;
   font-size: 0.9em;

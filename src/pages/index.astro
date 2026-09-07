@@ -91,7 +91,7 @@ import socials from "../data/socials.json";
   }
 
   .social-link {
-    color: rgb(var(--accent-base));
+    color: var(--accent-base);
     font-size: 2rem;
     height: 2rem;
     line-height: 1;
@@ -101,7 +101,7 @@ import socials from "../data/socials.json";
   }
 
   .social-link:hover svg {
-    filter: drop-shadow(0px 0px 5px rgba(var(--accent-base), 0.4));
+    filter: drop-shadow(0px 0px 5px rgb(from var(--accent-base) r g b / 0.4));
   }
 
   .subtitle {
@@ -192,43 +192,43 @@ import socials from "../data/socials.json";
   .portfolio {
     background: linear-gradient(
       135deg,
-      rgba(var(--accent-base--portfolio), 0.5) 0%,
-      rgba(var(--accent-base--portfolio), 0.15) 100%
+      rgb(from var(--accent-base--portfolio) r g b / 0.5) 0%,
+      rgb(from var(--accent-base--portfolio) r g b / 0.15) 100%
     );
   }
   .blog {
     background: linear-gradient(
       135deg,
-      rgba(var(--accent-base--blog), 0.8) 0%,
-      rgba(var(--accent-base--blog), 0.15) 100%
+      rgb(from var(--accent-base--blog) r g b / 0.8) 0%,
+      rgb(from var(--accent-base--blog) r g b / 0.15) 100%
     );
   }
   .book {
     background: linear-gradient(
       135deg,
-      rgba(var(--accent-base--book), 0.8) 0%,
-      rgba(var(--accent-base--book), 0.15) 100%
+      rgb(from var(--accent-base--book) r g b / 0.8) 0%,
+      rgb(from var(--accent-base--book) r g b / 0.15) 100%
     );
   }
 
   .portfolio:hover {
-    box-shadow: 0 10px 40px -10px rgba(var(--accent-base--portfolio), 1);
+    box-shadow: 0 10px 40px -10px rgb(from var(--accent-base--portfolio) r g b / 1);
   }
   .blog:hover {
-    box-shadow: 0 10px 40px -10px rgba(var(--accent-base--blog), 0.4);
+    box-shadow: 0 10px 40px -10px rgb(from var(--accent-base--blog) r g b / 0.4);
   }
   .book:hover {
-    box-shadow: 0 10px 40px -10px rgba(var(--accent-base--book), 0.4);
+    box-shadow: 0 10px 40px -10px rgb(from var(--accent-base--book) r g b / 0.4);
   }
 
   .portfolio .icon {
-    color: rgb(var(--accent-base--portfolio));
+    color: rgb(--accent-base--portfolio);
   }
   .blog .icon {
-    color: rgb(var(--accent-base--blog));
+    color: rgb(--accent-base--blog);
   }
   .book .icon {
-    color: rgb(var(--accent-base--book));
+    color: rgb(--accent-base--book);
   }
 
   @keyframes fadeUp {
