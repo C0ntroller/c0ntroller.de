@@ -1,12 +1,10 @@
-import { defineConfig, fontProviders } from 'astro/config';
-import icon from 'astro-icon';
-import mdx from '@astrojs/mdx';
-//import { remarkModifiedTime } from './src/remark-modified-time.mjs';
+import { defineConfig, fontProviders } from "astro/config";
+import icon from "astro-icon";
+import mdx from "@astrojs/mdx";
 import remarkMath from "remark-math";
 import rehypeMathjax from "rehype-mathjax"
 import rehypeCallouts from "rehype-callouts";
-// @ts-ignore
-import { remarkKroki } from "remark-kroki";
+import mermaid from "astro-mermaid";
 
 export default defineConfig({
   fonts: [{
@@ -15,25 +13,29 @@ export default defineConfig({
     cssVariable: "--font-cascadia-code",
     fallbacks: ["monospace"],
   }],
-  integrations: [icon(), mdx()],
-  markdown: {
-    remarkPlugins: [
-//      remarkModifiedTime,
-      remarkMath, [
-        remarkKroki, { 
-          alias: ["mermaid", "tikz"],
-          server: process.env.KROKI_SERVER || "https://kroki.io",
-          target: "mdx3",
-          output: "inline-svg"
+  integrations: [
+    mermaid({
+      theme: "dark",
+      autoTheme: false,
+      mermaidConfig: {
+        flowchart: {curve:"linear"},
+        startOnLoad: false,
+        logLevel: "error",
+        securityLevel: "strict"
       }
-    ]],
+    }),
+    icon(),
+    mdx()
+  ],
+  markdown: {
+    remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeMathjax, [rehypeCallouts, { theme: "obsidian" }]],
     shikiConfig: {
         theme: "one-dark-pro",
     },
     syntaxHighlight: {
-      type: 'shiki',
-      excludeLangs: ['mermaid', 'math'],
+      type: "shiki",
+      excludeLangs: ["mermaid", "math"],
     },
   }
 });

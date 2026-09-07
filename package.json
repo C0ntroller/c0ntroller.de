@@ -15,11 +15,13 @@
     "@astrojs/mdx": "^5.0.2",
     "@iconify-json/lucide": "^1.2.98",
     "@iconify-json/simple-icons": "^1.2.74",
+    "@mermaid-js/layout-elk": "^0.2.3",
     "astro": "^6.0.8",
     "astro-icon": "^1.1.5",
+    "astro-mermaid": "^2.1.0",
+    "mermaid": "^11.17.2",
     "rehype-callouts": "^2.1.2",
     "rehype-mathjax": "^7.1.0",
-    "remark-kroki": "^0.3.8",
     "remark-math": "^6.0.0"
   },
   "devDependencies": {

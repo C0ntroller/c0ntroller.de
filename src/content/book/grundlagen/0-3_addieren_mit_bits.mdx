@@ -35,7 +35,6 @@ Am Ende können wir also sagen, dass eine Addition von zwei Bits $a$ und $b$ fol
 Wenn wir das nun als Schaubild darstellen, sieht das so aus:
 
 ```mermaid
-%%{ init: { 'flowchart': { 'curve': 'linear' }, 'theme': 'dark' } }%% 
 flowchart TD
     A@{ shape: circle, label: "a" } --> XOR1[XOR]
     B@{ shape: circle, label: "b" } --> XOR1
@@ -72,7 +71,6 @@ Statt nur $a$ und $b$ zu addieren, addieren wir nun $a$, $b$ und den Übertrag $
 Unser Schaltplan, sieht dann wieder genauso aus, nur dass wir jetzt noch einen weiteren Eingang für den Übertrag haben:
 
 ```mermaid
-%%{ init: { 'flowchart': { 'curve': 'linear' }, 'theme': 'dark' } }%% 
 flowchart TD
     A@{ shape: circle, label: "a" } --> XOR1
     B@{ shape: circle, label: "b" } --> XOR1
@@ -97,7 +95,6 @@ Das vorher (ohne Übertragseingang) ist ein Halbaddierer.
 Wir sehen hier auch, dass unser Volladdierer (FA) aus zwei Halbaddierern (HA) und einem ODER-Gatter besteht:
 
 ```mermaid
-%%{ init: { 'flowchart': { 'curve': 'linear' }, 'theme': 'dark' } }%% 
 flowchart TD
     A0@{ shape: circle, label: "a" } --> HA1
     B0@{ shape: circle, label: "b" } --> HA1
@@ -122,9 +119,9 @@ Und genau so machen wir das auch im Binären.
 
 Wenn wir nun also zwei 4-Bit-Zahlen addieren wollen, brauchen wir 4 Volladdierer, die hintereinander geschaltet und deren Überträge miteinander verbunden sind:
 
-<div style="overflow-x: auto;width: 100%;">
+<div style="overflow-x: auto; width: 100%;">
+    <div style="min-width: 700px;">
 ```mermaid
-%%{ init: { 'flowchart': { 'curve': 'linear' }, 'theme': 'dark' } }%%
 flowchart TD
     subgraph FA3
         A3@{ shape: circle, label: "a_3" } --> FA31
@@ -152,6 +149,7 @@ flowchart TD
         FA01 -- c_0 --> FA11
     end
 ```
+    </div>
 </div>
 
 > [!info] Nomenklatur
