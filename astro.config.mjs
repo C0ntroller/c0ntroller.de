@@ -1,4 +1,5 @@
 import { defineConfig, fontProviders } from "astro/config";
+import { unified } from '@astrojs/markdown-remark';
 import icon from "astro-icon";
 import mdx from "@astrojs/mdx";
 import remarkMath from "remark-math";
@@ -21,15 +22,17 @@ export default defineConfig({
         flowchart: {curve:"linear"},
         startOnLoad: false,
         logLevel: "error",
-        securityLevel: "strict"
+        securityLevel: "strict",
       }
     }),
     icon(),
     mdx()
   ],
   markdown: {
-    remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeMathjax, [rehypeCallouts, { theme: "obsidian" }]],
+    processor: unified({
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [rehypeMathjax, [rehypeCallouts, { theme: "obsidian" }]],
+    }),
     shikiConfig: {
         theme: "one-dark-pro",
     },
