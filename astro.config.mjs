@@ -1,10 +1,9 @@
 import { defineConfig, fontProviders } from "astro/config";
-import { unified } from '@astrojs/markdown-remark';
+import { satteri } from '@astrojs/markdown-satteri';
 import icon from "astro-icon";
 import mdx from "@astrojs/mdx";
-import remarkMath from "remark-math";
-import rehypeMathjax from "rehype-mathjax"
-import rehypeCallouts from "rehype-callouts";
+import satteriCallouts from "satteri-callouts"
+import { satteriKatex } from "satteri-katex";
 import mermaid from "astro-mermaid";
 
 export default defineConfig({
@@ -29,9 +28,14 @@ export default defineConfig({
     mdx()
   ],
   markdown: {
-    processor: unified({
-      remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeMathjax, [rehypeCallouts, { theme: "obsidian" }]],
+    processor: satteri({
+      features: {
+        math: true,
+        rawHtml: true,
+        smartPunctuation: true,
+      },
+      mdastPlugins: [satteriKatex()],
+      hastPlugins: [satteriCallouts({theme: "obsidian"})],
     }),
     shikiConfig: {
         theme: "one-dark-pro",
